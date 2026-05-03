@@ -8,6 +8,8 @@ layout: layout.njk
 title: "{{ mod.name }} by {{ mod.author }} | ProjectDaedalus"
 description: "{{ mod.description | striptags | truncate(160) }}"
 rootPath: "../../../"
+eleventyComputed:
+  og_image: "{{ mod.image_url }}"
 ---
 <section class="max-w-5xl mx-auto px-4 py-6 md:py-10">
   <!-- Header: name + file type badges + download buttons -->
@@ -60,6 +62,98 @@ rootPath: "../../../"
       <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-icarus-500/20 text-icarus-500 dark:bg-icarus-500/10 dark:text-icarus-400">{{ mod.compatibility | lower }}</span>
     </div>
   {% endif %}
+
+  <!-- Collapsible Analytics for Mod Authors -->
+  <details class="mt-3 group" data-mod-id="{{ mod.id }}">
+    <summary class="flex items-center gap-1 text-xs cursor-pointer text-icarus-500 hover:text-icarus-400 list-none">
+      <svg class="w-3.5 h-3.5 transition-transform group-open:rotate-90" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+      </svg>
+      Analytics for Mod Authors
+    </summary>
+    <div class="mt-3 mb-6 space-y-4">
+      <h3 class="text-lg font-semibold text-icarus-500">Analytics</h3>
+
+      <!-- Row 1: 4-card dashboard -->
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div class="p-4 border rounded-lg border-slate-300/50 dark:border-slate-600/50 bg-slate-300/40 dark:bg-slate-900/40">
+          <div class="text-xs font-medium tracking-wide uppercase text-icarus-500">File Types</div>
+          <div class="flex gap-1.5 mt-1">
+            {% for type in mod.file_types %}
+              {% if type == "exmodz" %}<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold uppercase bg-icarus-500/20 text-icarus-500">{{ type }}</span>
+              {% elif type == "pak" %}<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold uppercase bg-emerald-500/20 text-emerald-600 dark:text-emerald-400">{{ type }}</span>
+              {% else %}<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold uppercase bg-slate-500/20 text-slate-600 dark:text-slate-400">{{ type }}</span>
+              {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+
+        <div class="p-4 border rounded-lg border-slate-300/50 dark:border-slate-600/50 bg-slate-300/40 dark:bg-slate-900/40">
+          <div class="text-xs font-medium tracking-wide uppercase text-icarus-500">Mod Age</div>
+          <div class="mt-1 text-sm text-slate-700 dark:text-slate-300">
+            <span class="text-slate-400">Available with live Firestore</span>
+          </div>
+        </div>
+
+        <div class="p-4 border rounded-lg border-slate-300/50 dark:border-slate-600/50 bg-slate-300/40 dark:bg-slate-900/40">
+          <div class="text-xs font-medium tracking-wide uppercase text-icarus-500">Freshness</div>
+          <div class="mt-1 text-sm text-slate-700 dark:text-slate-300">
+            <span class="text-slate-400">Available with live Firestore</span>
+          </div>
+        </div>
+
+        <div class="p-4 border rounded-lg border-slate-300/50 dark:border-slate-600/50 bg-slate-300/40 dark:bg-slate-900/40">
+          <div class="text-xs font-medium tracking-wide uppercase text-icarus-500">Your Activity</div>
+          <div class="mt-1 text-sm text-slate-700 dark:text-slate-300">
+            <span id="analytics-view-count">0</span> views &middot;
+            <span id="analytics-download-count">0</span> downloads
+          </div>
+          <div class="text-xs text-slate-500 dark:text-slate-400">From this browser</div>
+        </div>
+      </div>
+
+      <!-- Row 2: Compatibility -->
+      {% if mod.compatibility %}
+      <div class="p-4 border rounded-lg border-slate-300/50 dark:border-slate-600/50 bg-slate-300/40 dark:bg-slate-900/40">
+        <div class="text-xs font-medium tracking-wide uppercase text-icarus-500">Compatibility</div>
+        <div class="flex items-center gap-3 mt-2 flex-wrap">
+          <span class="inline-flex items-center px-3 py-1 text-sm font-semibold rounded-full bg-icarus-500/20 text-icarus-500">{{ mod.compatibility }}</span>
+          {% if mod.has_exmodz %}<span class="text-xs text-emerald-500">EXMOD format — may work across updates</span>{% endif %}
+        </div>
+      </div>
+      {% endif %}
+
+      <!-- Row 3: Author stats -->
+      {% if mod.author_stats.total_mods > 0 %}
+      <div class="p-4 border rounded-lg border-slate-300/50 dark:border-slate-600/50 bg-slate-300/40 dark:bg-slate-900/40">
+        <div class="text-xs font-medium tracking-wide uppercase text-icarus-500">Author: {{ mod.author }}</div>
+        <div class="grid gap-4 mt-3 sm:grid-cols-3">
+          <div>
+            <div class="text-xl font-bold text-icarus-500">{{ mod.author_stats.total_mods }}</div>
+            <div class="text-xs text-slate-500 dark:text-slate-400">Total Mods</div>
+          </div>
+          <div>
+            <div class="flex gap-3 mt-1 flex-wrap">
+              {% for entry in mod.author_stats.file_type_counts %}
+                <span class="text-xs text-slate-500 dark:text-slate-400">{{ entry[0] | upper }}: {{ entry[1] }}</span>
+              {% endfor %}
+            </div>
+            <div class="text-xs text-slate-500 dark:text-slate-400 mt-1">File Types</div>
+          </div>
+          <div>
+            <div class="text-xs text-slate-400 italic">Most-recent ranking available with live Firestore</div>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+
+      <!-- Row 4: Mod Status (no metadata in static POC, so "All Clear") -->
+      <div class="p-4 border rounded-lg border-slate-300/50 dark:border-slate-600/50 bg-slate-300/40 dark:bg-slate-900/40">
+        <div class="text-xs font-medium tracking-wide uppercase text-icarus-500">Mod Status</div>
+        <div class="mt-2 text-sm text-emerald-500">All Clear</div>
+      </div>
+    </div>
+  </details>
 
   <!-- Gold separator -->
   <div class="mt-4 gold-line"></div>
@@ -120,3 +214,36 @@ rootPath: "../../../"
     </div>
   </div>
 </section>
+
+<script>
+  (function () {
+    const KEY = "daedalus.activity";
+    const det = document.querySelector("details[data-mod-id]");
+    if (!det) return;
+    const modId = det.dataset.modId;
+
+    function read() {
+      try { return JSON.parse(localStorage.getItem(KEY) || "{}"); } catch (e) { return {}; }
+    }
+    function write(s) { localStorage.setItem(KEY, JSON.stringify(s)); }
+
+    const store = read();
+    const entry = store[modId] = store[modId] || { views: 0, downloads: 0 };
+    entry.views += 1;
+    write(store);
+
+    document.getElementById("analytics-view-count").textContent = entry.views;
+    document.getElementById("analytics-download-count").textContent = entry.downloads;
+
+    // Increment download count when any download button fires
+    document.querySelectorAll('a[download]').forEach(a => {
+      a.addEventListener("click", () => {
+        const s = read();
+        const e = s[modId] = s[modId] || { views: 0, downloads: 0 };
+        e.downloads += 1;
+        write(s);
+        document.getElementById("analytics-download-count").textContent = e.downloads;
+      });
+    });
+  })();
+</script>

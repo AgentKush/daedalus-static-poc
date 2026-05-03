@@ -5,6 +5,11 @@
   <title>{{ title or "ProjectDaedalus — Icarus Mods & Tools" }}</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="description" content="{{ description or 'Browse and download mods and tools for the Icarus survival game.' }}">
+  <meta property="og:title" content="{{ title or 'ProjectDaedalus' }}">
+  <meta property="og:description" content="{{ description or 'Browse and download mods and tools for the Icarus survival game.' }}">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="ProjectDaedalus (static POC)">
+  {% if og_image %}<meta property="og:image" content="{{ og_image }}">{% endif %}
   <link rel="icon" type="image/png" href="{{ rootPath }}assets/img/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

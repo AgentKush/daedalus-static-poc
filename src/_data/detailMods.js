@@ -8,6 +8,13 @@ function slug(s) {
 // Sort mods alphabetically by name (matches Rails Mod.fetch_all sort)
 const sortedMods = [...mods].sort((a, b) => (a.name || "").localeCompare(b.name || ""));
 
+// Pre-compute per-author groupings for the Analytics panel
+const byAuthor = {};
+for (const m of sortedMods) {
+  if (!m.author) continue;
+  (byAuthor[m.author] = byAuthor[m.author] || []).push(m);
+}
+
 module.exports = sortedMods.map((m, i) => {
   const author_slug = m.id?.split("--")[0] || slug(m.author);
   const name_slug = m.id?.split("--")[1] || slug(m.name);
@@ -53,6 +60,20 @@ module.exports = sortedMods.map((m, i) => {
     updated_string: detail?.updated_string || "",
     prev: prev ? { name: prev.name, author_slug: prev.id?.split("--")[0] || slug(prev.author), slug: prev.id?.split("--")[1] || slug(prev.name) } : null,
     next: next ? { name: next.name, author_slug: next.id?.split("--")[0] || slug(next.author), slug: next.id?.split("--")[1] || slug(next.name) } : null,
-    other_by_author: otherByAuthor
+    other_by_author: otherByAuthor,
+    author_stats: (() => {
+      const all = byAuthor[m.author] || [];
+      const fileTypeCounts = {};
+      for (const om of all) {
+        for (const t of Object.keys(om.files || {})) {
+          if (!om.files[t]) continue;
+          fileTypeCounts[t] = (fileTypeCounts[t] || 0) + 1;
+        }
+      }
+      return {
+        total_mods: all.length,
+        file_type_counts: Object.entries(fileTypeCounts).sort((a, b) => b[1] - a[1])
+      };
+    })()
   };
 });

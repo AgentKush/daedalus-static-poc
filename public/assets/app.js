@@ -164,7 +164,7 @@ subscribe("nexus_mods", "./data/nexus_mods.json", d => ({ ...transformMod(d), so
 
 window.addEventListener("hashchange", () => { state.page = readPageFromHash(); refresh(); });
 
-document.getElementById("search").addEventListener("input", debounce(() => { state.page = 1; refresh(); }, 200));
+document.getElementById("search").addEventListener("input", debounce(() => { state.page = 1; refresh(); }, 400));
 document.getElementById("author-filter").addEventListener("change", () => { state.page = 1; refresh(); });
 document.getElementById("source-filter").addEventListener("change", () => { state.page = 1; refresh(); });
 document.getElementById("reset").addEventListener("click", () => {
