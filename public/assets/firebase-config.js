@@ -1,21 +1,13 @@
-// Firebase Web SDK config — public-safe by design (security comes from Firestore rules).
+// Live data sources for the static POC.
 //
-// To switch this static site from bundled mock JSON to live Firestore reads:
-//   1. Open https://console.firebase.google.com/project/<your-project-id>/settings/general
-//   2. Scroll to "Your apps" → web app → copy the firebaseConfig object
-//   3. Paste it below replacing the empty default
-//   4. Update Firestore Security Rules to allow public reads on the
-//      `mods`, `tools`, `nexus_mods`, and `info_content` collections — see README.
-//
-// Until step 3 is done, the site falls back to bundled JSON in /data/.
-window.FIREBASE_CONFIG = null;
+// ----- Live REST mode (currently active) -----
+// Donovan's Firestore mods/tools collections are publicly readable, so we can
+// hit the REST API directly from the browser — no Firebase SDK, no apiKey, no
+// secrets. Set FIRESTORE_PROJECT_ID and the loader will use it as the live data
+// source. Falls back to bundled JSON if the REST call fails.
+window.FIRESTORE_PROJECT_ID = "projectdaedalus-fb09f";
 
-// Example (DO NOT commit a real one — just uncomment the structure):
-// window.FIREBASE_CONFIG = {
-//   apiKey: "AIzaSy...",
-//   authDomain: "project-daedalus.firebaseapp.com",
-//   projectId: "project-daedalus",
-//   storageBucket: "project-daedalus.appspot.com",
-//   messagingSenderId: "1234567890",
-//   appId: "1:1234567890:web:abc123"
-// };
+// ----- Optional: full Firebase Web SDK config (real-time onSnapshot) -----
+// Only needed if you want sub-second pushed updates. With REST you get the
+// same data on each fetch (browser polls on revisit). Leave null to use REST.
+window.FIREBASE_CONFIG = null;

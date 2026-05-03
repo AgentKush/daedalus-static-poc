@@ -1,74 +1,142 @@
-// Real-time Firestore loader for the daedalus static POC.
-// Falls back to bundled JSON in /data/ when Firebase isn't configured.
+// Data loader for the static POC. Three modes, in priority order:
+//   1. Firebase Web SDK with onSnapshot — sub-second push updates (when FIREBASE_CONFIG is set)
+//   2. Firestore REST API — public-read collections, no auth required (when FIRESTORE_PROJECT_ID is set)
+//   3. Bundled JSON in /data/ — offline / fallback
+//
+// Mode 2 was added once we confirmed Donovan's project (projectdaedalus-fb09f)
+// has public read access on `mods`, `tools`, `nexus_mods`, `info_content`. It
+// gives near-live data without needing any Firebase Web SDK config or apiKey.
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
-import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
-
-let app, db;
+const REST_POLL_MS = 60_000;          // re-fetch live data every 60s
 const subscriptions = new Map();
 
 export function isLive() {
-  return Boolean(window.FIREBASE_CONFIG && window.FIREBASE_CONFIG.projectId);
+  return Boolean(
+    (window.FIREBASE_CONFIG && window.FIREBASE_CONFIG.projectId) ||
+    window.FIRESTORE_PROJECT_ID
+  );
 }
 
-function init() {
-  if (!app && isLive()) {
-    app = initializeApp(window.FIREBASE_CONFIG);
-    db = getFirestore(app);
-  }
-  return Boolean(db);
+// ---- REST: flatten Firestore's typed-value format into a plain JS object ----
+function flattenValue(v) {
+  if (v == null) return null;
+  if ("stringValue" in v) return v.stringValue;
+  if ("integerValue" in v) return parseInt(v.integerValue, 10);
+  if ("doubleValue" in v) return v.doubleValue;
+  if ("booleanValue" in v) return v.booleanValue;
+  if ("nullValue" in v) return null;
+  if ("timestampValue" in v) return v.timestampValue;
+  if ("mapValue" in v) return flattenFields(v.mapValue.fields || {});
+  if ("arrayValue" in v) return (v.arrayValue.values || []).map(flattenValue);
+  return null;
+}
+function flattenFields(fields) {
+  const out = {};
+  for (const [k, v] of Object.entries(fields)) out[k] = flattenValue(v);
+  return out;
+}
+function flattenDocument(doc) {
+  const id = (doc.name || "").split("/").pop();
+  return { id, ...flattenFields(doc.fields || {}) };
 }
 
-// Subscribe to a collection. callback(docs) is called immediately with current data
-// and re-invoked whenever Firestore updates the collection.
+async function fetchRestCollection(projectId, collection) {
+  const items = [];
+  let pageToken = null;
+  do {
+    const url = new URL(`https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/${collection}`);
+    url.searchParams.set("pageSize", "300");
+    if (pageToken) url.searchParams.set("pageToken", pageToken);
+    const r = await fetch(url);
+    if (!r.ok) throw new Error(`Firestore REST ${collection}: HTTP ${r.status}`);
+    const j = await r.json();
+    for (const d of j.documents || []) items.push(flattenDocument(d));
+    pageToken = j.nextPageToken || null;
+  } while (pageToken);
+  return items;
+}
+
+// ---- Web SDK init (only when explicitly configured) ----
+let webSdk = null;
+async function getWebSdk() {
+  if (webSdk !== null) return webSdk;
+  if (!window.FIREBASE_CONFIG || !window.FIREBASE_CONFIG.projectId) return (webSdk = false);
+  const app = await import("https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js");
+  const fs = await import("https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js");
+  const a = app.getApps().length ? app.getApps()[0] : app.initializeApp(window.FIREBASE_CONFIG);
+  webSdk = { db: fs.getFirestore(a), ...fs };
+  return webSdk;
+}
+
+// ---- Public API: same shape as before ----
 //
-// `fallbackUrl` is fetched once if Firebase isn't configured (no real-time updates).
-// `transform` maps a Firestore doc snapshot to your model shape — it's also applied
-// to bundled JSON entries so both paths produce the same shape.
-export function subscribe(collectionName, fallbackUrl, transform, callback) {
-  if (init()) {
-    if (subscriptions.has(collectionName)) subscriptions.get(collectionName)();
-    const unsub = onSnapshot(collection(db, collectionName), snap => {
-      const docs = snap.docs.map(d => transform({ id: d.id, ...d.data() }));
-      callback(docs, { live: true });
-    }, err => {
-      console.warn(`[firebase] ${collectionName} snapshot failed, falling back:`, err.message);
-      loadFallback(fallbackUrl, transform, callback);
-    });
-    subscriptions.set(collectionName, unsub);
-  } else {
-    loadFallback(fallbackUrl, transform, callback);
+//   subscribe(collection, fallbackUrl, transform, callback)
+//
+// callback(items, status) — status = { live: true|false, source: "websdk"|"rest"|"bundled" }
+export function subscribe(collection, fallbackUrl, transform, callback) {
+  // Mode 1: Web SDK with onSnapshot
+  (async () => {
+    const sdk = await getWebSdk();
+    if (sdk) {
+      if (subscriptions.has(collection)) subscriptions.get(collection)();
+      const unsub = sdk.onSnapshot(sdk.collection(sdk.db, collection),
+        snap => callback(snap.docs.map(d => transform({ id: d.id, ...d.data() })), { live: true, source: "websdk" }),
+        err => { console.warn(`[firestore-websdk] ${collection}: ${err.message}; falling through`); restMode(); }
+      );
+      subscriptions.set(collection, unsub);
+      return;
+    }
+    restMode();
+  })();
+
+  function restMode() {
+    if (window.FIRESTORE_PROJECT_ID) {
+      const projectId = window.FIRESTORE_PROJECT_ID;
+      let timer = null;
+      const tick = async () => {
+        try {
+          const items = await fetchRestCollection(projectId, collection);
+          callback(items.map(transform), { live: true, source: "rest" });
+        } catch (err) {
+          console.warn(`[firestore-rest] ${collection}: ${err.message}; falling back to bundled JSON`);
+          loadBundled();
+          return;
+        }
+        timer = setTimeout(tick, REST_POLL_MS);
+      };
+      tick();
+      subscriptions.set(collection, () => { if (timer) clearTimeout(timer); });
+    } else {
+      loadBundled();
+    }
+  }
+
+  async function loadBundled() {
+    try {
+      const r = await fetch(fallbackUrl);
+      if (!r.ok) throw new Error(`HTTP ${r.status}`);
+      const raw = await r.json();
+      const items = Array.isArray(raw) ? raw : Object.entries(raw).map(([id, v]) => ({ id, ...v }));
+      callback(items.map(transform), { live: false, source: "bundled" });
+    } catch (err) {
+      console.error(`[bundled] ${collection}: ${err.message}`);
+      callback([], { live: false, source: "error", error: err.message });
+    }
   }
 }
 
-async function loadFallback(url, transform, callback) {
-  try {
-    const res = await fetch(url);
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const raw = await res.json();
-    const items = Array.isArray(raw) ? raw : Object.entries(raw).map(([id, v]) => ({ id, ...v }));
-    callback(items.map(transform), { live: false });
-  } catch (err) {
-    console.error("[fallback] failed:", err);
-    callback([], { live: false, error: err.message });
-  }
-}
-
-// Status indicator helper — adds a small badge to the page showing live vs cached
+// ---- Status badge in the bottom-right ----
 export function attachStatusBadge() {
-  if (document.getElementById("data-status")) return;
+  if (document.getElementById("data-status")) return () => {};
   const badge = document.createElement("div");
   badge.id = "data-status";
   badge.style.cssText = "position:fixed;bottom:12px;right:12px;padding:4px 10px;border-radius:12px;font-size:11px;font-weight:600;color:#fff;z-index:9999;box-shadow:0 2px 8px rgba(0,0,0,.3);";
   badge.textContent = "…";
   document.body.appendChild(badge);
   return (status) => {
-    if (status.live) {
-      badge.style.background = "#16a34a";
-      badge.textContent = "● LIVE Firestore";
-    } else {
-      badge.style.background = "#64748b";
-      badge.textContent = "○ Bundled snapshot";
-    }
+    if (status.source === "websdk")  { badge.style.background = "#16a34a"; badge.textContent = "● LIVE Firestore (WebSDK)"; }
+    else if (status.source === "rest") { badge.style.background = "#16a34a"; badge.textContent = "● LIVE Firestore (REST)"; }
+    else if (status.source === "bundled") { badge.style.background = "#64748b"; badge.textContent = "○ Bundled snapshot"; }
+    else                             { badge.style.background = "#dc2626"; badge.textContent = "✕ Data error"; }
   };
 }
