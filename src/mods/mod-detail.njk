@@ -13,27 +13,27 @@ rootPath: "../../../"
   <div class="rounded-xl border-2 border-icarus-500 bg-slate-100 dark:bg-gradient-to-b dark:from-slate-800 dark:to-slate-900 p-6">
     <div class="flex flex-col md:flex-row gap-6">
       {% if mod.image_url %}
-      <img src="{{ mod.image_url }}" alt="{{ mod.name }}" loading="lazy" class="w-full md:w-64 h-auto rounded-lg object-cover border border-slate-700"
-           onerror="this.style.display='none'">
+      <img src="{{ mod.image_url }}" alt="{{ mod.name }}" loading="lazy" class="w-full md:w-64 h-auto rounded-lg object-cover border border-slate-700" onerror="this.style.display='none'">
       {% endif %}
       <div class="flex-1">
         <h1 class="text-3xl md:text-4xl font-extrabold text-icarus-500 mb-2">{{ mod.name }}</h1>
         <p class="text-blue-400 mb-1">by {{ mod.author }}</p>
         <div class="flex flex-wrap gap-2 mb-4">
-          <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-icarus-500/20 text-icarus-500">{{ mod.version }}</span>
-          {% if mod.compatibility %}
-          <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-icarus-500/20 text-icarus-500">{{ mod.compatibility }}</span>
-          {% endif %}
+          {% if mod.version %}<span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-icarus-500/20 text-icarus-500">v{{ mod.version }}</span>{% endif %}
+          {% if mod.compatibility and mod.compatibility != "All" %}<span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-icarus-500/20 text-icarus-500">{{ mod.compatibility }}</span>{% endif %}
         </div>
         <div class="flex flex-wrap gap-2 mb-2">
           {% for d in mod.downloads %}
           <a href="{{ d.url }}" download="{{ d.filename }}" class="inline-flex items-center px-4 py-2 text-sm font-medium text-white rounded-md bg-icarus-500 hover:bg-icarus-600">Download {{ d.type }}</a>
           {% endfor %}
         </div>
-        <p class="text-xs text-slate-500 mt-2">{{ mod.updated_string }}</p>
+        {% if mod.updated_string %}<p class="text-xs text-slate-500 mt-2">{{ mod.updated_string }}</p>{% endif %}
       </div>
     </div>
     <hr class="my-6 border-slate-700">
     <div class="prose dark:prose-invert max-w-none text-slate-700 dark:text-slate-300">{{ mod.readme_html | safe }}</div>
+    {% if not mod.has_full_readme %}
+    <p class="mt-6 text-xs text-slate-500 italic">Full README not yet pre-rendered for this mod. Once the site reads from live Firestore, the full description loads dynamically.</p>
+    {% endif %}
   </div>
 </div>

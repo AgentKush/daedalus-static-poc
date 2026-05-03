@@ -32,11 +32,10 @@ function dedup(mods) {
   return out.sort((a, b) => (a.name||"").localeCompare(b.name||""));
 }
 
-const DETAIL_PAGES = new Set(["agentkush--absolute-chaos-core","agentkush--agents-individual-item-kits","jimk72--bear-mount","waldo--a-wzg-balance-overhaul","cryorus--cry-s-lvl-120-cap-100"]);
 function detailHref(mod) {
   if (isNexus(mod)) return mod.mod_page_url;
-  if (DETAIL_PAGES.has(mod.id)) return `./mods/${slug(mod.author)}/${slug(mod.name)}/`;
-  return null;
+  // Every curated mod has a pre-rendered detail page at /mods/<author-slug>/<name-slug>/
+  return `./mods/${slug(mod.author)}/${slug(mod.name)}/`;
 }
 
 function renderRow(mod) {
