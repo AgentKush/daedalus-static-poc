@@ -62,7 +62,13 @@ function stripLeadingH1(md) {
       const r = await fetch(url);
       if (!r.ok) throw new Error(`HTTP ${r.status}`);
       const md = await r.text();
-      const html = marked.parse(stripLeadingH1(md), { mangle: false, headerIds: false });
+      marked.use({
+        gfm: true,           // GFM tables, strikethrough, autolinks
+        breaks: false,       // require blank line for paragraph breaks (like GitHub)
+        mangle: false,
+        headerIds: false,
+      });
+      const html = marked.parse(stripLeadingH1(md));
       if (proseEl) proseEl.innerHTML = html;
       if (fallbackNote) fallbackNote.remove();
     } catch (err) {

@@ -45,14 +45,45 @@
     .info-card:hover, .tool-card:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(0,0,0,0.4); }
     .paper { box-shadow: 0 25px 50px -12px rgba(0,0,0,.5); }
     .source-badge { display:inline-flex; align-items:center; padding:2px 6px; border-radius:4px; font-size:10px; font-weight:600; background:rgba(241,173,28,.1); color:#f1ad1c; margin-left:6px; vertical-align:middle; }
-    .prose ul { list-style: disc; padding-left: 1.25rem; }
-    .prose ol { list-style: decimal; padding-left: 1.25rem; }
-    .prose h2 { font-size: 1.4em; font-weight: 700; margin-top: 1em; color: #f1ad1c; }
-    .prose h3 { font-size: 1.2em; font-weight: 600; margin-top: 0.8em; color: #f1ad1c; }
-    .prose h4 { font-size: 1.05em; font-weight: 600; margin-top: 0.6em; }
-    .prose code { background: rgba(241,173,28,.1); padding: 1px 4px; border-radius: 3px; font-size: 0.9em; }
-    .prose blockquote { border-left: 3px solid #f1ad1c; padding-left: 1em; opacity: .9; }
-    .prose p { margin: 0.6em 0; }
+    /* Headings */
+    .prose h1 { font-size: 1.6em; font-weight: 800; margin-top: 1.2em; margin-bottom: 0.4em; color: #f1ad1c; }
+    .prose h2 { font-size: 1.4em; font-weight: 700; margin-top: 1em; margin-bottom: 0.4em; color: #f1ad1c; border-bottom: 1px solid rgba(241,173,28,.25); padding-bottom: 0.2em; }
+    .prose h3 { font-size: 1.2em; font-weight: 600; margin-top: 0.8em; margin-bottom: 0.3em; color: #f1ad1c; }
+    .prose h4 { font-size: 1.05em; font-weight: 600; margin-top: 0.6em; margin-bottom: 0.3em; }
+    .prose h5, .prose h6 { font-size: 1em; font-weight: 600; margin-top: 0.5em; }
+    /* Paragraphs / inline */
+    .prose p { margin: 0.6em 0; line-height: 1.6; }
+    .prose strong { font-weight: 700; color: inherit; }
+    .prose em { font-style: italic; }
+    .prose a { color: #f1ad1c; text-decoration: none; }
+    .prose a:hover { color: #f4bd49; text-decoration: underline; }
+    /* Lists */
+    .prose ul { list-style: disc; padding-left: 1.5rem; margin: 0.5em 0; }
+    .prose ol { list-style: decimal; padding-left: 1.5rem; margin: 0.5em 0; }
+    .prose li { margin: 0.25em 0; line-height: 1.5; }
+    .prose li > ul, .prose li > ol { margin: 0.25em 0; }
+    /* Code */
+    .prose code { background: rgba(241,173,28,.1); padding: 1px 5px; border-radius: 3px; font-size: 0.9em; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .prose pre { background: rgba(15,23,42,.6); padding: 0.9em 1em; border-radius: 6px; overflow-x: auto; margin: 0.8em 0; font-size: 0.9em; line-height: 1.45; border: 1px solid rgba(148,163,184,.2); }
+    .prose pre code { background: transparent; padding: 0; border-radius: 0; font-size: 1em; }
+    /* Blockquote */
+    .prose blockquote { border-left: 3px solid #f1ad1c; padding-left: 1em; opacity: .9; margin: 0.8em 0; font-style: italic; }
+    /* Horizontal rule */
+    .prose hr { border: 0; border-top: 1px solid rgba(148,163,184,.3); margin: 1.5em 0; }
+    /* Tables (GFM) */
+    .prose table { width: auto; max-width: 100%; border-collapse: collapse; margin: 0.8em 0; font-size: 0.95em; display: block; overflow-x: auto; }
+    .prose thead { background: rgba(241,173,28,.08); }
+    .prose th, .prose td { border: 1px solid rgba(148,163,184,.25); padding: 0.4em 0.7em; text-align: left; vertical-align: top; }
+    .prose th { font-weight: 600; color: #f1ad1c; }
+    .prose tbody tr:nth-child(even) { background: rgba(15,23,42,.25); }
+    /* Images: behave well as both block screenshots and inline shields.io badges */
+    .prose img { max-width: 100%; height: auto; vertical-align: middle; }
+    .prose p > img,
+    .prose p > a > img,
+    .prose img[src*="shields.io"],
+    .prose img[src*="badge"] { display: inline-block; margin: 0 2px; }
+    /* When badges are stacked in their own paragraph, give them a little breathing room */
+    .prose p:has(> img:only-child) { margin: 0.4em 0; }
     .pag-btn { display:inline-flex; align-items:center; justify-content:center; min-width:32px; height:32px; padding:0 10px; margin:0 2px; border-radius:6px; font-size:13px; font-weight:600; cursor:pointer; user-select:none; }
     @media (max-width: 640px) {
       .pag-btn { min-width: 28px; padding: 0 6px; font-size: 12px; margin: 0 1px; height: 30px; }
