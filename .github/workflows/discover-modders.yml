@@ -1,0 +1,43 @@
+name: Discover new modder repos
+
+on:
+  schedule:
+    - cron: "0 6 * * 1"   # weekly, Monday 06:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: "22"
+
+      - name: Run discovery
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node scripts/discover-modinfo-repos.mjs
+
+      - name: Open PR if discoveries changed
+        uses: peter-evans/create-pull-request@v7
+        with:
+          commit-message: "Update discovered Icarus mod repos"
+          title: "Auto: new candidate Icarus mod repos discovered"
+          body: |
+            The weekly discovery scan found Icarus mod repos on GitHub that publish a working `modinfo.json` or `toolinfo.json` but aren't in production's `meta/repos` registry.
+
+            **Review steps:**
+            1. Look at the diff in `data/discovered-candidates.json` for newly-added entries
+            2. For each one that looks legit (has real mods, isn't a fork, etc.), forward the URL to Donovan to add to production's `meta/repos` Firestore document
+            3. Once added, the hourly mod sync picks them up automatically — no further action here
+            4. Merge or close this PR; either way the next weekly run regenerates the file
+
+            This PR was opened automatically by `.github/workflows/discover-modders.yml`.
+          branch: auto/discovered-modders
+          delete-branch: true
+          add-paths: data/discovered-candidates.json
