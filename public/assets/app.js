@@ -130,7 +130,6 @@ function refresh() {
       e.preventDefault();
       state.page = parseInt(el.dataset.page, 10);
       location.hash = `page=${state.page}`;
-      window.scrollTo({ top: 0, behavior: "smooth" });
       refresh();
     });
   });

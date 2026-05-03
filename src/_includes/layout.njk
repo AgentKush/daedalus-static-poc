@@ -57,6 +57,16 @@
     .pag-btn.active { background:#3b82f6; color:#fff; cursor:default; }
     .pag-btn.disabled { opacity:.4; cursor:not-allowed; }
     .pag-ellipsis { display:inline-flex; align-items:center; justify-content:center; min-width:32px; height:32px; color:#64748b; }
+    #back-to-top {
+      position: fixed; right: 14px; bottom: 56px; z-index: 9998;
+      width: 44px; height: 44px; border-radius: 50%;
+      background: #f1ad1c; color: white; font-size: 22px; font-weight: 700;
+      border: none; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,.4);
+      display: none; align-items: center; justify-content: center;
+      transition: transform .15s ease, background .15s ease, opacity .2s ease;
+    }
+    #back-to-top:hover { background: #c18a16; transform: translateY(-2px); }
+    #back-to-top.visible { display: inline-flex; }
   </style>
   <script>
     (function () {
@@ -103,6 +113,19 @@
       localStorage.setItem('theme', isDark ? 'dark' : 'light');
       refreshIcon();
     });
+  </script>
+  <button id="back-to-top" type="button" title="Back to top" aria-label="Back to top">&uarr;</button>
+  <script>
+    (function () {
+      const btn = document.getElementById('back-to-top');
+      function update() {
+        if (window.scrollY > 400) btn.classList.add('visible');
+        else btn.classList.remove('visible');
+      }
+      window.addEventListener('scroll', update, { passive: true });
+      btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+      update();
+    })();
   </script>
 </body>
 </html>
