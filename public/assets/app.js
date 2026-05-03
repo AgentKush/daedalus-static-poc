@@ -135,18 +135,21 @@ function refresh() {
     });
   });
 
-  // Refresh author filter once data is in
+  // Refresh author filter when the set of distinct authors changes
   const sel = document.getElementById("author-filter");
-  if (sel.dataset.populatedFor !== String(all.length)) {
+  const sortedAuthors = [...new Set(all.map(m => m.author).filter(Boolean))]
+    .sort((a, b) => a.localeCompare(b, undefined, { sensitivity: "base" }));
+  const fingerprint = sortedAuthors.join("|");
+  if (sel.dataset.fingerprint !== fingerprint) {
     const current = sel.value;
     sel.innerHTML = `<option value="">All authors</option>`;
-    [...new Set(all.map(m => m.author).filter(Boolean))].sort().forEach(a => {
+    for (const a of sortedAuthors) {
       const opt = document.createElement("option");
       opt.value = slug(a); opt.textContent = a;
       sel.appendChild(opt);
-    });
+    }
     sel.value = current;
-    sel.dataset.populatedFor = String(all.length);
+    sel.dataset.fingerprint = fingerprint;
   }
 }
 
