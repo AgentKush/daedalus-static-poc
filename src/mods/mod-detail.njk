@@ -5,10 +5,10 @@ pagination:
   alias: mod
 permalink: "/mods/{{ mod.author_slug }}/{{ mod.slug }}/index.html"
 layout: layout.njk
-title: "{{ mod.name }} by {{ mod.author }} | ProjectDaedalus"
-description: "{{ mod.description | striptags | truncate(160) }}"
 rootPath: "../../../"
 eleventyComputed:
+  title: "{{ mod.name }} by {{ mod.author }} | ProjectDaedalus"
+  description: "{{ mod.description | striptags | truncate(160) }}"
   og_image: "{{ mod.image_url }}"
 ---
 <section class="max-w-5xl mx-auto px-4 py-6 md:py-10">
