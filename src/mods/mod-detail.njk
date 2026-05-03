@@ -90,15 +90,15 @@ eleventyComputed:
 
         <div class="p-4 border rounded-lg border-slate-300/50 dark:border-slate-600/50 bg-slate-300/40 dark:bg-slate-900/40">
           <div class="text-xs font-medium tracking-wide uppercase text-icarus-500">Mod Age</div>
-          <div class="mt-1 text-sm text-slate-700 dark:text-slate-300">
-            <span class="text-slate-400">Available with live Firestore</span>
+          <div class="mt-1 text-sm text-slate-700 dark:text-slate-300" data-analytics="mod-age">
+            <span class="text-slate-400">loading…</span>
           </div>
         </div>
 
         <div class="p-4 border rounded-lg border-slate-300/50 dark:border-slate-600/50 bg-slate-300/40 dark:bg-slate-900/40">
           <div class="text-xs font-medium tracking-wide uppercase text-icarus-500">Freshness</div>
-          <div class="mt-1 text-sm text-slate-700 dark:text-slate-300">
-            <span class="text-slate-400">Available with live Firestore</span>
+          <div class="mt-1 text-sm text-slate-700 dark:text-slate-300" data-analytics="freshness">
+            <span class="text-slate-400">loading…</span>
           </div>
         </div>
 
@@ -140,8 +140,8 @@ eleventyComputed:
             </div>
             <div class="text-xs text-slate-500 dark:text-slate-400 mt-1">File Types</div>
           </div>
-          <div>
-            <div class="text-xs text-slate-400 italic">Most-recent ranking available with live Firestore</div>
+          <div data-analytics="newest-by-author">
+            <div class="text-xs text-slate-400 italic">loading most-recent…</div>
           </div>
         </div>
       </div>
@@ -292,3 +292,4 @@ eleventyComputed:
 </script>
 <script type="module" src="{{ rootPath }}assets/ratings.js"></script>
 <script src="{{ rootPath }}assets/github-stats.js" defer></script>
+<script type="module" src="{{ rootPath }}assets/mod-analytics-live.js"></script>

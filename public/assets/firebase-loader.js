@@ -37,7 +37,12 @@ function flattenFields(fields) {
 }
 function flattenDocument(doc) {
   const id = (doc.name || "").split("/").pop();
-  return { id, ...flattenFields(doc.fields || {}) };
+  return {
+    id,
+    _createTime: doc.createTime || null,
+    _updateTime: doc.updateTime || null,
+    ...flattenFields(doc.fields || {})
+  };
 }
 
 async function fetchRestCollection(projectId, collection) {
