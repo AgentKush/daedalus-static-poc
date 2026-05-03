@@ -5,35 +5,118 @@ pagination:
   alias: mod
 permalink: "/mods/{{ mod.author_slug }}/{{ mod.slug }}/index.html"
 layout: layout.njk
-title: "{{ mod.name }} | ProjectDaedalus"
+title: "{{ mod.name }} by {{ mod.author }} | ProjectDaedalus"
+description: "{{ mod.description | striptags | truncate(160) }}"
 rootPath: "../../../"
 ---
-<div class="max-w-4xl mx-auto px-4 py-6 md:py-10">
-  <a href="{{ rootPath }}" class="inline-block mb-4 text-sm text-icarus-500 hover:text-icarus-400 no-underline">&larr; Back to mods</a>
-  <div class="rounded-xl border-2 border-icarus-500 bg-slate-100 dark:bg-gradient-to-b dark:from-slate-800 dark:to-slate-900 p-6">
-    <div class="flex flex-col md:flex-row gap-6">
-      {% if mod.image_url %}
-      <img src="{{ mod.image_url }}" alt="{{ mod.name }}" loading="lazy" class="w-full md:w-64 h-auto rounded-lg object-cover border border-slate-700" onerror="this.style.display='none'">
-      {% endif %}
-      <div class="flex-1">
-        <h1 class="text-3xl md:text-4xl font-extrabold text-icarus-500 mb-2">{{ mod.name }}</h1>
-        <p class="text-blue-400 mb-1">by {{ mod.author }}</p>
-        <div class="flex flex-wrap gap-2 mb-4">
-          {% if mod.version %}<span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-icarus-500/20 text-icarus-500">v{{ mod.version }}</span>{% endif %}
-          {% if mod.compatibility and mod.compatibility != "All" %}<span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-icarus-500/20 text-icarus-500">{{ mod.compatibility }}</span>{% endif %}
-        </div>
-        <div class="flex flex-wrap gap-2 mb-2">
-          {% for d in mod.downloads %}
-          <a href="{{ d.url }}" download="{{ d.filename }}" class="inline-flex items-center px-4 py-2 text-sm font-medium text-white rounded-md bg-icarus-500 hover:bg-icarus-600">Download {{ d.type }}</a>
-          {% endfor %}
-        </div>
-        {% if mod.updated_string %}<p class="text-xs text-slate-500 mt-2">{{ mod.updated_string }}</p>{% endif %}
+<section class="max-w-5xl mx-auto px-4 py-6 md:py-10">
+  <!-- Header: name + file type badges + download buttons -->
+  <div class="flex items-center justify-between flex-auto flex-wrap gap-3">
+    <div class="flex items-center gap-3 flex-1 min-w-0">
+      <div class="text-2xl font-extrabold tracking-tight text-icarus-500 md:text-4xl">{{ mod.name }}</div>
+      <div class="flex gap-1.5 flex-shrink-0">
+        {% for type in mod.file_types %}
+          {% if type == "exmodz" %}
+            <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold uppercase bg-icarus-500/20 text-icarus-500 dark:bg-icarus-500/10 dark:text-icarus-400">{{ type }}</span>
+          {% elif type == "pak" %}
+            <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold uppercase bg-emerald-500/20 text-emerald-600 dark:bg-emerald-500/10 dark:text-emerald-400">{{ type }}</span>
+          {% else %}
+            <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold uppercase bg-slate-500/20 text-slate-600 dark:bg-slate-500/10 dark:text-slate-400">{{ type }}</span>
+          {% endif %}
+        {% endfor %}
       </div>
     </div>
-    <hr class="my-6 border-slate-700">
-    <div class="prose dark:prose-invert max-w-none text-slate-700 dark:text-slate-300">{{ mod.readme_html | safe }}</div>
-    {% if not mod.has_full_readme %}
-    <p class="mt-6 text-xs text-slate-500 italic">Full README not yet pre-rendered for this mod. Once the site reads from live Firestore, the full description loads dynamically.</p>
+    <div class="flex gap-2 flex-shrink-0 flex-wrap">
+      {% for d in mod.downloads %}
+        <a href="{{ d.url }}" download="{{ d.filename }}" class="inline-flex items-center px-4 py-2 text-sm font-medium text-white rounded-md shadow-sm bg-icarus-500 hover:bg-icarus-600">DOWNLOAD {{ d.type | upper }}</a>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Author + version line -->
+  <div class="flex items-center justify-between flex-auto mt-1 flex-wrap gap-2">
+    <div class="text-lg text-icarus-400 lg:text-xl">By {{ mod.author }}</div>
+    <div class="text-slate-500">{{ mod.version_string }}</div>
+  </div>
+
+  <!-- EXMODZ note + dates -->
+  <div class="flex items-start justify-between flex-auto mt-2 flex-wrap gap-2">
+    <div class="text-sm text-slate-500 dark:text-slate-400">
+      {% if mod.has_exmodz %}
+        This Mod includes an EXMOD formatted file, which doesn't need updates each week.<br>
+        We recommend you use a Mod Manager to install this mod.
+      {% endif %}
+    </div>
+    {% if mod.updated_string %}
+      <div class="text-sm text-right text-slate-500 flex-shrink-0">
+        <div>{{ mod.updated_string }}</div>
+      </div>
     {% endif %}
   </div>
-</div>
+
+  <!-- Compatibility badge -->
+  {% if mod.compatibility %}
+    <div class="mt-3">
+      <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-icarus-500/20 text-icarus-500 dark:bg-icarus-500/10 dark:text-icarus-400">{{ mod.compatibility | lower }}</span>
+    </div>
+  {% endif %}
+
+  <!-- Gold separator -->
+  <div class="mt-4 gold-line"></div>
+
+  <!-- Content: image (float-right at md+) + markdown -->
+  <div class="mt-6 min-h-48">
+    {% if mod.image_url %}
+      <img class="hidden float-right w-48 h-48 mb-5 ml-5 rounded md:block object-cover" src="{{ mod.image_url }}" alt="{{ mod.name }}" onerror="this.style.display='none'">
+    {% endif %}
+    <div class="pt-2 pb-12 prose dark:prose-invert lg:prose-xl text-slate-700 dark:text-slate-300">{{ mod.readme_html | safe }}</div>
+    {% if not mod.has_full_readme %}
+      <p class="mt-2 text-xs italic text-slate-500">Full README will load dynamically once the site is wired to live Firestore.</p>
+    {% endif %}
+  </div>
+
+  <!-- Gold separator -->
+  <div class="gold-line"></div>
+
+  <!-- Other mods by this author -->
+  {% if mod.other_by_author.length %}
+    <div class="mt-6">
+      <h3 class="mb-3 text-base font-semibold tracking-wide text-icarus-500 lg:text-lg">Other mods by {{ mod.author }}</h3>
+      <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        {% for other in mod.other_by_author %}
+          <a href="{{ rootPath }}mods/{{ other.author_slug }}/{{ other.slug }}/" class="flex items-center justify-between p-3 text-left transition-colors border rounded-lg border-slate-200 dark:border-slate-700 hover:border-icarus-500/50 hover:bg-slate-50 dark:hover:bg-slate-800/70 no-underline">
+            <div class="min-w-0">
+              <div class="text-sm font-medium truncate text-slate-800 dark:text-slate-200">{{ other.name }}</div>
+              <div class="text-xs text-slate-500 truncate">{{ other.description }}</div>
+            </div>
+            <div class="flex gap-1 ml-2 flex-shrink-0">
+              {% for type in other.file_types %}
+                {% if type == "exmodz" %}<span class="px-1.5 py-0.5 text-xs rounded font-medium bg-icarus-500/20 text-icarus-500">{{ type | upper }}</span>
+                {% elif type == "pak" %}<span class="px-1.5 py-0.5 text-xs rounded font-medium bg-emerald-500/20 text-emerald-600">{{ type | upper }}</span>
+                {% else %}<span class="px-1.5 py-0.5 text-xs rounded font-medium bg-slate-500/20 text-slate-500">{{ type | upper }}</span>
+                {% endif %}
+              {% endfor %}
+            </div>
+          </a>
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+
+  <!-- Prev / Back / Next navigation -->
+  <div class="flex items-center justify-between mt-6 mb-4 gap-2">
+    <div class="flex-1">
+      {% if mod.prev %}
+        <a href="{{ rootPath }}mods/{{ mod.prev.author_slug }}/{{ mod.prev.slug }}/" class="inline-flex items-center px-3 py-1.5 text-sm font-medium rounded-md text-slate-600 dark:text-slate-400 hover:text-icarus-500 dark:hover:text-icarus-400 no-underline transition-colors">&larr; {{ mod.prev.name | truncate(25) }}</a>
+      {% endif %}
+    </div>
+    <div class="flex-shrink-0">
+      <a href="{{ rootPath }}" class="inline-flex items-center px-4 py-2 text-sm font-medium rounded-md shadow-sm border border-icarus-500 text-icarus-500 hover:bg-icarus-500 hover:text-white no-underline transition-colors">Back to List</a>
+    </div>
+    <div class="flex-1 text-right">
+      {% if mod.next %}
+        <a href="{{ rootPath }}mods/{{ mod.next.author_slug }}/{{ mod.next.slug }}/" class="inline-flex items-center px-3 py-1.5 text-sm font-medium rounded-md text-slate-600 dark:text-slate-400 hover:text-icarus-500 dark:hover:text-icarus-400 no-underline transition-colors">{{ mod.next.name | truncate(25) }} &rarr;</a>
+      {% endif %}
+    </div>
+  </div>
+</section>
