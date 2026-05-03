@@ -41,11 +41,11 @@ function detailHref(mod) {
 function renderRow(mod) {
   const nx = isNexus(mod), href = detailHref(mod);
   const action = nx
-    ? `<a href="${escape(mod.mod_page_url)}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()" class="inline-flex items-center px-2 py-1 sm:px-3 sm:py-1.5 text-xs font-medium text-white rounded-md shadow-sm bg-icarus-500 hover:bg-icarus-600"><span class="hidden sm:inline">View on </span>Nexus &nearr;</a>`
+    ? `<a href="${escape(mod.mod_page_url)}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()" class="inline-flex items-center px-2 py-1 sm:px-3 sm:py-1.5 text-xs font-medium text-white rounded-md shadow-sm bg-icarus-500 hover:bg-icarus-600"><span class="hidden sm:inline">View on&nbsp;</span>Nexus &nearr;</a>`
     : (() => {
         const type = preferredType(mod);
         if (!type) return `<span class="text-xs text-slate-500">&mdash;</span>`;
-        return `<a href="${escape(mod.files[type])}" download onclick="event.stopPropagation()" class="inline-flex items-center px-2 py-1 sm:px-3 sm:py-1.5 text-xs font-medium text-white rounded-md shadow-sm bg-icarus-500 hover:bg-icarus-600"><span class="hidden sm:inline">Download </span>${type.toUpperCase()}</a>`;
+        return `<a href="${escape(mod.files[type])}" download onclick="event.stopPropagation()" class="inline-flex items-center px-2 py-1 sm:px-3 sm:py-1.5 text-xs font-medium text-white rounded-md shadow-sm bg-icarus-500 hover:bg-icarus-600"><span class="hidden sm:inline">Download&nbsp;</span>${type.toUpperCase()}</a>`;
       })();
   const compat = mod.compatibility
     ? `<span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-icarus-500/20 text-icarus-500">${escape(mod.compatibility.toLowerCase())}</span>`
