@@ -174,6 +174,8 @@ async function main() {
   const existingByRepo = new Map((existing.candidates || []).map(c => [c.repo, c]));
   const today = new Date().toISOString().slice(0, 10);
 
+  // Stable sort: by repo name, so the JSON diff is deterministic across runs
+  found.sort((a, b) => a.repo.localeCompare(b.repo));
   const merged = found.map(f => {
     const prev = existingByRepo.get(f.repo);
     return {
@@ -185,13 +187,11 @@ async function main() {
       tool_count: f.tool_count,
       primary_author: f.primary_author,
       first_seen: prev?.first_seen || today,
-      last_seen: today,
     };
   });
 
   const out = {
-    _comment: "Repos found by GitHub search that publish modinfo.json or toolinfo.json but aren't in production's meta/repos registry. Refreshed weekly. To suggest one to Donovan, copy its URL into the production registry.",
-    _generated_at: new Date().toISOString(),
+    _comment: "Repos found by GitHub search that publish modinfo.json or toolinfo.json but aren't in production's meta/repos registry. Refreshed weekly via .github/workflows/discover-modders.yml. To suggest one to Donovan, copy its URL into the production meta/repos document.",
     _registry_source: REGISTRY_URL,
     candidates: merged,
   };
@@ -204,6 +204,38 @@ async function main() {
     if (c.tool_count) counts.push(`${c.tool_count} tool${c.tool_count===1?"":"s"}`);
     console.log(`  - ${c.repo} (${counts.join(", ")}, by ${c.primary_author})`);
   }
+
+  // Emit a Markdown body for the auto-PR step to pick up via body-path
+  const lines = [];
+  lines.push("## Discovered Icarus mod repos not in production's `meta/repos`");
+  lines.push("");
+  lines.push(`Found by the weekly GitHub-search scan. These ${merged.length} repos publish a working \`modinfo.json\` or \`toolinfo.json\` but aren't in production's registry yet. Forward any that look legitimate to Donovan to add to production's \`meta/repos\` Firestore document — once added, the hourly mod sync picks them up automatically.`);
+  lines.push("");
+  lines.push("### Candidates");
+  lines.push("");
+  for (const c of merged) {
+    const counts = [];
+    if (c.mod_count)  counts.push(`${c.mod_count} mod${c.mod_count===1?"":"s"}`);
+    if (c.tool_count) counts.push(`${c.tool_count} tool${c.tool_count===1?"":"s"}`);
+    lines.push(`- [\`${c.repo}\`](${c.url}) — **${counts.join(", ")}** by \`${c.primary_author}\` (e.g. _${c.first_name}_) · first seen ${c.first_seen}`);
+  }
+  lines.push("");
+  lines.push("### URLs to copy/paste into production's `meta/repos`");
+  lines.push("");
+  lines.push("```");
+  for (const c of merged) lines.push(c.url);
+  lines.push("```");
+  lines.push("");
+  lines.push("### Review steps");
+  lines.push("");
+  lines.push("1. Eyeball the diff in `data/discovered-candidates.json` to verify the entries look right (real Icarus mods, not forks or test repos).");
+  lines.push("2. For each one that looks legit, copy its URL above and ask Donovan to add it to production's `meta/repos`.");
+  lines.push("3. Merge or close this PR — either way the next weekly run regenerates the file.");
+  lines.push("");
+  lines.push(`_Generated ${new Date().toISOString()} by \`.github/workflows/discover-modders.yml\`._`);
+
+  fs.writeFileSync("/tmp/discovery-pr-body.md", lines.join("\n"));
+  console.log(`\n[discover] PR body written to /tmp/discovery-pr-body.md`);
 }
 
 main().catch(e => { console.error(e); process.exit(1); });
