@@ -100,6 +100,48 @@ npm run serve   # http://localhost:8080
 npm run build   # outputs to _site/
 ```
 
+## How mod data gets in: the modinfo.json sync pipeline
+
+The 490 mods on the live site (and the 303 in this static rebuild) all come from a single mechanism: **each modder hosts a `modinfo.json` file on their GitHub repo, and a scheduled job aggregates them all into one feed**. Production runs this on Donovan's machine via local cron every 4 hours; this static POC mirrors that exact pipeline using **GitHub Actions cron**.
+
+### Flow
+
+1. **Modders publish** a `modinfo.json` at a known URL on their GitHub repo. Schema:
+   ```
+   {
+     "mods": [
+       {
+         "name": "Mod Name",
+         "author": "Author",
+         "version": "1.4",
+         "week": "171",
+         "compatibility": "w171",
+         "description": "...",
+         "imageURL": "https://...",
+         "readmeURL": "https://...",
+         "files": { "exmodz": "https://..." }
+       }
+     ]
+   }
+   ```
+2. **`data/modders.json`** in this repo lists every known modder feed URL. To add yourself, PR a new entry with your `author` and raw GitHub URL.
+3. **`.github/workflows/sync-mods.yml`** runs every 4 hours (and on manual dispatch). It executes `scripts/sync-modinfos.mjs`, which fetches each feed, normalizes the entries, dedups, and writes `public/data/mods.json`.
+4. **If `mods.json` actually changed**, the workflow commits and pushes back to `main`. Pages auto-deploys on the push, and the listing now reflects the new data.
+
+Same flow as production, just running on GitHub Actions instead of Donovan's machine. No Firestore needed; the JSON file IS the database.
+
+### Failure mode
+
+If fewer than half the source feeds return successfully, the script aborts rather than clobber `mods.json` with bad data. Network blips don't wipe the catalog.
+
+### Adding yourself as a modder
+
+1. Make sure your GitHub repo has a `modinfo.json` at a stable URL with the shape above.
+2. Open a PR adding your entry to `data/modders.json`.
+3. Once merged, the next cron run picks you up (or trigger it manually from the Actions tab).
+
+---
+
 ## Going live with Firestore real-time reads
 
 The site currently runs against bundled JSON. To switch to live Firestore reads with real-time updates:
