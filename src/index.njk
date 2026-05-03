@@ -1,34 +1,29 @@
 ---
 layout: layout.njk
-title: "Icarus Mods | Daedalus (static POC)"
-description: "Browse community mods for the Icarus survival game — static-site proof of concept."
+title: "Icarus Mods | ProjectDaedalus"
+description: "Browse community mods for the Icarus survival game."
+rootPath: "./"
 ---
 <style>
-  .source-badge {
-    display: inline-flex; align-items: center;
-    padding: 2px 6px; border-radius: 4px;
-    font-size: 10px; font-weight: 600;
-    background: rgba(241, 173, 28, 0.1); color: #f1ad1c;
-    margin-left: 6px; vertical-align: middle;
-  }
+  .gold-line { height: 2px; background: linear-gradient(90deg, transparent, #f1ad1c, transparent); }
 </style>
-<div class="max-w-screen-2xl mx-auto px-4 py-6 md:py-10" id="app">
+<div class="max-w-screen-2xl mx-auto px-4 py-6 md:py-10">
   <div class="mb-6 text-center">
     <h1 class="mb-3 text-3xl font-extrabold tracking-tight md:text-4xl lg:text-5xl text-icarus-500">Icarus Mods</h1>
-    <p class="max-w-2xl mx-auto text-base text-slate-400 md:text-lg">
-      Browse community-made mods for the Icarus survival game.
+    <p class="max-w-2xl mx-auto text-base text-slate-600 dark:text-slate-400 md:text-lg">
+      Browse and download community-made mods for the Icarus survival game.
     </p>
     <div class="mx-auto mt-4 gold-line w-48"></div>
   </div>
 
-  <div class="flex flex-col gap-3 p-4 mb-6 border rounded-xl border-slate-700 bg-slate-800/50 md:flex-row md:items-center md:justify-between">
+  <div class="flex flex-col gap-3 p-4 mb-6 border rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 md:flex-row md:items-center md:justify-between">
     <div class="flex flex-col gap-3 md:flex-row md:items-center md:flex-1">
       <input id="search" type="search" placeholder="Search mods..."
-             class="px-3 py-2 text-sm border rounded-lg border-slate-600 bg-slate-800 text-slate-300 ring-0 focus:ring-2 focus:ring-icarus-500 focus:border-icarus-500 focus:outline-none md:w-64">
-      <select id="author-filter" class="px-3 py-2 text-sm border rounded-lg border-slate-600 bg-slate-800 text-slate-300 focus:ring-2 focus:ring-icarus-500 focus:border-icarus-500 focus:outline-none">
+             class="px-3 py-2 text-sm border rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 ring-0 focus:ring-2 focus:ring-icarus-500 focus:border-icarus-500 focus:outline-none md:w-64">
+      <select id="author-filter" class="px-3 py-2 text-sm border rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 focus:ring-2 focus:ring-icarus-500 focus:border-icarus-500 focus:outline-none">
         <option value="">All authors</option>
       </select>
-      <select id="source-filter" class="px-3 py-2 text-sm border rounded-lg border-slate-600 bg-slate-800 text-slate-300 focus:ring-2 focus:ring-icarus-500 focus:border-icarus-500 focus:outline-none">
+      <select id="source-filter" class="px-3 py-2 text-sm border rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 focus:ring-2 focus:ring-icarus-500 focus:border-icarus-500 focus:outline-none">
         <option value="">All sources</option>
         <option value="curated">Curated</option>
         <option value="nexus">Nexus</option>
@@ -36,18 +31,18 @@ description: "Browse community mods for the Icarus survival game — static-site
     </div>
     <div class="flex items-center gap-3">
       <span id="count" class="text-sm font-medium text-icarus-500">0 mods</span>
-      <button id="reset" class="text-sm font-medium text-icarus-500 hover:text-icarus-400 underline-offset-2 hover:underline bg-transparent border-0 cursor-pointer">Show all</button>
+      <button id="reset" class="text-sm font-medium text-icarus-500 hover:text-icarus-400 bg-transparent border-0 cursor-pointer">Show all</button>
     </div>
   </div>
 
-  <div id="status" class="hidden mb-4 text-sm text-center text-slate-500"></div>
+  <p class="mb-4 text-xs text-center text-icarus-500">Click on any row to view additional mod details</p>
 
-  <div class="overflow-hidden border rounded-xl border-slate-700 mt-2">
+  <div class="overflow-hidden border rounded-xl border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 mt-2">
     <table class="w-full border-collapse table-auto">
       <thead>
-        <tr class="bg-slate-800">
+        <tr class="bg-slate-100 dark:bg-slate-800">
           <th class="p-3 text-left text-sm font-semibold text-icarus-500 sm:w-1/5">Name</th>
-          <th class="p-3 text-left text-sm font-semibold text-icarus-500 w-auto sm:w-32">Action</th>
+          <th class="p-3 text-left text-sm font-semibold text-icarus-500 w-auto sm:w-28">Download</th>
           <th class="hidden p-3 text-left text-sm font-semibold text-icarus-500 sm:table-cell sm:w-1/6">Author</th>
           <th class="hidden p-3 text-right text-sm font-semibold text-icarus-500 md:table-cell w-20">Version</th>
           <th class="hidden p-3 text-center text-sm font-semibold text-icarus-500 xl:table-cell w-20">Week</th>

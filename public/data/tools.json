@@ -1,0 +1,42 @@
+[
+  {
+    "id": "edmiester777-and-r3ap3r-daedalus-loader",
+    "name": "Daedalus Loader",
+    "author": "edmiester777 and R3ap3r",
+    "version": "v1.2",
+    "url": "https://raw.githubusercontent.com/R3ap3r0fS0uls/Daedalus/master/v1.2.zip",
+    "filename": "v1.2.zip",
+    "updated_string": "Last Updated on April 06, 2026",
+    "body_html": "<ol><li>Extract V1.2.zip and copy the contents into (Icarus-Root)/Icarus/Binaries/Win64</li><li>Then, in that same folder, create a folder and call it 'mods', this is where you'll put .dll mods (Not xinput.dll or daedalus.dll).</li></ol><h3>Notes</h3><ul><li>The mod loader is not currently supported in dx12, so when starting Icarus, select dx11.</li></ul><h3>Credit</h3><p>This project was originally a fork of an old version of SatisfactoryModLoader but has since transitioned to using a fork of UnrealModLoader. Most credit should go to RusselJerome for his UnrealModLoader project, and the amazing reverse engineers behind UnrealDumper.</p>"
+  },
+  {
+    "id": "jimk72-icarus-mod-editor",
+    "name": "Icarus Mod Editor",
+    "author": "Jimk72",
+    "version": "v4.1",
+    "url": "https://github.com/Jimk72/Icarus_Software/raw/main/IcarusModEditorVer4_1.zip",
+    "filename": "IcarusModEditorVer4_1.zip",
+    "updated_string": "Last Updated on April 30, 2026",
+    "body_html": "<p>Allows creation of mods and installation into Icarus game.</p>"
+  },
+  {
+    "id": "zayon-icarus-mod-editor-tool",
+    "name": "Icarus Mod Editor Tool",
+    "author": "Zayon",
+    "version": "v1.5.431",
+    "url": "https://github.com/zayonarts/Icarus_Mod_Editor_Tool/releases/download/v1.5.431/IcarusModEditorTool.exe",
+    "filename": "IcarusModEditorTool.exe",
+    "updated_string": "Last Updated on April 16, 2026",
+    "body_html": "<p>A desktop application for <strong>ICARUS</strong> modders. IMET provides a clean, module-based GUI for creating and editing mod files - no JSON hand-editing required.</p><p>Built with Tauri | Windows | Auto-updating</p><h3>Modules</h3><h4>Modinfo Editor</h4><p>Edit your mod's <code>.modinfo</code> JSON file through a fully visual interface. Mod list panel, edit panel with general info, description, links and resources, files. GitHub file browser to pick files directly from any repository.</p><h4>Recipe Editor</h4><p>Create and edit crafting recipes inside <code>.json</code> or <code>.exmod</code> mod files. Recipe list panel with search, recipe editor panel with output, inputs, and dropdowns for category/talent.</p><h3>Auto-Updater</h3><p>IMET checks for updates on launch. Updates are opt-in - the app will never update without your confirmation.</p>"
+  },
+  {
+    "id": "jimk72-icarus-mod-manager-2-full",
+    "name": "Icarus Mod Manager 2 Full",
+    "author": "Jimk72",
+    "version": "v2.4.0",
+    "url": "https://github.com/Jimk72/Icarus_Software/raw/main/Icarus_Mod_Manager_2_4_0.zip",
+    "filename": "Icarus_Mod_Manager_2_4_0.zip",
+    "updated_string": "Last Updated on April 30, 2026",
+    "body_html": "<p>Full Release. Icarus Mod Manager 2.4.0 - this is not backwards compatible with previous 1.6.7 or earlier versions! The folder structure has changed. Please create a new folder for this to be unzipped into. Make sure you click check for update after installed.</p>"
+  }
+]
