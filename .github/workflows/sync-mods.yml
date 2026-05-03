@@ -2,7 +2,7 @@ name: Sync mods from modinfo.json sources
 
 on:
   schedule:
-    - cron: "0 */4 * * *"   # every 4 hours, mirrors Donovan's local cron
+    - cron: "0 * * * *"     # every hour
   workflow_dispatch:         # manual trigger from the Actions tab
   push:
     branches: [main]

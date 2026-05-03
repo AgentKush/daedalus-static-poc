@@ -102,7 +102,7 @@ npm run build   # outputs to _site/
 
 ## How mod data gets in: the modinfo.json sync pipeline
 
-The 490 mods on the live site (and the 303 in this static rebuild) all come from a single mechanism: **each modder hosts a `modinfo.json` file on their GitHub repo, and a scheduled job aggregates them all into one feed**. Production runs this on Donovan's machine via local cron every 4 hours; this static POC mirrors that exact pipeline using **GitHub Actions cron**.
+The 490 mods on the live site (and the 303 in this static rebuild) all come from a single mechanism: **each modder hosts a `modinfo.json` file on their GitHub repo, and a scheduled job aggregates them all into one feed**. Production runs this on Donovan's machine via local cron every hour; this static POC mirrors that exact pipeline using **GitHub Actions cron** (also hourly).
 
 ### Flow
 
@@ -125,7 +125,7 @@ The 490 mods on the live site (and the 303 in this static rebuild) all come from
    }
    ```
 2. **`data/modders.json`** in this repo lists every known modder feed URL. To add yourself, PR a new entry with your `author` and raw GitHub URL.
-3. **`.github/workflows/sync-mods.yml`** runs every 4 hours (and on manual dispatch). It executes `scripts/sync-modinfos.mjs`, which fetches each feed, normalizes the entries, dedups, and writes `public/data/mods.json`.
+3. **`.github/workflows/sync-mods.yml`** runs every hour (and on manual dispatch). It executes `scripts/sync-modinfos.mjs`, which fetches each feed, normalizes the entries, dedups, and writes `public/data/mods.json`.
 4. **If `mods.json` actually changed**, the workflow commits and pushes back to `main`. Pages auto-deploys on the push, and the listing now reflects the new data.
 
 Same flow as production, just running on GitHub Actions instead of Donovan's machine. No Firestore needed; the JSON file IS the database.
