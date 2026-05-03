@@ -17,15 +17,20 @@ if (!KEY) {
 
 const RANGE_END = parseInt(process.env.NEXUS_RANGE_END || "200", 10);
 const CONCURRENCY = 10;
-const WEEK_1_EPOCH_MS = Date.UTC(2021, 10, 4); // Nov 4, 2021 (month is 0-indexed)
+// Game-week anchor: per Steam, Apr 24 2026 was Week 229 (Atmospheric Update).
+// Derive every other week relative to that known point.
+const REFERENCE_MS = Date.UTC(2026, 3, 24); // Apr 24, 2026 (month 0-indexed)
+const REFERENCE_WEEK = 229;
 
 function gameWeek(iso) {
   if (!iso) return null;
   const t = Date.parse(iso);
   if (Number.isNaN(t)) return null;
-  const days = Math.floor((t - WEEK_1_EPOCH_MS) / (24 * 3600 * 1000));
-  if (days < 0) return null;
-  return `w${Math.floor(days / 7) + 1}`;
+  const offsetDays = Math.floor((t - REFERENCE_MS) / (24 * 3600 * 1000));
+  // floorDiv on negative numbers: JS Math.floor handles this correctly
+  const weeksOffset = Math.floor(offsetDays / 7);
+  const wn = REFERENCE_WEEK + weeksOffset;
+  return wn >= 1 ? `w${wn}` : null;
 }
 
 async function fetchMod(id) {
