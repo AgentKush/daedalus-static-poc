@@ -1,0 +1,72 @@
+[
+  {
+    "id": "donovan-resource-tweaks",
+    "name": "Donovan's Resource Tweaks",
+    "author": "Donovan Young",
+    "version": "1.4.0",
+    "compatibility": "w14",
+    "description": "Adjusts resource gathering rates for a more balanced playthrough. Trees yield more wood, ore drops are more generous, and farming is faster.",
+    "files": { "exmodz": "https://example.com/donovan-resource-tweaks.exmodz" },
+    "source": "curated"
+  },
+  {
+    "id": "fast-furnaces",
+    "name": "Fast Furnaces",
+    "author": "Donovan Young",
+    "version": "2.0.1",
+    "compatibility": "w14",
+    "description": "All furnaces and processors run at 5x speed. Smelting that took an hour now takes 12 minutes.",
+    "files": { "pak": "https://example.com/fast-furnaces.pak" },
+    "source": "curated"
+  },
+  {
+    "id": "build-anywhere",
+    "name": "Build Anywhere",
+    "author": "Donovan Young",
+    "version": "1.1.0",
+    "compatibility": "w13",
+    "description": "Removes building placement restrictions. Build on any terrain, including caves and steep slopes.",
+    "files": { "exmodz": "https://example.com/build-anywhere.exmodz" },
+    "source": "curated"
+  },
+  {
+    "id": "extended-storage",
+    "name": "Extended Storage",
+    "author": "ModderTwo",
+    "version": "0.9.3",
+    "compatibility": "w12",
+    "description": "Doubles all chest, crate, and storage container capacities.",
+    "files": { "zip": "https://example.com/extended-storage.zip" },
+    "source": "curated"
+  },
+  {
+    "id": "nexus-better-building",
+    "name": "Better Building System",
+    "author": "NexusUserOne",
+    "version": "3.2.0",
+    "compatibility": null,
+    "description": "Comprehensive overhaul of the building system. Adds snap-to-grid, level rotations, and 40 new building piece variants.",
+    "mod_page_url": "https://www.nexusmods.com/icarus/mods/123",
+    "source": "nexus"
+  },
+  {
+    "id": "nexus-realistic-weather",
+    "name": "Realistic Weather Overhaul",
+    "author": "WeatherDev",
+    "version": "1.0.0",
+    "compatibility": null,
+    "description": "Replaces the stock weather system with a more dynamic and realistic implementation. Storms feel dangerous, sunny days feel rare.",
+    "mod_page_url": "https://www.nexusmods.com/icarus/mods/456",
+    "source": "nexus"
+  },
+  {
+    "id": "nexus-creature-pack",
+    "name": "Hostile Wildlife Pack",
+    "author": "WildlifeMods",
+    "version": "0.4.2",
+    "compatibility": null,
+    "description": "Adds 8 new hostile creature types to the world. Increased difficulty for players who find the base game too easy.",
+    "mod_page_url": "https://www.nexusmods.com/icarus/mods/789",
+    "source": "nexus"
+  }
+]

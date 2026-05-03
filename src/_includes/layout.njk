@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ title or "Daedalus Static POC" }}</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="{{ description or "Static-site proof of concept for Project Daedalus on GitHub Pages." }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter var', 'Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'] },
+          colors: {
+            icarus: {
+              100: '#fcefd2', 200: '#f9dea4', 300: '#f7ce77', 400: '#f4bd49',
+              500: '#f1ad1c', 600: '#c18a16', 700: '#916811', 800: '#60450b', 900: '#302306'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Inter', ui-sans-serif, system-ui, sans-serif; }
+    .gold-line { height: 2px; background: linear-gradient(90deg, transparent, #f1ad1c, transparent); }
+    .row-lift { transition: transform 0.15s ease, box-shadow 0.15s ease; }
+    .row-lift:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-200 min-h-screen">
+  <header class="border-b border-slate-800 bg-slate-900/50 backdrop-blur">
+    <div class="max-w-screen-2xl mx-auto px-4 py-4 flex items-center justify-between">
+      <a href="./" class="text-icarus-500 font-extrabold text-xl no-underline">Daedalus <span class="text-slate-400 font-normal text-sm">static POC</span></a>
+      <nav class="flex items-center gap-4 text-sm">
+        <a href="./" class="text-slate-400 hover:text-icarus-500 no-underline">Mods</a>
+        <a href="https://github.com/AgentKush/daedalus-static-poc" target="_blank" rel="noopener" class="text-slate-400 hover:text-icarus-500 no-underline">Source &nearr;</a>
+      </nav>
+    </div>
+  </header>
+  <main>{{ content | safe }}</main>
+  <footer class="mt-16 border-t border-slate-800 py-6 text-center text-xs text-slate-500">
+    <p>Proof-of-concept static rebuild of <a href="https://projectdaedalus.app" target="_blank" rel="noopener" class="text-icarus-500 hover:underline">projectdaedalus.app</a>. Data source is currently mock data; see README for the swap-in path to real Firestore reads.</p>
+  </footer>
+</body>
+</html>
