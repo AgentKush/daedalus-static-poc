@@ -1,6 +1,6 @@
 {
   "_comment": "Repos found by GitHub search that publish modinfo.json or toolinfo.json but aren't in production's meta/repos registry. Refreshed weekly. To suggest one to Donovan, copy its URL into the production registry.",
-  "_generated_at": "2026-05-03T23:19:44.128Z",
+  "_generated_at": "2026-05-03T23:27:49.458Z",
   "_registry_source": "https://firestore.googleapis.com/v1/projects/projectdaedalus-fb09f/databases/(default)/documents/meta/repos",
   "candidates": [
     {
