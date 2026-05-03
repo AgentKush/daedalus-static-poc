@@ -49,6 +49,10 @@
     .prose blockquote { border-left: 3px solid #f1ad1c; padding-left: 1em; opacity: .9; }
     .prose p { margin: 0.6em 0; }
     .pag-btn { display:inline-flex; align-items:center; justify-content:center; min-width:32px; height:32px; padding:0 10px; margin:0 2px; border-radius:6px; font-size:13px; font-weight:600; cursor:pointer; user-select:none; }
+    @media (max-width: 640px) {
+      .pag-btn { min-width: 28px; padding: 0 6px; font-size: 12px; margin: 0 1px; height: 30px; }
+      .pag-ellipsis { min-width: 20px; height: 30px; }
+    }
     .pag-btn:hover { background: rgba(241,173,28,.15); color:#f1ad1c; }
     .pag-btn.active { background:#3b82f6; color:#fff; cursor:default; }
     .pag-btn.disabled { opacity:.4; cursor:not-allowed; }
