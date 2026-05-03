@@ -56,13 +56,6 @@ eleventyComputed:
     {% endif %}
   </div>
 
-  <!-- Anonymous mod rating widget -->
-  <div id="rating-widget" data-mod-id="{{ mod.id }}" class="mt-3 flex items-center gap-3 flex-wrap">
-    <span class="text-xs uppercase tracking-wide text-icarus-500 font-medium">Rate this mod</span>
-    <div id="rating-stars" class="flex items-center"></div>
-    <div id="rating-summary" class="text-sm text-slate-500"></div>
-  </div>
-
   <!-- Compatibility badge -->
   {% if mod.compatibility %}
     <div class="mt-3">
@@ -154,6 +147,9 @@ eleventyComputed:
       </div>
       {% endif %}
 
+      <!-- GitHub Stats (lazy-loaded when panel opens) -->
+      <div id="github-stats-slot"></div>
+
       <!-- Row 4: Mod Status (no metadata in static POC, so "All Clear") -->
       <div class="p-4 border rounded-lg border-slate-300/50 dark:border-slate-600/50 bg-slate-300/40 dark:bg-slate-900/40">
         <div class="text-xs font-medium tracking-wide uppercase text-icarus-500">Mod Status</div>
@@ -220,6 +216,42 @@ eleventyComputed:
       {% endif %}
     </div>
   </div>
+
+  <!-- Gold separator -->
+  <div class="gold-line"></div>
+
+  <!-- Discussion: ratings + comments via GitHub login -->
+  <div class="mt-6">
+    <h2 class="text-xl md:text-2xl font-bold text-icarus-500 mb-4">Discussion</h2>
+
+    <div id="rating-widget" data-mod-id="{{ mod.id }}" class="flex items-center gap-3 flex-wrap p-4 mb-4 border rounded-lg border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50">
+      <span class="text-xs uppercase tracking-wide text-icarus-500 font-medium">Rate this mod</span>
+      <div id="rating-stars" class="flex items-center"></div>
+      <div id="rating-summary" class="text-sm text-slate-500"></div>
+    </div>
+
+    <div class="p-4 border rounded-lg border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50">
+      <p class="text-xs text-slate-500 mb-3">Sign in with GitHub to leave a comment. Threads are stored in the daedalus-static-poc repo's GitHub Discussions.</p>
+      <div id="giscus-container">
+        <script src="https://giscus.app/client.js"
+                data-repo="AgentKush/daedalus-static-poc"
+                data-repo-id="R_kgDOSTA-uQ"
+                data-category="General"
+                data-category-id="DIC_kwDOSTA-uc4C8QAM"
+                data-mapping="specific"
+                data-term="mod-{{ mod.id }}"
+                data-strict="0"
+                data-reactions-enabled="1"
+                data-emit-metadata="0"
+                data-input-position="bottom"
+                data-theme="dark_dimmed"
+                data-lang="en"
+                data-loading="lazy"
+                crossorigin="anonymous"
+                async></script>
+      </div>
+    </div>
+  </div>
 </section>
 
 <script>
@@ -255,3 +287,4 @@ eleventyComputed:
   })();
 </script>
 <script type="module" src="{{ rootPath }}assets/ratings.js"></script>
+<script src="{{ rootPath }}assets/github-stats.js" defer></script>
