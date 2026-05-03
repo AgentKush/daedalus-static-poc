@@ -1,6 +1,6 @@
 name: Add a modder feed
 description: Add yourself or someone else to data/modders.json so their mods sync to the site
-labels: ["modder-feed"]
+labels: ["modder-feed", "needs triage"]
 body:
   - type: input
     id: author
