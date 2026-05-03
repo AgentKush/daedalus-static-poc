@@ -24,7 +24,7 @@ jobs:
         run: node scripts/discover-modinfo-repos.mjs
 
       - name: Open PR if discoveries changed
-        uses: peter-evans/create-pull-request@v7
+        uses: peter-evans/create-pull-request@v8
         with:
           commit-message: "Update discovered Icarus mod repos"
           title: "Auto: new candidate Icarus mod repos discovered"
