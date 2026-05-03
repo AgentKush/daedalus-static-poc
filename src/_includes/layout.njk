@@ -5,14 +5,12 @@
   <title>{{ title or "ProjectDaedalus — Icarus Mods & Tools" }}</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="description" content="{{ description or 'Browse and download mods and tools for the Icarus survival game.' }}">
-  <meta property="og:title" content="{{ title or 'ProjectDaedalus' }}">
-  <meta property="og:description" content="{{ description or 'Browse and download mods and tools for the Icarus survival game.' }}">
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="ProjectDaedalus (static POC)">
+  <link rel="icon" type="image/png" href="{{ rootPath }}assets/img/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="{{ rootPath }}assets/firebase-config.js"></script>
   <script>
     tailwind.config = {
       darkMode: 'class',
@@ -24,6 +22,10 @@
               100: '#fcefd2', 200: '#f9dea4', 300: '#f7ce77', 400: '#f4bd49',
               500: '#f1ad1c', 600: '#c18a16', 700: '#916811', 800: '#60450b', 900: '#302306'
             }
+          },
+          backgroundImage: {
+            'topo-light': "url('{{ rootPath }}assets/img/bg-topography-light.svg')",
+            'topo-dark': "url('{{ rootPath }}assets/img/bg-topography-dark.svg')"
           }
         }
       }
@@ -46,9 +48,13 @@
     .prose code { background: rgba(241,173,28,.1); padding: 1px 4px; border-radius: 3px; font-size: 0.9em; }
     .prose blockquote { border-left: 3px solid #f1ad1c; padding-left: 1em; opacity: .9; }
     .prose p { margin: 0.6em 0; }
+    .pag-btn { display:inline-flex; align-items:center; justify-content:center; min-width:32px; height:32px; padding:0 10px; margin:0 2px; border-radius:6px; font-size:13px; font-weight:600; cursor:pointer; user-select:none; }
+    .pag-btn:hover { background: rgba(241,173,28,.15); color:#f1ad1c; }
+    .pag-btn.active { background:#3b82f6; color:#fff; cursor:default; }
+    .pag-btn.disabled { opacity:.4; cursor:not-allowed; }
+    .pag-ellipsis { display:inline-flex; align-items:center; justify-content:center; min-width:32px; height:32px; color:#64748b; }
   </style>
   <script>
-    // Apply theme before render to prevent flash
     (function () {
       var saved = localStorage.getItem('theme');
       if (saved === 'light') document.documentElement.classList.remove('dark');
@@ -58,11 +64,11 @@
     })();
   </script>
 </head>
-<body class="min-h-screen bg-fixed lg:text-base bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-300">
+<body class="min-h-screen bg-fixed lg:text-base bg-topo-light dark:bg-topo-dark bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-300">
   <header class="w-screen">
     <div class="bg-gradient-to-b from-slate-600 via-slate-500 to-slate-200 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800 text-slate-800 dark:text-slate-300 md:pt-4 md:pb-12 md:px-5 md:flex md:flex-auto md:items-center md:justify-between p-4">
       <div class="flex items-center justify-start flex-1 min-w-0">
-        <div class="w-16 h-16 mr-3 rounded-full flex items-center justify-center text-3xl font-extrabold text-icarus-500 border-2 border-icarus-500 bg-slate-900/40">D</div>
+        <img width="64" height="64" alt="Daedalus Logo" src="{{ rootPath }}assets/img/daedalus-logo.png" class="mr-2">
         <a class="drop-shadow-md text-2xl font-bold leading-7 no-underline text-icarus-500 sm:truncate sm:text-4xl sm:py-1 sm:tracking-tight" href="{{ rootPath }}">Project Daedalus</a>
       </div>
       <div class="flex items-center mt-4 md:mt-0 md:ml-4">
@@ -86,9 +92,7 @@
   <script>
     const btn = document.getElementById('theme-toggle');
     const icon = document.getElementById('theme-icon');
-    function refreshIcon() {
-      icon.innerHTML = document.documentElement.classList.contains('dark') ? '&#127769;' : '&#9728;&#65039;';
-    }
+    function refreshIcon() { icon.innerHTML = document.documentElement.classList.contains('dark') ? '&#127769;' : '&#9728;&#65039;'; }
     refreshIcon();
     btn.addEventListener('click', () => {
       const isDark = document.documentElement.classList.toggle('dark');

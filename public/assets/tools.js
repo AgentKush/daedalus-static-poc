@@ -1,4 +1,19 @@
+import { subscribe, attachStatusBadge } from "./firebase-loader.js";
+
 function escape(s) { return (s || "").toString().replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+
+function transformTool(d) {
+  return {
+    id: d.id || `${(d.author||"").toLowerCase().replace(/\W+/g,"-")}-${(d.name||"").toLowerCase().replace(/\W+/g,"-")}`,
+    name: d.name,
+    author: d.author,
+    version: d.version,
+    url: d.url || d.fileURL,
+    filename: d.filename,
+    body_html: d.body_html || d.description,
+    updated_string: d.updated_string || (d.updated_at ? `Last Updated on ${d.updated_at}` : "")
+  };
+}
 
 function renderTool(t) {
   return `<div class="flex flex-col p-6 border-2 tool-card rounded-xl border-icarus-500 bg-gradient-to-b from-slate-100 to-white dark:from-slate-800 dark:to-slate-900">
@@ -19,8 +34,8 @@ function renderTool(t) {
   </div>`;
 }
 
-(async () => {
-  const res = await fetch("./data/tools.json");
-  const tools = await res.json();
+const setStatus = attachStatusBadge();
+subscribe("tools", "./data/tools.json", transformTool, (tools, status) => {
+  setStatus(status);
   document.getElementById("tools-grid").innerHTML = tools.map(renderTool).join("");
-})();
+});

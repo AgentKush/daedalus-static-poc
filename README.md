@@ -55,3 +55,48 @@ In `src/assets/app.js`, replace the mock `loadMods()` body with the Firestore bl
 | SSR for SEO | Yes | Pre-rendered HTML at build, dynamic data hydrates after |
 | Anonymous mod ratings | Server-handled | Browser writes directly with tightened security rules |
 | Effort to get here | Multi-week | This repo |
+
+---
+
+## Going live with Firestore real-time reads
+
+The site currently runs against bundled JSON in `/data/`. To switch to live Firestore data with real-time updates (changes Donovan makes propagate to open browser tabs without a reload):
+
+### 1. Get the Firebase Web SDK config
+
+In the Firebase Console for the `project-daedalus` project:
+
+- Settings → General → Your apps → Web app → copy the `firebaseConfig` object
+
+Paste it into `public/assets/firebase-config.js`, replacing the `null` default.
+
+The config (apiKey, projectId, etc.) is **public-safe by design** — Firebase's security model relies on Firestore Security Rules, not on hiding the apiKey. It's expected to be in client-side code. See https://firebase.google.com/docs/projects/api-keys.
+
+### 2. Allow public reads on the relevant collections
+
+In the Firebase Console → Firestore → Rules, add:
+
+```
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{db}/documents {
+    match /mods/{doc}        { allow read: if true; }
+    match /tools/{doc}       { allow read: if true; }
+    match /nexus_mods/{doc}  { allow read: if true; }
+    match /info_content/{doc} { allow read: if true; }
+
+    // Default: deny everything else
+    match /{document=**} { allow read, write: if false; }
+  }
+}
+```
+
+The mod data is already public via the Rails site, so no privacy is lost. If abuse becomes a concern, [Firebase App Check](https://firebase.google.com/docs/app-check) can rate-limit reads from non-allowlisted origins.
+
+### 3. Push the config
+
+Commit `public/assets/firebase-config.js` with the real config and push. The Pages deploy will redeploy and the browser will switch from "○ Bundled snapshot" to "● LIVE Firestore" (visible in the bottom-right corner).
+
+### Real-time behavior
+
+Once configured, the site uses Firestore's `onSnapshot` listeners. When Donovan adds, edits, or removes a mod (via his sync rake task or any other writer), every open browser tab updates within ~1 second — no reload, no rebuild, no Pages redeploy.

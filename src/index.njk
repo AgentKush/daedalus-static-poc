@@ -18,8 +18,7 @@ rootPath: "./"
 
   <div class="flex flex-col gap-3 p-4 mb-6 border rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 md:flex-row md:items-center md:justify-between">
     <div class="flex flex-col gap-3 md:flex-row md:items-center md:flex-1">
-      <input id="search" type="search" placeholder="Search mods..."
-             class="px-3 py-2 text-sm border rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 ring-0 focus:ring-2 focus:ring-icarus-500 focus:border-icarus-500 focus:outline-none md:w-64">
+      <input id="search" type="search" placeholder="Search mods..." class="px-3 py-2 text-sm border rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 focus:ring-2 focus:ring-icarus-500 focus:border-icarus-500 focus:outline-none md:w-64">
       <select id="author-filter" class="px-3 py-2 text-sm border rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 focus:ring-2 focus:ring-icarus-500 focus:border-icarus-500 focus:outline-none">
         <option value="">All authors</option>
       </select>
@@ -51,6 +50,11 @@ rootPath: "./"
       </thead>
       <tbody id="rows"></tbody>
     </table>
+  </div>
+
+  <div class="mt-4 flex items-center justify-between flex-wrap gap-2 px-2">
+    <p id="page-info" class="text-sm text-slate-500"></p>
+    <nav id="pagination" class="flex items-center"></nav>
   </div>
 </div>
 
