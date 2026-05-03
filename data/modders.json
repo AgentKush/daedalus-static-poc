@@ -1,157 +1,53 @@
 {
-  "_comment": "Modder modinfo.json source URLs. The sync workflow fetches each, aggregates into public/data/mods.json. To add yourself: PR a new entry. To audit: scripts/sync-modinfos.mjs prints per-source counts on every run.",
-  "sources": [
-    {
-      "author": "Donovan",
-      "url": "https://raw.githubusercontent.com/DonovanMods/Icarus-Mods/main/modinfo.json"
-    },
-    {
-      "author": "AgentKush",
-      "url": "https://raw.githubusercontent.com/AgentKush/Icarus-mods/main/modinfo.json"
-    },
-    {
-      "author": "Jimk72",
-      "url": "https://raw.githubusercontent.com/Jimk72/Icarus_Mods/main/modinfo.json"
-    },
-    {
-      "author": "Hazer",
-      "url": "https://raw.githubusercontent.com/Hazer-Bazer/Icarus-Mods/refs/heads/main/modinfo.json"
-    },
-    {
-      "author": "Cryorus",
-      "url": "https://raw.githubusercontent.com/CryorusTheDragon/Icarus_Mods/main/modinfo.json"
-    },
-    {
-      "author": "Corack",
-      "url": "https://raw.githubusercontent.com/CorackWookie/Icarus-Mods/main/modinfo.json"
-    },
-    {
-      "author": "Apex",
-      "url": "https://raw.githubusercontent.com/DizzyDJW/Icarus-Mods/main/modinfo.json"
-    },
-    {
-      "author": "Sarge",
-      "url": "https://raw.githubusercontent.com/Sarge-85/Icarus-Mods/main/modinfo.json"
-    },
-    {
-      "author": "DarkAngel",
-      "url": "https://raw.githubusercontent.com/DarkEsteves/IcarusMods/main/modinfo.json"
-    },
-    {
-      "author": "Prophet",
-      "url": "https://raw.githubusercontent.com/Icarus-Prophet/RobExpHeMa/main/modinfo.json"
-    },
-    {
-      "author": "Rayven",
-      "url": "https://raw.githubusercontent.com/Nyghtrayven/Rayven-s-Icarus-Mods/main/modinfo.json"
-    },
-    {
-      "author": "ShadowWolf2099",
-      "url": "https://raw.githubusercontent.com/ShadowWolf2099/Icarus_Mods/main/modinfo.json"
-    },
-    {
-      "author": "RevenantKitsune",
-      "url": "https://raw.githubusercontent.com/RevenantKitsune/Revs_Icarus_Mods/Icarus/modinfo.json"
-    },
-    {
-      "author": "TheLysdexicOne",
-      "url": "https://raw.githubusercontent.com/TheLysdexicOne/Icarus-Mods/main/modinfo.json"
-    },
-    {
-      "author": "TheOrangeFloof",
-      "url": "https://raw.githubusercontent.com/GODOFMINECRAFT4/Icarus-Mods/master/modinfo.json"
-    },
-    {
-      "author": "Zayon",
-      "url": "https://raw.githubusercontent.com/zayonarts/Icarus_Mods/main/modinfo.json"
-    },
-    {
-      "author": "Venomtron",
-      "url": "https://raw.githubusercontent.com/Venomtron/Icarus-Mods/main/modinfo.json"
-    },
-    {
-      "author": "Zailfyer",
-      "url": "https://raw.githubusercontent.com/zailfyer/Icarus_Mods/main/modinfo.json"
-    },
-    {
-      "author": "CK_Dexterhaven",
-      "url": "https://raw.githubusercontent.com/ckdextergames/Icarus_mods/main/modinfo.json"
-    },
-    {
-      "author": "Aurokon",
-      "url": "https://raw.githubusercontent.com/aurokon/Aurokon_Industries/main/modinfo.json"
-    },
-    {
-      "author": "Bostonstrong567",
-      "url": "https://raw.githubusercontent.com/bostonstrong567/Bostonstrong567-Icarus-Mods/main/modinfo.json"
-    },
-    {
-      "author": "BruteForceOAP",
-      "url": "https://raw.githubusercontent.com/BruteForceOAP/Shengong-Invincible/main/modinfo.json"
-    },
-    {
-      "author": "Chance_4090",
-      "url": "https://raw.githubusercontent.com/FuzzyWuff/Icarus/main/modinfo.json"
-    },
-    {
-      "author": "DarkDante",
-      "url": "https://raw.githubusercontent.com/yacketrj/icarus_modding/main/modinfo.json"
-    },
-    {
-      "author": "Dyls123",
-      "url": "https://raw.githubusercontent.com/Dyls123/Icarus_Mods/master/modinfo.json"
-    },
-    {
-      "author": "Eric",
-      "url": "https://raw.githubusercontent.com/begginfokillz/icarus_carepackage_larkwell/main/modinfo.json"
-    },
-    {
-      "author": "Intreeg",
-      "url": "https://raw.githubusercontent.com/TheOringalIntreeg/Icarus_Mods/main/modinfo.json"
-    },
-    {
-      "author": "Maddstone",
-      "url": "https://raw.githubusercontent.com/maddstonegaming/MADD-Icarus-Mods/main/modinfo.json"
-    },
-    {
-      "author": "Nilt",
-      "url": "https://raw.githubusercontent.com/JustNilt/Icarus_Mods/master/modinfo.json"
-    },
-    {
-      "author": "SalJam",
-      "url": "https://raw.githubusercontent.com/SalJam55/IcarusMods/main/modinfo.json"
-    },
-    {
-      "author": "Semac",
-      "url": "https://raw.githubusercontent.com/S-e-m-a-c/Icarus-Mods/main/modinfo.json"
-    },
-    {
-      "author": "Strelitsia",
-      "url": "https://raw.githubusercontent.com/Strelitsia/ICARUS-Mods/main/modinfo.json"
-    },
-    {
-      "author": "Waldo",
-      "url": "https://raw.githubusercontent.com/WZG-Mods/wzg-icarus-balance-overhaul/master/modinfo.json"
-    },
-    {
-      "author": "darkhyn",
-      "url": "https://raw.githubusercontent.com/darkhyn/Icarus_Mods/master/modinfo.json"
-    },
-    {
-      "author": "globeadue",
-      "url": "https://raw.githubusercontent.com/jamesburt/Modding_Icarus/main/modinfo.json"
-    },
-    {
-      "author": "laanp",
-      "url": "https://raw.githubusercontent.com/laanp/Icarus_Mods_Separated/master/modinfo.json"
-    },
-    {
-      "author": "relentlessmoose",
-      "url": "https://raw.githubusercontent.com/relentlessmoose/rm_Icarus_mods/main/modinfo.json"
-    },
-    {
-      "author": "Z_Diezel",
-      "url": "https://raw.githubusercontent.com/Z-Diezel/Icarus-Mods/main/modinfo.json"
-    }
+  "_comment": "Mirrored from production's meta/repos Firestore document. Each entry is a GitHub repo URL — sync probes main/master/EXMODZ/Icarus branches for modinfo.json at sync time. Regenerated on every run.",
+  "_source": "https://firestore.googleapis.com/v1/projects/projectdaedalus-fb09f/databases/(default)/documents/meta/repos",
+  "repos": [
+    "https://github.com/DonovanMods/Icarus-Mods",
+    "https://github.com/Jimk72/Icarus_Mods",
+    "https://github.com/GODOFMINECRAFT4/Icarus-Mods",
+    "https://github.com/Venomtron/Icarus-Mods",
+    "https://github.com/WZG-Mods/wzg-icarus-balance-overhaul",
+    "https://github.com/S-e-m-a-c/Icarus-Mods",
+    "https://github.com/ckdextergames/Icarus_mods",
+    "https://github.com/zailfyer/Icarus_Mods",
+    "https://github.com/begginfokillz/larkwell_carepackage_Icarus",
+    "https://github.com/Jimk72/Icarus_Software",
+    "https://github.com/R3ap3r0fS0uls/Daedalus-Mods",
+    "https://github.com/R3ap3r0fS0uls/Daedalus",
+    "https://github.com/CrystalFerrai/IcarusMods",
+    "https://github.com/SalJam55/IcarusMods",
+    "https://github.com/BruteForceOAP/Shengong-Invincible",
+    "https://github.com/jamesburt/Modding_Icarus",
+    "https://github.com/laanp/Icarus_Mods_Separated",
+    "https://github.com/aurokon/Aurokon_Industries",
+    "https://github.com/CryorusTheDragon/Icarus_Mods",
+    "https://github.com/TheOringalIntreeg/Icarus_Mods",
+    "https://github.com/Sarge-85/Icarus-Mods",
+    "https://github.com/CorackWookie/Icarus-Mods",
+    "https://github.com/DizzyDJW/Icarus-Mods",
+    "https://github.com/ShadowWolf2099/Icarus_Mods",
+    "https://github.com/bostonstrong567/Bostonstrong567-Icarus-Mods",
+    "https://github.com/begginfokillz/icarus_carepackage_larkwell",
+    "https://github.com/DarkEsteves/IcarusMods",
+    "https://github.com/JustNilt/Icarus_Mods",
+    "https://github.com/Icarus-Prophet/Beyond-Null",
+    "https://github.com/Icarus-Prophet/RobExpHeMa",
+    "https://github.com/yacketrj/icarus_modding",
+    "https://github.com/Trystan-Rhayven/Mods-for-Icarus",
+    "https://github.com/relentlessmoose/rm_Icarus_mods",
+    "https://github.com/Strelitsia/ICARUS-Mods",
+    "https://github.com/zayonarts/Icarus_Mods",
+    "https://github.com/Rhayvenwolf-Howler/Mods-for-Icarus-Solo",
+    "https://github.com/Nyghtrayven/Rayven-s-Icarus-Mods",
+    "https://github.com/Dyls123/Icarus_Mods",
+    "https://github.com/RevenantKitsune/Revs_Icarus_Mods",
+    "https://github.com/darkhyn/Icarus_Mods",
+    "https://github.com/AgentKush/Icarus-mods",
+    "https://github.com/Z-Diezel/icarus-mods",
+    "https://github.com/TheLysdexicOne/Icarus-Mods",
+    "https://github.com/Hazer-Bazer/Icarus-Mods",
+    "https://github.com/maddstonegaming/MADD-Icarus-Mods",
+    "https://github.com/zayonarts/Icarus_Mod_Editor_Tool",
+    "https://github.com/FuzzyWuff/Icarus"
   ]
 }
