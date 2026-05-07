@@ -18,7 +18,7 @@ Static-site rebuild of [Project Daedalus](https://projectdaedalus.app) on GitHub
 | URL | Source |
 |-----|--------|
 | `/home/` | Production-style landing page (hero + 3 feature cards + Discord CTA) |
-| `/` | Mods listing — search, author filter, source filter, 25-page pagination, all live from Firestore |
+| `/` | Mods listing — search, author / source / **week** / **sort** filters, 25-page pagination, all live from Firestore |
 | `/tools.html` | Community modding tools, live from Firestore |
 | `/info.html` | Discord, Mod Requests, IMM Setup PDF, GPortal Install PDF |
 | `/requests.html` | Mod Requests board powered by GitHub Discussions Ideas category, reactions = upvotes |
@@ -39,7 +39,7 @@ production Firestore (projectdaedalus-fb09f)
        Static site renders, polls every 60s for fresh data
 ```
 
-The site **reads** the same data projectdaedalus.app reads, in real time. Status badge in the lower-right corner shows `● LIVE Firestore (REST)` when it's working, `○ Bundled snapshot` if fallback kicks in.
+The site **reads** the same data projectdaedalus.app reads, in real time. Status badge in the lower-right corner shows `● LIVE Firestore (REST)` when it's working, `○ Bundled snapshot` if fallback kicks in, and `◐ LIVE + bundled (empty collection)` when the live collection exists but is empty (used for `nexus_mods` until upstream PR #119 merges and production starts populating it). Polling continues in this mode, so the moment the live collection fills, the listing automatically swaps over without anyone touching the POC.
 
 In the background, two workflows keep our offline fallback bundles fresh:
 
@@ -47,6 +47,19 @@ In the background, two workflows keep our offline fallback bundles fresh:
 - **`discover-modders.yml`** runs every Monday morning: sweeps GitHub for Icarus mod repos that production doesn't know about yet (code search for `modinfo.json + EXMODZ`, repo-name patterns, URL extraction from production's mod data). Probes each candidate. If new ones turned up, opens a verified-commit PR titled "Auto: new candidate Icarus mod repos discovered" with the full URL list and per-candidate metadata in the body.
 
 So even if production's Firestore is briefly unavailable, the bundled JSON fallback contains a fresh-within-the-hour snapshot. And if a new modder shows up, you'll see a PR within a week — usually less.
+
+### Compatibility (game week) — 100% coverage
+
+Production's `compatibility` field is hand-authored, so older mods often left it blank. The hourly sync fills any gap by walking the GitHub Commits API for each mod's file URL and converting the latest commit date to an Icarus game week (Apr 24 2026 = w229 anchor).
+
+The URL parser handles the four shapes mods are linked from:
+
+- `github.com/owner/repo/raw/branch/path`
+- `github.com/owner/repo/blob/branch/path`
+- `raw.githubusercontent.com/owner/repo/branch/path`
+- `github.com/owner/repo/releases/download/tag/file` (falls back to repo HEAD)
+
+Percent-encoded paths (`More%20Drop%20Ship%20Slots`) are decoded before the API call, and non-default branches (e.g. zailfyer's `EXMODZ`) are passed via `&sha=`. Mods derived this way carry a `compatibility_derived: true` marker on the JSON record so the UI can show them differently if it ever wants to. Result: 491/491 curated mods now show a week pill on the listing and detail pages.
 
 ## UI parity with production (with all open PRs visually merged in)
 
@@ -60,7 +73,10 @@ So even if production's Firestore is briefly unavailable, the bundled JSON fallb
 - **Search debounce** at 400 ms (matches the merged search-debounce-timing PR)
 - **Author filter** with all 47 distinct authors in true alphabetical order (case-insensitive `localeCompare`)
 - **Source filter** (Curated / Nexus / All) — Curated wins on name+author duplicates
+- **Week filter** (Latest w220+ / Recent w200–219 / Older < w200 / Any) — backed by 100% game-week coverage across all 491 curated mods
+- **Sort order** (Name A–Z / Name Z–A / Newest first / Oldest first) — newest/oldest sort by derived game week
 - **NEXUS badge** + "View on Nexus ↗" link on Nexus rows (PR #119)
+- All dropdowns use a custom inline-SVG chevron (slate-400) with `appearance-none`, so the rounded `rounded-lg` corner stays clean instead of being clipped by the browser-native arrow
 - Full OG meta block including `og:image` per mod via `eleventyComputed`
 
 ## Mod detail page
@@ -100,6 +116,8 @@ Five-star widget below the README. Stable per-browser fingerprint UUID prevents 
 ### Comments via GitHub login (Giscus)
 
 Discussion thread per mod, backed by GitHub Discussions on this repo. Visitors sign in with GitHub OAuth, comments land as Discussion comments under the General category, one thread per mod via the `mod-{modId}` term mapping.
+
+The shared `<head>` warm-preconnects to `giscus.app`, `api.github.com`, `github.com`, and `avatars.githubusercontent.com`, and the giscus client script is loaded with `defer` (not `async`) so the iframe is initialised early and is fully authenticated by the time visitors scroll to it. First-click latency is noticeably better; per-click latency after the iframe is warm is still bounded by the GitHub Discussions GraphQL round-trip (the cost of using GitHub login without a custom backend).
 
 ## How GitHub-API rate limits work in this project
 
