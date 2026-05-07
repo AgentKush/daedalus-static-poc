@@ -39,24 +39,36 @@ function gameWeek(iso) {
   return wn >= 1 ? `w${wn}` : null;
 }
 
-// Pull (owner, repo, path) out of a github.com/raw/branch/path or
-// raw.githubusercontent.com/owner/repo/branch/path file URL.
+// Pull (owner, repo, branch, path) out of a GitHub file URL. Handles:
+//   github.com/owner/repo/raw/branch/path
+//   github.com/owner/repo/blob/branch/path
+//   raw.githubusercontent.com/owner/repo/branch/path
+//   github.com/owner/repo/releases/download/tag/file  (path = null; use repo HEAD)
+// Returns null if the URL isn't a recognizable github file URL.
 function parseGithubFileUrl(url) {
   if (!url) return null;
-  let m = url.match(/^https?:\/\/github\.com\/([^/]+)\/([^/]+)\/raw\/(?:refs\/heads\/)?[^/]+\/(.+)$/);
-  if (m) return { owner: m[1], repo: m[2], path: m[3] };
-  m = url.match(/^https?:\/\/raw\.githubusercontent\.com\/([^/]+)\/([^/]+)\/(?:refs\/heads\/)?[^/]+\/(.+)$/);
-  if (m) return { owner: m[1], repo: m[2], path: m[3] };
+  const decode = (p) => { try { return decodeURIComponent(p); } catch { return p; } };
+  let m = url.match(/^https?:\/\/github\.com\/([^/]+)\/([^/]+)\/(?:raw|blob)\/(?:refs\/heads\/)?([^/]+)\/(.+)$/);
+  if (m) return { owner: m[1], repo: m[2], branch: m[3], path: decode(m[4]) };
+  m = url.match(/^https?:\/\/raw\.githubusercontent\.com\/([^/]+)\/([^/]+)\/(?:refs\/heads\/)?([^/]+)\/(.+)$/);
+  if (m) return { owner: m[1], repo: m[2], branch: m[3], path: decode(m[4]) };
+  m = url.match(/^https?:\/\/github\.com\/([^/]+)\/([^/]+)\/releases\/download\/[^/]+\/[^/]+$/);
+  if (m) return { owner: m[1], repo: m[2], branch: null, path: null };
+  // last-ditch: any github.com/owner/repo URL — use repo HEAD
+  m = url.match(/^https?:\/\/github\.com\/([^/]+)\/([^/]+)(?:[\/?#]|$)/);
+  if (m) return { owner: m[1], repo: m[2], branch: null, path: null };
   return null;
 }
-
 const ghCommitCache = new Map();
-async function fetchLatestCommitDate(owner, repo, path) {
-  const key = `${owner}/${repo}:${path}`;
+async function fetchLatestCommitDate(owner, repo, path, branch) {
+  const key = `${owner}/${repo}:${path || "<HEAD>"}@${branch || "<default>"}`;
   if (ghCommitCache.has(key)) return ghCommitCache.get(key);
   const headers = { "Accept": "application/vnd.github+json" };
   if (process.env.GITHUB_TOKEN) headers.Authorization = `token ${process.env.GITHUB_TOKEN}`;
-  const url = `https://api.github.com/repos/${owner}/${repo}/commits?path=${encodeURIComponent(path)}&per_page=1`;
+  const params = new URLSearchParams({ per_page: "1" });
+  if (path) params.set("path", path);
+  if (branch) params.set("sha", branch);
+  const url = `https://api.github.com/repos/${owner}/${repo}/commits?${params}`;
   let date = null;
   try {
     const r = await fetch(url, { headers });
@@ -73,7 +85,6 @@ async function fetchLatestCommitDate(owner, repo, path) {
   ghCommitCache.set(key, date);
   return date;
 }
-
 async function getRepoList() {
   // Try live registry first; fall back to cached snapshot if unreachable
   try {
@@ -192,14 +203,24 @@ async function main() {
   let derived = 0, lookupErr = 0;
   for (const m of needsLookup) {
     if (ghCommitCache.get("__exhausted__")) break;
-    const fileUrl = m.files && Object.values(m.files)[0];
-    const parts = fileUrl ? parseGithubFileUrl(fileUrl) : null;
+    const candidates = [
+      ...Object.values(m.files || {}),
+      m.readme_url || m.readmeURL,
+      m.image_url || m.imageURL
+    ].filter(Boolean);
+    let parts = null;
+    for (const u of candidates) { parts = parseGithubFileUrl(u); if (parts) break; }
     if (!parts) { lookupErr++; continue; }
-    const date = await fetchLatestCommitDate(parts.owner, parts.repo, parts.path);
+    let date = await fetchLatestCommitDate(parts.owner, parts.repo, parts.path, parts.branch);
+    // If a path-specific lookup found nothing, retry against repo HEAD (some
+    // file paths have moved, been renamed, or live in a non-default branch)
+    if (!date && parts.path) {
+      date = await fetchLatestCommitDate(parts.owner, parts.repo, null, null);
+    }
     const week = gameWeek(date);
     if (week) {
       m.compatibility = week;
-      m.compatibility_derived = true; // marker so the UI can show it differently if it wants
+      m.compatibility_derived = true;
       derived++;
     } else {
       lookupErr++;

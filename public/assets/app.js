@@ -98,6 +98,12 @@ function refresh() {
   const q = (document.getElementById("search").value || "").trim().toLowerCase();
   const author = document.getElementById("author-filter").value;
   const source = document.getElementById("source-filter").value;
+  const weekBucket = document.getElementById("week-filter")?.value || "";
+  const sortOrder = document.getElementById("sort-order")?.value || "name-asc";
+  const weekNum = (m) => {
+    const x = (m.compatibility || "").match(/^w(\d+)$/i);
+    return x ? parseInt(x[1], 10) : null;
+  };
   const filtered = all.filter(mod => {
     const nx = isNexus(mod);
     if (source === "nexus" && !nx) return false;
@@ -107,8 +113,21 @@ function refresh() {
       const hay = `${mod.name||""} ${mod.author||""} ${mod.description||""} ${mod.compatibility||""}`.toLowerCase();
       if (!hay.includes(q)) return false;
     }
+    if (weekBucket) {
+      const w = weekNum(mod);
+      if (w == null) return false;
+      if (weekBucket === "latest" && !(w >= 220)) return false;
+      if (weekBucket === "recent" && !(w >= 200 && w < 220)) return false;
+      if (weekBucket === "older"  && !(w < 200)) return false;
+    }
     return true;
   });
+
+  const cmp = (a, b) => (a.name || "").toLowerCase().localeCompare((b.name || "").toLowerCase());
+  if (sortOrder === "name-desc") filtered.sort((a, b) => cmp(b, a));
+  else if (sortOrder === "week-desc") filtered.sort((a, b) => (weekNum(b) ?? -1) - (weekNum(a) ?? -1) || cmp(a, b));
+  else if (sortOrder === "week-asc")  filtered.sort((a, b) => (weekNum(a) ?? Infinity) - (weekNum(b) ?? Infinity) || cmp(a, b));
+  else filtered.sort(cmp);
 
   const total = filtered.length;
   const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
@@ -167,10 +186,14 @@ window.addEventListener("hashchange", () => { state.page = readPageFromHash(); r
 document.getElementById("search").addEventListener("input", debounce(() => { state.page = 1; refresh(); }, 400));
 document.getElementById("author-filter").addEventListener("change", () => { state.page = 1; refresh(); });
 document.getElementById("source-filter").addEventListener("change", () => { state.page = 1; refresh(); });
+document.getElementById("week-filter")?.addEventListener("change", () => { state.page = 1; refresh(); });
+document.getElementById("sort-order")?.addEventListener("change", () => { state.page = 1; refresh(); });
 document.getElementById("reset").addEventListener("click", () => {
   document.getElementById("search").value = "";
   document.getElementById("author-filter").value = "";
   document.getElementById("source-filter").value = "";
+  const wf = document.getElementById("week-filter"); if (wf) wf.value = "";
+  const so = document.getElementById("sort-order"); if (so) so.value = "name-asc";
   state.page = 1;
   location.hash = "";
   refresh();
