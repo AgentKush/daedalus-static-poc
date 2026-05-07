@@ -27,6 +27,53 @@ async function fetchJson(url) {
   return r.json();
 }
 
+// Game-week anchor: Apr 24 2026 = Week 229 (Atmospheric Update). Mirrors sync-nexus.mjs.
+const REFERENCE_MS = Date.UTC(2026, 3, 24);
+const REFERENCE_WEEK = 229;
+function gameWeek(iso) {
+  if (!iso) return null;
+  const t = Date.parse(iso);
+  if (Number.isNaN(t)) return null;
+  const offsetDays = Math.floor((t - REFERENCE_MS) / 86400000);
+  const wn = REFERENCE_WEEK + Math.floor(offsetDays / 7);
+  return wn >= 1 ? `w${wn}` : null;
+}
+
+// Pull (owner, repo, path) out of a github.com/raw/branch/path or
+// raw.githubusercontent.com/owner/repo/branch/path file URL.
+function parseGithubFileUrl(url) {
+  if (!url) return null;
+  let m = url.match(/^https?:\/\/github\.com\/([^/]+)\/([^/]+)\/raw\/(?:refs\/heads\/)?[^/]+\/(.+)$/);
+  if (m) return { owner: m[1], repo: m[2], path: m[3] };
+  m = url.match(/^https?:\/\/raw\.githubusercontent\.com\/([^/]+)\/([^/]+)\/(?:refs\/heads\/)?[^/]+\/(.+)$/);
+  if (m) return { owner: m[1], repo: m[2], path: m[3] };
+  return null;
+}
+
+const ghCommitCache = new Map();
+async function fetchLatestCommitDate(owner, repo, path) {
+  const key = `${owner}/${repo}:${path}`;
+  if (ghCommitCache.has(key)) return ghCommitCache.get(key);
+  const headers = { "Accept": "application/vnd.github+json" };
+  if (process.env.GITHUB_TOKEN) headers.Authorization = `token ${process.env.GITHUB_TOKEN}`;
+  const url = `https://api.github.com/repos/${owner}/${repo}/commits?path=${encodeURIComponent(path)}&per_page=1`;
+  let date = null;
+  try {
+    const r = await fetch(url, { headers });
+    if (r.ok) {
+      const arr = await r.json();
+      date = arr[0]?.commit?.author?.date || null;
+    } else if (r.status === 403 || r.status === 429) {
+      console.warn(`[sync] GitHub rate-limited (${r.status}); skipping further commit lookups this run`);
+      ghCommitCache.set("__exhausted__", true);
+    }
+  } catch (e) {
+    console.warn(`[sync] commit lookup failed for ${key}: ${e.message}`);
+  }
+  ghCommitCache.set(key, date);
+  return date;
+}
+
 async function getRepoList() {
   // Try live registry first; fall back to cached snapshot if unreachable
   try {
@@ -137,6 +184,28 @@ async function main() {
     if (found.tools.length) parts.push(`${found.tools.length} tool(s)`);
     console.log(`[sync] [${i}/${repos.length}] ${repoLabel} (${found.branch}): ${parts.join(", ")}`);
   }
+
+  // Fill in missing compatibility from the latest commit on the mod's file.
+  // Uses the same Apr 24 2026 = w229 anchor as sync-nexus.mjs.
+  const needsLookup = allMods.filter(m => !m.compatibility);
+  console.log(`[sync] ${needsLookup.length} mods missing compatibility — deriving from git commit history`);
+  let derived = 0, lookupErr = 0;
+  for (const m of needsLookup) {
+    if (ghCommitCache.get("__exhausted__")) break;
+    const fileUrl = m.files && Object.values(m.files)[0];
+    const parts = fileUrl ? parseGithubFileUrl(fileUrl) : null;
+    if (!parts) { lookupErr++; continue; }
+    const date = await fetchLatestCommitDate(parts.owner, parts.repo, parts.path);
+    const week = gameWeek(date);
+    if (week) {
+      m.compatibility = week;
+      m.compatibility_derived = true; // marker so the UI can show it differently if it wants
+      derived++;
+    } else {
+      lookupErr++;
+    }
+  }
+  console.log(`[sync] derived compatibility for ${derived}/${needsLookup.length} mods (${lookupErr} couldn't be resolved)`);
 
   // Dedup by id (keep first), sort alphabetically
   const seen = new Map();
