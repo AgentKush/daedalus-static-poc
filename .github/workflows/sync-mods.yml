@@ -21,6 +21,8 @@ jobs:
         with:
           node-version: "22"
       - name: Fetch all modinfo.json sources
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}   # for the derive-compatibility git lookups
         run: node scripts/sync-modinfos.mjs
       - name: Commit changes if mods.json changed
         run: |
