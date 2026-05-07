@@ -1,11 +1,13 @@
 // Data loader for the static POC. Three modes, in priority order:
 //   1. Firebase Web SDK with onSnapshot — sub-second push updates (when FIREBASE_CONFIG is set)
 //   2. Firestore REST API — public-read collections, no auth required (when FIRESTORE_PROJECT_ID is set)
-//   3. Bundled JSON in /data/ — offline / fallback
+//   3. Bundled JSON in /data/ — offline / fallback / empty-collection fallback
 //
-// Mode 2 was added once we confirmed Donovan's project (projectdaedalus-fb09f)
-// has public read access on `mods`, `tools`, `nexus_mods`, `info_content`. It
-// gives near-live data without needing any Firebase Web SDK config or apiKey.
+// Empty-collection fallback: if a REST collection returns 0 documents AND a
+// bundled fallback URL is provided, we use the bundled JSON. This handles the
+// case where production hasn't populated a collection yet (e.g. nexus_mods
+// before PR #119 merges) — we still show data instead of an empty list, and
+// the next poll will pick up the live collection once it's populated.
 
 const REST_POLL_MS = 60_000;          // re-fetch live data every 60s
 const subscriptions = new Map();
@@ -61,6 +63,13 @@ async function fetchRestCollection(projectId, collection) {
   return items;
 }
 
+async function fetchBundled(fallbackUrl) {
+  const r = await fetch(fallbackUrl);
+  if (!r.ok) throw new Error(`HTTP ${r.status}`);
+  const raw = await r.json();
+  return Array.isArray(raw) ? raw : Object.entries(raw).map(([id, v]) => ({ id, ...v }));
+}
+
 // ---- Web SDK init (only when explicitly configured) ----
 let webSdk = null;
 async function getWebSdk() {
@@ -77,7 +86,7 @@ async function getWebSdk() {
 //
 //   subscribe(collection, fallbackUrl, transform, callback)
 //
-// callback(items, status) — status = { live: true|false, source: "websdk"|"rest"|"bundled" }
+// callback(items, status) — status = { live: true|false, source: "websdk"|"rest"|"rest+bundled"|"bundled" }
 export function subscribe(collection, fallbackUrl, transform, callback) {
   // Mode 1: Web SDK with onSnapshot
   (async () => {
@@ -85,7 +94,18 @@ export function subscribe(collection, fallbackUrl, transform, callback) {
     if (sdk) {
       if (subscriptions.has(collection)) subscriptions.get(collection)();
       const unsub = sdk.onSnapshot(sdk.collection(sdk.db, collection),
-        snap => callback(snap.docs.map(d => transform({ id: d.id, ...d.data() })), { live: true, source: "websdk" }),
+        async snap => {
+          const items = snap.docs.map(d => transform({ id: d.id, ...d.data() }));
+          if (items.length === 0 && fallbackUrl) {
+            // collection exists but is empty — supplement with bundled
+            try {
+              const bundled = await fetchBundled(fallbackUrl);
+              callback(bundled.map(transform), { live: false, source: "websdk+bundled" });
+              return;
+            } catch (e) { /* fall through to empty live */ }
+          }
+          callback(items, { live: true, source: "websdk" });
+        },
         err => { console.warn(`[firestore-websdk] ${collection}: ${err.message}; falling through`); restMode(); }
       );
       subscriptions.set(collection, unsub);
@@ -101,7 +121,19 @@ export function subscribe(collection, fallbackUrl, transform, callback) {
       const tick = async () => {
         try {
           const items = await fetchRestCollection(projectId, collection);
-          callback(items.map(transform), { live: true, source: "rest" });
+          if (items.length === 0 && fallbackUrl) {
+            // collection doesn't exist yet on prod — fall back to bundled JSON
+            // but keep polling so we pick up the live collection once it populates
+            try {
+              const bundled = await fetchBundled(fallbackUrl);
+              callback(bundled.map(transform), { live: false, source: "rest+bundled" });
+            } catch (e) {
+              console.warn(`[firestore-rest] ${collection}: empty + bundled fetch failed: ${e.message}`);
+              callback([], { live: true, source: "rest", empty: true });
+            }
+          } else {
+            callback(items.map(transform), { live: true, source: "rest" });
+          }
         } catch (err) {
           console.warn(`[firestore-rest] ${collection}: ${err.message}; falling back to bundled JSON`);
           loadBundled();
@@ -118,10 +150,7 @@ export function subscribe(collection, fallbackUrl, transform, callback) {
 
   async function loadBundled() {
     try {
-      const r = await fetch(fallbackUrl);
-      if (!r.ok) throw new Error(`HTTP ${r.status}`);
-      const raw = await r.json();
-      const items = Array.isArray(raw) ? raw : Object.entries(raw).map(([id, v]) => ({ id, ...v }));
+      const items = await fetchBundled(fallbackUrl);
       callback(items.map(transform), { live: false, source: "bundled" });
     } catch (err) {
       console.error(`[bundled] ${collection}: ${err.message}`);
@@ -141,6 +170,7 @@ export function attachStatusBadge() {
   return (status) => {
     if (status.source === "websdk")  { badge.style.background = "#16a34a"; badge.textContent = "● LIVE Firestore (WebSDK)"; }
     else if (status.source === "rest") { badge.style.background = "#16a34a"; badge.textContent = "● LIVE Firestore (REST)"; }
+    else if (status.source === "rest+bundled" || status.source === "websdk+bundled") { badge.style.background = "#f59e0b"; badge.textContent = "◐ LIVE + bundled (empty collection)"; }
     else if (status.source === "bundled") { badge.style.background = "#64748b"; badge.textContent = "○ Bundled snapshot"; }
     else                             { badge.style.background = "#dc2626"; badge.textContent = "✕ Data error"; }
   };
