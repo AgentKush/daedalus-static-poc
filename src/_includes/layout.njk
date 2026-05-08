@@ -20,6 +20,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="{{ rootPath }}assets/firebase-config.js"></script>
+  <script src="{{ rootPath }}assets/shortcuts.js" defer></script>
   <script>
     tailwind.config = {
       darkMode: 'class',
@@ -131,6 +132,7 @@
         <a class="inline-flex items-center px-4 py-2 font-medium no-underline text-icarus-500 hover:text-blue-500" href="{{ rootPath }}requests.html">Requests</a>
         <a class="inline-flex items-center px-4 py-2 font-medium no-underline text-icarus-500 hover:text-blue-500" href="{{ rootPath }}info.html">Info</a>
         <a class="inline-flex items-center px-4 py-2 font-medium no-underline text-icarus-500 hover:text-blue-500" href="{{ rootPath }}search/">Search</a>
+        <button type="button" id="random-mod" title="Random mod (.)" class="inline-flex items-center px-3 py-2 ml-1 rounded-lg text-icarus-500 hover:bg-slate-700/50 transition-colors" aria-label="Random mod">🎲</button>
         <button type="button" id="theme-toggle" class="inline-flex items-center justify-center w-9 h-9 ml-2 rounded-lg text-icarus-500 hover:text-icarus-400 hover:bg-slate-700/50 transition-colors" title="Toggle dark/light mode">
           <span id="theme-icon" class="text-lg">&#127769;</span>
         </button>
@@ -168,6 +170,19 @@
       btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
       update();
     })();
+  </script>
+<script>
+    document.getElementById("random-mod")?.addEventListener("click", async () => {
+      try {
+        const r = await fetch("{{ rootPath }}data/mods.json");
+        if (!r.ok) return;
+        const mods = await r.json();
+        if (!mods.length) return;
+        const m = mods[Math.floor(Math.random() * mods.length)];
+        const slug = (s) => (s || "").toString().toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+        window.location.href = `{{ rootPath }}mods/${slug(m.author)}/${slug(m.name)}/`;
+      } catch {}
+    });
   </script>
 </body>
 </html>

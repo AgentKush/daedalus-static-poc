@@ -53,7 +53,7 @@ function renderRow(mod) {
   const badge = nx ? `<span class="source-badge" title="Synced from Nexus Mods">NEXUS</span>` : "";
   const desc = (mod.description || "").length > 120 ? mod.description.slice(0, 120) + "…" : (mod.description || "");
   const cls = (href ? "cursor-pointer " : "") + "row-lift border-t border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800/70";
-  const onclick = href ? ` onclick="window.location.href='${href}'"` : "";
+  const onclick = href ? (nx ? ` onclick="window.open('${href}', '_blank', 'noopener')"` : ` onclick="window.location.href='${href}'"`) : "";
   return `<tr class="${cls}"${onclick}>
     <td class="p-2 sm:p-3 font-medium text-slate-800 dark:text-slate-200">${escape(mod.name)}${badge}</td>
     <td class="p-2 sm:p-3 whitespace-nowrap">${action}</td>
@@ -92,6 +92,18 @@ function readPageFromHash() {
 
 const state = { mods: [], nexusMods: [], page: readPageFromHash() };
 const setStatus = attachStatusBadge();
+const tagState = { byMod: {}, list: [] };
+fetch("./data/mod_tags.json").then(r => r.ok ? r.json() : {}).then(d => { tagState.byMod = d; refresh(); }).catch(()=>{});
+fetch("./data/tags.json").then(r => r.ok ? r.json() : []).then(tags => {
+  tagState.list = tags;
+  const sel = document.getElementById("tag-filter");
+  if (!sel) return;
+  for (const t of tags) {
+    const opt = document.createElement("option");
+    opt.value = t.tag; opt.textContent = `#${t.tag} (${t.count})`;
+    sel.appendChild(opt);
+  }
+}).catch(()=>{});
 
 function refresh() {
   const all = dedup([...state.mods, ...state.nexusMods]);
@@ -100,6 +112,7 @@ function refresh() {
   const source = document.getElementById("source-filter").value;
   const weekBucket = document.getElementById("week-filter")?.value || "";
   const sortOrder = document.getElementById("sort-order")?.value || "name-asc";
+  const tagFilter = document.getElementById("tag-filter")?.value || "";
   const weekNum = (m) => {
     const x = (m.compatibility || "").match(/^w(\d+)$/i);
     return x ? parseInt(x[1], 10) : null;
@@ -119,6 +132,11 @@ function refresh() {
       if (weekBucket === "latest" && !(w >= 220)) return false;
       if (weekBucket === "recent" && !(w >= 200 && w < 220)) return false;
       if (weekBucket === "older"  && !(w < 200)) return false;
+    }
+    if (tagFilter) {
+      const id = mod.id || `${slug(mod.author)}--${slug(mod.name)}`;
+      const tags = tagState.byMod[id] || [];
+      if (!tags.includes(tagFilter)) return false;
     }
     return true;
   });
@@ -144,7 +162,8 @@ function refresh() {
     : "";
   document.getElementById("pagination").innerHTML = renderPagination(totalPages, state.page);
 
-  document.querySelectorAll("#pagination [data-page]").forEach(el => {
+  if (window.daedalusModpack?.isActive()) window.daedalusModpack.redraw();
+    document.querySelectorAll("#pagination [data-page]").forEach(el => {
     el.addEventListener("click", e => {
       e.preventDefault();
       state.page = parseInt(el.dataset.page, 10);
@@ -205,12 +224,18 @@ document.getElementById("search").addEventListener("input", debounce(() => { sta
 document.getElementById("author-filter").addEventListener("change", () => { state.page = 1; refresh(); });
 document.getElementById("source-filter").addEventListener("change", () => { state.page = 1; refresh(); });
 document.getElementById("week-filter")?.addEventListener("change", () => { state.page = 1; refresh(); });
+document.getElementById("tag-filter")?.addEventListener("change", () => { state.page = 1; refresh(); });
 document.getElementById("sort-order")?.addEventListener("change", () => { state.page = 1; refresh(); });
+document.getElementById("modpack-toggle")?.addEventListener("click", () => {
+  const all = dedup([...state.mods, ...state.nexusMods]);
+  window.daedalusModpack?.toggle(all);
+});
 document.getElementById("reset").addEventListener("click", () => {
   document.getElementById("search").value = "";
   document.getElementById("author-filter").value = "";
   document.getElementById("source-filter").value = "";
   const wf = document.getElementById("week-filter"); if (wf) wf.value = "";
+  const tf = document.getElementById("tag-filter"); if (tf) tf.value = "";
   const so = document.getElementById("sort-order"); if (so) so.value = "name-asc";
   state.page = 1;
   location.hash = "";

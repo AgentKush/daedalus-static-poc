@@ -27,6 +27,9 @@ rootPath: "./"
         <option value="curated">Curated</option>
         <option value="nexus">Nexus</option>
       </select>
+      <select id="tag-filter" class="appearance-none pl-3 pr-9 py-2 text-sm border rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 focus:ring-2 focus:ring-icarus-500 focus:border-icarus-500 focus:outline-none" style="background-image:url(data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2020%2020%27%20fill%3D%27%2394a3b8%27%3E%3Cpath%20fill-rule%3D%27evenodd%27%20d%3D%27M5.23%207.21a.75.75%200%20011.06.02L10%2011.06l3.71-3.83a.75.75%200%20111.08%201.04l-4.25%204.4a.75.75%200%2001-1.08%200L5.21%208.27a.75.75%200%2001.02-1.06z%27%20clip-rule%3D%27evenodd%27%2F%3E%3C%2Fsvg%3E);background-repeat:no-repeat;background-position:right 0.5rem center;background-size:1.1em;">
+        <option value="">All tags</option>
+      </select>
       <select id="week-filter" class="appearance-none pl-3 pr-9 py-2 text-sm border rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 focus:ring-2 focus:ring-icarus-500 focus:border-icarus-500 focus:outline-none" style="background-image:url(data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2020%2020%27%20fill%3D%27%2394a3b8%27%3E%3Cpath%20fill-rule%3D%27evenodd%27%20d%3D%27M5.23%207.21a.75.75%200%20011.06.02L10%2011.06l3.71-3.83a.75.75%200%20111.08%201.04l-4.25%204.4a.75.75%200%2001-1.08%200L5.21%208.27a.75.75%200%2001.02-1.06z%27%20clip-rule%3D%27evenodd%27%2F%3E%3C%2Fsvg%3E);background-repeat:no-repeat;background-position:right 0.5rem center;background-size:1.1em;">
         <option value="">Any week</option>
         <option value="latest">Latest (w220+)</option>
@@ -42,6 +45,7 @@ rootPath: "./"
     </div>
     <div class="flex items-center gap-3">
       <span id="count" class="text-sm font-medium text-icarus-500">0 mods</span>
+      <button type="button" id="modpack-toggle" class="text-sm font-medium text-slate-500 hover:text-icarus-500 bg-transparent border-0 cursor-pointer">📦 Build pack</button>
       <button id="reset" class="text-sm font-medium text-icarus-500 hover:text-icarus-400 bg-transparent border-0 cursor-pointer">Show all</button>
     </div>
   </div>
@@ -80,3 +84,5 @@ rootPath: "./"
 </div>
 
 <script type="module" src="./assets/app.js"></script>
+
+<script src="./assets/modpack.js" defer></script>

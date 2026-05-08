@@ -1,0 +1,71 @@
+---
+permalink: "/status/index.html"
+layout: layout.njk
+rootPath: "../"
+title: "Status | Project Daedalus"
+description: "Operational status — last sync time, download health, total mods."
+---
+<section class="max-w-3xl mx-auto px-4 py-8">
+  <h1 class="text-3xl md:text-4xl font-extrabold text-icarus-500 mb-2">Status</h1>
+  <p class="text-slate-600 dark:text-slate-400 mb-6">Operational health of the live site and its data pipelines.</p>
+
+  <div id="status-cards" class="grid gap-3 grid-cols-1 md:grid-cols-2"></div>
+  <div id="broken-list" class="mt-6"></div>
+
+  <script>
+    (async () => {
+      const cards = document.getElementById("status-cards");
+      const broken = document.getElementById("broken-list");
+      const fmt = (iso) => iso ? new Date(iso).toLocaleString() : "—";
+      const since = (iso) => {
+        if (!iso) return "never";
+        const ms = Date.now() - new Date(iso).getTime();
+        if (ms < 60_000) return Math.floor(ms/1000) + "s ago";
+        if (ms < 3_600_000) return Math.floor(ms/60_000) + "m ago";
+        if (ms < 86_400_000) return Math.floor(ms/3_600_000) + "h ago";
+        return Math.floor(ms/86_400_000) + "d ago";
+      };
+
+      const card = (label, value, sub, color = "icarus-500") =>
+        `<div class="p-4 border rounded-lg border-slate-300/50 dark:border-slate-600/50 bg-white dark:bg-slate-800/50">
+          <div class="text-xs uppercase tracking-wide text-slate-500">${label}</div>
+          <div class="text-2xl font-bold text-${color} mt-1">${value}</div>
+          <div class="text-xs text-slate-500 mt-1">${sub}</div>
+        </div>`;
+
+      try {
+        const mods = await fetch("../data/mods.json").then(r => r.json()).catch(() => []);
+        const tools = await fetch("../data/tools.json").then(r => r.json()).catch(() => []);
+        const nexus = await fetch("../data/nexus_mods.json").then(r => r.json()).catch(() => []);
+        const tags = await fetch("../data/tags.json").then(r => r.json()).catch(() => []);
+        const health = await fetch("../data/health.json").then(r => r.json()).catch(() => ({}));
+
+        cards.innerHTML = [
+          card("Mods", mods.length, "Total catalog (curated)"),
+          card("Nexus mods", nexus.length, "Bundled (no live Firestore yet)"),
+          card("Tools", tools.length, "Community modding tools"),
+          card("Tags", tags.length, "Auto-derived categories"),
+          card("Last download check", since(health.checked_at), `${health.total_broken || 0} broken / ${health.total_mods || mods.length} checked`,
+            (health.total_broken || 0) === 0 ? "emerald-500" : "red-400"),
+          card("Built at", since(document.lastModified), "This page rendered")
+        ].join("");
+
+        if (health.broken && health.broken.length) {
+          broken.innerHTML = `
+            <h2 class="text-lg font-bold text-red-400 mb-3">⚠ Broken downloads (${health.broken.length})</h2>
+            <ul class="space-y-2">
+              ${health.broken.map(m => `
+                <li class="p-3 border rounded-lg border-red-500/30 bg-red-500/10 text-sm">
+                  <div class="font-medium text-slate-800 dark:text-slate-200">${m.name} <span class="text-slate-500">by ${m.author}</span></div>
+                  <ul class="mt-1 text-xs text-red-400 font-mono">
+                    ${m.broken_urls.map(u => `<li>${u.status} · ${u.url}</li>`).join("")}
+                  </ul>
+                </li>`).join("")}
+            </ul>`;
+        }
+      } catch (e) {
+        cards.innerHTML = `<div class="p-4 text-red-400">Couldn't load status data: ${e.message}</div>`;
+      }
+    })();
+  </script>
+</section>

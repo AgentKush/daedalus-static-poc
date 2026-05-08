@@ -1,0 +1,7 @@
+{
+  "checked_at": null,
+  "total_mods": 0,
+  "total_broken": 0,
+  "broken": [],
+  "_note": "Will be populated by .github/workflows/health-check.yml on its first run."
+}

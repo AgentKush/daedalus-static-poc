@@ -1,0 +1,34 @@
+# Daily HEAD on every mod download URL. Output public/data/health.json with
+# any 4xx/5xx URLs flagged. The /status/ page surfaces the count.
+
+name: Mod download health check
+
+on:
+  schedule:
+    - cron: "30 4 * * *"  # 04:30 UTC daily
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: "22"
+      - name: Probe download URLs
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node scripts/health-check.mjs
+      - name: Commit health.json if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/data/health.json
+          if ! git diff --cached --quiet; then
+            git commit -m "Refresh download health-check results"
+            git push
+          fi

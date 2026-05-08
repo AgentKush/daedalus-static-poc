@@ -1,0 +1,83 @@
+---
+permalink: "/stats/index.html"
+layout: layout.njk
+rootPath: "../"
+title: "Stats | Project Daedalus"
+description: "Catalog statistics for Project Daedalus — total mods, top authors, distribution by game week and file type."
+---
+<section class="max-w-5xl mx-auto px-4 py-8">
+  <h1 class="text-3xl md:text-4xl font-extrabold text-icarus-500 mb-2">Catalog stats</h1>
+  <p class="text-slate-600 dark:text-slate-400 mb-6">Snapshot of the catalog at build time.</p>
+
+  <div class="grid gap-3 grid-cols-2 md:grid-cols-4 mb-8">
+    <div class="p-4 border rounded-lg border-slate-300/50 dark:border-slate-600/50 bg-white dark:bg-slate-800/50">
+      <div class="text-3xl font-bold text-icarus-500">{{ stats.total }}</div>
+      <div class="text-xs uppercase tracking-wide text-slate-500 mt-1">Mods</div>
+    </div>
+    <div class="p-4 border rounded-lg border-slate-300/50 dark:border-slate-600/50 bg-white dark:bg-slate-800/50">
+      <div class="text-3xl font-bold text-icarus-500">{{ stats.authors_total }}</div>
+      <div class="text-xs uppercase tracking-wide text-slate-500 mt-1">Authors</div>
+    </div>
+    <div class="p-4 border rounded-lg border-slate-300/50 dark:border-slate-600/50 bg-white dark:bg-slate-800/50">
+      <div class="text-3xl font-bold text-icarus-500">{{ stats.compatible_pct }}%</div>
+      <div class="text-xs uppercase tracking-wide text-slate-500 mt-1">Week coverage</div>
+    </div>
+    <div class="p-4 border rounded-lg border-slate-300/50 dark:border-slate-600/50 bg-white dark:bg-slate-800/50">
+      <div class="text-3xl font-bold text-icarus-500">{{ stats.tag_count }}</div>
+      <div class="text-xs uppercase tracking-wide text-slate-500 mt-1">Tags</div>
+    </div>
+  </div>
+
+  <div class="grid gap-6 md:grid-cols-2">
+    <div class="p-4 border rounded-lg border-slate-300/50 dark:border-slate-600/50 bg-white dark:bg-slate-800/50">
+      <h2 class="text-base font-bold text-icarus-500 mb-3">Top 10 authors</h2>
+      <ol class="space-y-1 text-sm">
+        {% for a in stats.top_authors %}
+          <li class="flex items-center justify-between">
+            <a href="{{ rootPath }}authors/{{ a.slug }}/" class="text-slate-700 dark:text-slate-300 hover:text-icarus-500 no-underline">{{ a.author }}</a>
+            <span class="font-mono text-xs text-icarus-500">{{ a.count }}</span>
+          </li>
+        {% endfor %}
+      </ol>
+    </div>
+    <div class="p-4 border rounded-lg border-slate-300/50 dark:border-slate-600/50 bg-white dark:bg-slate-800/50">
+      <h2 class="text-base font-bold text-icarus-500 mb-3">File types</h2>
+      <ul class="space-y-2">
+        {% for ft in stats.file_types %}
+          {% set pct = (ft.count * 100 / stats.total) | round %}
+          <li>
+            <div class="flex items-center justify-between text-sm mb-1">
+              <span class="font-mono uppercase
+                {% if ft.type == 'exmodz' %}text-icarus-500
+                {% elif ft.type == 'pak' %}text-emerald-500
+                {% else %}text-slate-500{% endif %}">{{ ft.type }}</span>
+              <span class="text-slate-500 text-xs">{{ ft.count }} · {{ pct }}%</span>
+            </div>
+            <div class="h-2 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden">
+              <div class="h-full
+                {% if ft.type == 'exmodz' %}bg-icarus-500
+                {% elif ft.type == 'pak' %}bg-emerald-500
+                {% else %}bg-slate-400{% endif %}" style="width: {{ pct }}%"></div>
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+
+  <div class="mt-6 p-4 border rounded-lg border-slate-300/50 dark:border-slate-600/50 bg-white dark:bg-slate-800/50">
+    <h2 class="text-base font-bold text-icarus-500 mb-3">Mods by game week</h2>
+    <div class="flex items-end gap-0.5 h-40">
+      {% for w in stats.weeks %}
+        {% set h = (w.count * 100 / 30) | round %}{# ~30 max #}
+        <a href="{{ rootPath }}week/{{ w.week }}/" title="w{{ w.week }} — {{ w.count }} mod{% if w.count != 1 %}s{% endif %}" class="flex-1 bg-icarus-500/30 hover:bg-icarus-500 transition-colors rounded-sm" style="height: {% if h > 100 %}100{% else %}{{ h }}{% endif %}%; min-height: 2px;"></a>
+      {% endfor %}
+    </div>
+    <div class="flex justify-between mt-2 text-xs text-slate-500">
+      <span>w{{ stats.weeks[0].week }}</span>
+      <span>w{{ stats.weeks[-1].week }}</span>
+    </div>
+  </div>
+
+  <p class="mt-6 text-xs text-slate-500">Generated at {{ stats.generated_at }}.</p>
+</section>

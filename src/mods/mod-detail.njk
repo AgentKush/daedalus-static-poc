@@ -12,6 +12,59 @@ eleventyComputed:
   og_image: "{{ mod.image_url }}"
 ---
 <section class="max-w-5xl mx-auto px-4 py-6 md:py-10" data-pagefind-body data-pagefind-meta="title:{{ mod.name | safe }}" data-pagefind-meta-author="{{ mod.author | safe }}">
+  <!-- Tag chips for this mod -->
+  {% set myTags = modTags[mod.id] | default([]) %}
+  {% if myTags | length %}
+    <div class="flex flex-wrap items-center gap-1.5 mt-3 mb-1">
+      <span class="text-xs uppercase tracking-wide text-slate-500 mr-1">Tags</span>
+      {% for t in myTags %}
+        <a href="{{ rootPath }}tag/{{ t }}/" class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-slate-200/70 dark:bg-slate-700/50 text-slate-700 dark:text-slate-300 hover:bg-icarus-500/20 hover:text-icarus-500 no-underline">#{{ t }}</a>
+      {% endfor %}
+    </div>
+  {% endif %}
+  <!-- You might also like -->
+  {% if mod.similar and (mod.similar | length) %}
+    <div class="mt-8">
+      <h3 class="text-lg font-semibold text-icarus-500 mb-3">You might also like</h3>
+      <div class="grid gap-3 md:grid-cols-3">
+        {% for s in mod.similar %}
+          <a href="{{ rootPath }}mods/{{ s.author_slug }}/{{ s.slug }}/" class="block p-3 border rounded-lg border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/50 hover:border-icarus-500 no-underline transition-colors">
+            <div class="font-semibold text-slate-800 dark:text-slate-200 mb-1">{{ s.name }}</div>
+            <div class="flex items-center gap-2 mb-1 text-xs text-slate-500 dark:text-slate-400">
+              <span>by {{ s.author }}</span>
+              {% if s.compatibility %}<span class="inline-flex items-center px-1.5 py-0.5 rounded-full bg-icarus-500/20 text-icarus-500 dark:text-icarus-400 font-medium">{{ s.compatibility | lower }}</span>{% endif %}
+            </div>
+            {% if s.description %}<p class="text-xs text-slate-500 dark:text-slate-400 line-clamp-2">{{ s.description | truncate(140) }}</p>{% endif %}
+          </a>
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+  <div id="share-widget"></div>
+  {% if mod.video_url %}
+    <div class="mt-4 aspect-video rounded-lg overflow-hidden border border-slate-300/50 dark:border-slate-700/50 bg-black">
+      {% set ytId = "" %}
+      {% if "youtu.be/" in mod.video_url %}{% set ytId = mod.video_url | split("youtu.be/") | last | split("?") | first %}
+      {% elif "youtube.com/watch" in mod.video_url %}{% set ytId = mod.video_url | split("v=") | last | split("&") | first %}
+      {% elif "youtube.com/embed/" in mod.video_url %}{% set ytId = mod.video_url | split("embed/") | last | split("?") | first %}
+      {% endif %}
+      {% if ytId %}
+        <iframe class="w-full h-full" src="https://www.youtube-nocookie.com/embed/{{ ytId }}" title="{{ mod.name }} showcase" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      {% else %}
+        <a href="{{ mod.video_url }}" target="_blank" rel="noopener" class="block p-4 text-center text-icarus-500 underline">📺 Watch showcase video on the modder's site →</a>
+      {% endif %}
+    </div>
+  {% endif %}
+  {% if mod.donate_url %}
+    <div class="mt-4">
+      <a href="{{ mod.donate_url }}" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-md border-2 border-emerald-500 text-emerald-500 hover:bg-emerald-500 hover:text-white no-underline transition-colors">
+        ❤️&nbsp;Support {{ mod.author }}
+      </a>
+      <p class="mt-2 text-xs text-slate-500 dark:text-slate-400">If this mod's been useful, the author appreciates the support.</p>
+    </div>
+  {% endif %}
+  
+  <script src="{{ rootPath }}assets/share.js" defer></script>
   <!-- Header: name + file type badges + download buttons -->
   <div class="flex items-center justify-between flex-auto flex-wrap gap-3">
     <div class="flex items-center gap-3 flex-1 min-w-0">
@@ -64,6 +117,37 @@ eleventyComputed:
   {% endif %}
 
   <!-- Collapsible Analytics for Mod Authors -->
+  <details class="mt-6 p-4 border rounded-lg border-slate-300/50 dark:border-slate-600/50 bg-slate-50 dark:bg-slate-800/30">
+    <summary class="cursor-pointer font-semibold text-icarus-500">Server install snippets</summary>
+    <div class="mt-3 space-y-4 text-sm">
+      {% set primaryUrl = "" %}
+      {% if mod.downloads and mod.downloads | length %}{% set primaryUrl = mod.downloads[0].url %}{% endif %}
+      {% set primaryName = mod.downloads[0].filename if mod.downloads and mod.downloads | length else "" %}
+
+      {% if primaryUrl %}
+        <div>
+          <div class="flex items-center justify-between mb-1.5">
+            <span class="font-medium text-slate-700 dark:text-slate-300">G-Portal (web config)</span>
+            <button type="button" data-copy-target="gportal-{{ mod.id }}" class="text-xs px-2 py-0.5 rounded bg-icarus-500/20 text-icarus-500 hover:bg-icarus-500/30">Copy</button>
+          </div>
+          <pre id="gportal-{{ mod.id }}" class="p-3 rounded bg-slate-900 text-slate-200 text-xs overflow-x-auto"><code>Mods=<span class="text-icarus-400">{{ primaryUrl }}</span></code></pre>
+          <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">Add this line under <code>[Mods]</code> in the web config. Restart the server.</p>
+        </div>
+
+        <div>
+          <div class="flex items-center justify-between mb-1.5">
+            <span class="font-medium text-slate-700 dark:text-slate-300">Dedicated server (DefaultGame.ini)</span>
+            <button type="button" data-copy-target="dedi-{{ mod.id }}" class="text-xs px-2 py-0.5 rounded bg-icarus-500/20 text-icarus-500 hover:bg-icarus-500/30">Copy</button>
+          </div>
+          <pre id="dedi-{{ mod.id }}" class="p-3 rounded bg-slate-900 text-slate-200 text-xs overflow-x-auto"><code>[/Script/Icarus.IcarusGameSettings]
++ModUrls=<span class="text-icarus-400">{{ primaryUrl }}</span></code></pre>
+          <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">Append to <code>Icarus/Saved/Config/WindowsServer/DefaultGame.ini</code>. Restart the server.</p>
+        </div>
+      {% else %}
+        <p class="text-sm text-slate-500">No download URL available for this mod.</p>
+      {% endif %}
+    </div>
+  </details>
   <details class="mt-3 group" data-mod-id="{{ mod.id }}">
     <summary class="flex items-center gap-1 text-xs cursor-pointer text-icarus-500 hover:text-icarus-400 list-none">
       <svg class="w-3.5 h-3.5 transition-transform group-open:rotate-90" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -293,3 +377,13 @@ eleventyComputed:
 <script src="{{ rootPath }}assets/github-stats.js" defer></script>
 <script type="module" src="{{ rootPath }}assets/mod-analytics-live.js"></script>
 <script type="module" src="{{ rootPath }}assets/mod-readme-live.js"></script>
+
+<script type="module">
+  import { record } from "{{ rootPath }}assets/recently-viewed.js";
+  record({
+    name: {{ mod.name | dump | safe }},
+    author: {{ mod.author | dump | safe }},
+    author_slug: {{ mod.author_slug | dump | safe }},
+    slug: {{ mod.slug | dump | safe }}
+  });
+</script>

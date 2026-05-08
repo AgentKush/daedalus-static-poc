@@ -1,4 +1,5 @@
 const mods = require("../../public/data/mods.json");
+const modTags = require("./modTags.js");
 const details = require("../../public/data/mod_details.json");
 
 function slug(s) {
@@ -40,6 +41,33 @@ module.exports = sortedMods.map((m, i) => {
       file_types: Object.keys(o.files || {}).filter(k => o.files[k])
     }));
 
+  const myTags = modTags[m.id] || [];
+  const tagSet = new Set(myTags);
+  let similar = [];
+  if (myTags.length) {
+    similar = sortedMods
+      .filter(o => o.id !== m.id)
+      .map(o => {
+        const tags = modTags[o.id] || [];
+        let score = 0;
+        for (const t of tags) if (tagSet.has(t)) score += 1;
+        if (o.author === m.author) score += 0.5;
+        return { mod: o, score };
+      })
+      .filter(e => e.score > 0)
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 3)
+      .map(e => ({
+        name: e.mod.name,
+        description: e.mod.description,
+        author: e.mod.author,
+        author_slug: e.mod.id?.split("--")[0] || slug(e.mod.author),
+        slug: e.mod.id?.split("--")[1] || slug(e.mod.name),
+        file_types: Object.keys(e.mod.files || {}).filter(k => e.mod.files[k]),
+        compatibility: e.mod.compatibility
+      }));
+  }
+
   return {
     id: m.id,
     author_slug,
@@ -51,6 +79,8 @@ module.exports = sortedMods.map((m, i) => {
     compatibility: m.compatibility,
     description: m.description,
     image_url: detail?.image_url || null,
+    video_url: m.video_url || m.videoURL || null,
+    donate_url: m.donate_url || m.donate || m.donateURL || null,
     readme_html: detail?.readme_html || `<p>${(m.description || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")}</p>`,
     has_full_readme: Boolean(detail?.readme_html),
     file_types: fileTypes,
@@ -61,6 +91,7 @@ module.exports = sortedMods.map((m, i) => {
     prev: prev ? { name: prev.name, author_slug: prev.id?.split("--")[0] || slug(prev.author), slug: prev.id?.split("--")[1] || slug(prev.name) } : null,
     next: next ? { name: next.name, author_slug: next.id?.split("--")[0] || slug(next.author), slug: next.id?.split("--")[1] || slug(next.name) } : null,
     other_by_author: otherByAuthor,
+    similar,
     author_stats: (() => {
       const all = byAuthor[m.author] || [];
       const fileTypeCounts = {};

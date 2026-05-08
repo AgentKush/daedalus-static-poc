@@ -7,7 +7,10 @@ module.exports = function (eleventyConfig) {
     "public/data/mods.json": "api/v1/mods.json",
     "public/data/tools.json": "api/v1/tools.json",
     "public/data/nexus_mods.json": "api/v1/nexus_mods.json",
-    "public/data/info_content.json": "api/v1/info_content.json"
+    "public/data/info_content.json": "api/v1/info_content.json",
+    "public/data/tags.json": "api/v1/tags.json",
+    "public/data/mod_tags.json": "api/v1/mod_tags.json",
+    "public/data/health.json": "api/v1/health.json"
   });
 
   return {
