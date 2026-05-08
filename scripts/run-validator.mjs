@@ -79,33 +79,77 @@ const out = {
   mods: {}
 };
 
+// Lightweight standalone-PAK validator. The upstream validator only inspects
+// PAKs when they're packaged inside an EXMODZ. For mods that ship a bare .pak,
+// run these structural checks ourselves.
+function validateStandalonePak(buf, originalUrl) {
+  const issues = [];
+  const filename = (originalUrl.split("/").pop() || "").split("?")[0];
+  // 1. Naming convention: Icarus loads only files ending _P.pak
+  if (!/_P\.pak$/i.test(filename)) {
+    issues.push({ severity: "warning", message: `PAK filename "${filename}" doesn't end with _P.pak — Icarus's PAK loader may not pick it up.` });
+  }
+  // 2. File-size sanity
+  if (buf.length === 0) {
+    issues.push({ severity: "error", message: "PAK file is 0 bytes (download empty or broken)." });
+  } else if (buf.length < 1024) {
+    issues.push({ severity: "warning", message: `PAK file is only ${buf.length} bytes — suspiciously small for a real Unreal pak.` });
+  }
+  // 3. Unreal Pak magic-number check. UE pak files end with a footer including
+  //    one of these magic ints (little-endian) at a known offset from the end:
+  //      0x5A6F12E1 — UE Pak v1-v9
+  //    The footer is variable-length depending on version, but the magic always
+  //    appears in the last ~256 bytes. We just scan for it.
+  const tail = buf.subarray(Math.max(0, buf.length - 256));
+  const PAK_MAGIC = Buffer.from([0xE1, 0x12, 0x6F, 0x5A]); // little-endian 0x5A6F12E1
+  if (!tail.includes(PAK_MAGIC)) {
+    issues.push({ severity: "error", message: "PAK file doesn't contain the Unreal Pak magic number (0x5A6F12E1). May not be a valid PAK." });
+  }
+  let status = "ok";
+  if (issues.some(i => i.severity === "error")) status = "errors";
+  else if (issues.length) status = "warnings";
+  return { status, issues, exit_code: 0 };
+}
+
 let count = 0;
 for (const m of MODS) {
   if (FILTER && !`${m.name} ${m.author}`.toLowerCase().includes(FILTER)) continue;
-  // We can validate EXMODZ files. PAK-only mods are skipped (validator expects EXMOD/EXMODZ).
-  const exmodz = (m.files && (m.files.exmodz || m.files.exmod));
-  if (!exmodz) continue;
+  // Prefer EXMODZ (full validator). Fall back to PAK (lightweight check).
+  const exmodzUrl = m.files && (m.files.exmodz || m.files.exmod);
+  const pakUrl = m.files && m.files.pak;
+  if (!exmodzUrl && !pakUrl) continue;
   count++;
-  const url = corsSafeUrl(exmodz);
   const key = `${slug(m.author)}--${slug(m.name)}`;
-  const localPath = path.join(TMP, `${key}.exmodz`);
   process.stdout.write(`[${count}] ${m.name} (${m.author}) … `);
+  let result = null;
   try {
-    await downloadTo(url, localPath);
-    const result = runValidator(localPath);
+    if (exmodzUrl) {
+      // Full upstream validator path
+      const localPath = path.join(TMP, `${key}.exmodz`);
+      try {
+        await downloadTo(corsSafeUrl(exmodzUrl), localPath);
+        result = runValidator(localPath);
+      } finally {
+        try { fs.unlinkSync(localPath); } catch {}
+      }
+    } else {
+      // Standalone PAK — lightweight checks (filename, size, magic number)
+      const r = await fetch(corsSafeUrl(pakUrl), { redirect: "follow" });
+      if (!r.ok) throw new Error(`HTTP ${r.status}`);
+      const buf = Buffer.from(await r.arrayBuffer());
+      result = validateStandalonePak(buf, pakUrl);
+    }
     out.mods[key] = result;
     out.checked++;
     if (result.status === "ok") out.passed++;
     else if (result.status === "warnings") out.warnings_only++;
     else out.errors++;
-    console.log(result.status, "(" + result.issues.length + " issues)");
+    console.log(result.status, "(" + result.issues.length + " issues)" + (exmodzUrl ? "" : " [pak-only]"));
   } catch (e) {
     out.mods[key] = { status: "errors", issues: [{ severity: "error", message: `download/run failed: ${e.message}` }], exit_code: -1 };
     out.checked++;
     out.errors++;
     console.log(`failed: ${e.message}`);
-  } finally {
-    try { fs.unlinkSync(localPath); } catch {}
   }
 }
 
