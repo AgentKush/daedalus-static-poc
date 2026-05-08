@@ -179,16 +179,36 @@ async function exportPack() {
       done++;
       if (status) status.textContent = `Fetching ${done}/${items.length}: ${m.name}`;
       if (!primary) { skipped.push({ name: m.name, reason: "no download URL", url: null }); continue; }
-      // Pre-flight check: GitHub release-asset downloads can't be auto-bundled.
-      // The github.com → release-assets.githubusercontent.com redirect doesn't carry
-      // CORS headers, so the browser blocks the fetch. There's no static-site workaround.
-      if (/^https?:\/\/github\.com\/[^/]+\/[^/]+\/releases\/download\//i.test(primary.url)) {
-        skipped.push({ name: m.name, reason: "GitHub release asset (browsers can't auto-download cross-origin — click the URL to grab it)", url: primary.url });
-        continue;
+      // Release-asset URLs need a different path. The github.com → release-assets.githubusercontent.com
+      // redirect lacks CORS headers, but api.github.com's asset endpoint redirects with CORS allowed.
+      // So: 1) GET releases/tags/<tag> to find the asset id; 2) GET assets/<id> with Accept: octet-stream.
+      let fetchUrl = corsSafeUrl(primary.url);
+      let fetchHeaders = undefined;
+      const relMatch = primary.url.match(/^https?:\/\/github\.com\/([^/]+)\/([^/]+)\/releases\/download\/([^/]+)\/(.+)$/i);
+      if (relMatch) {
+        const [, owner, repo, tag, filename] = relMatch;
+        try {
+          const decodedFilename = decodeURIComponent(filename);
+          const tagResp = await fetch(`https://api.github.com/repos/${owner}/${repo}/releases/tags/${encodeURIComponent(tag)}`);
+          if (!tagResp.ok) {
+            skipped.push({ name: m.name, reason: `Release lookup failed: HTTP ${tagResp.status}` + (tagResp.status === 403 ? " (GitHub rate limit — 60/hr unauthenticated; try again later)" : ""), url: primary.url });
+            continue;
+          }
+          const release = await tagResp.json();
+          const asset = (release.assets || []).find(a => a.name === decodedFilename || a.name === filename);
+          if (!asset) {
+            skipped.push({ name: m.name, reason: `Asset '${decodedFilename}' not found in release '${tag}'`, url: primary.url });
+            continue;
+          }
+          fetchUrl = asset.url;
+          fetchHeaders = { "Accept": "application/octet-stream" };
+        } catch (e) {
+          skipped.push({ name: m.name, reason: `Release lookup error: ${e.message}`, url: primary.url });
+          continue;
+        }
       }
-      const fetchUrl = corsSafeUrl(primary.url);
       try {
-        const r = await fetch(fetchUrl);
+        const r = await fetch(fetchUrl, fetchHeaders ? { headers: fetchHeaders } : undefined);
         if (!r.ok) { skipped.push({ name: m.name, reason: `HTTP ${r.status} fetching ${fetchUrl}`, url: primary.url }); continue; }
         const blob = await r.blob();
         // Sanity check: if we got an HTML page back instead of a binary, the URL is wrong
