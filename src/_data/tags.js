@@ -31,7 +31,7 @@ const RULES = [
   // TOOLS — specific tool nouns rather than the bare word "tool"
   { tag: "tools",          re: /\b(pickaxe|sledgehammer|sickle|woodaxe|extractor|fishing[\s-]?rod|build[\s-]?tool|map[\s-]?tool|build[\s-]?tools)\b/i },
   // ARMOR — armor sets / attachments / suits, not bare "armor" (overlaps with weapons reskins)
-  { tag: "armor",          re: /\b(armou?r[\s-]?set|armou?r[\s-]?attachment|armou?r[\s-]?expansion|envir(?:o|on(?:mental)?)[\s-]?suit|night[\s-]?vision)\b/i },
+  { tag: "armor",          re: /\b(armou?r[\s-]?set|armou?r[\s-]?attachment|armou?r[\s-]?expansion|envir(?:o|on(?:mental)?)[\s-]?suit)\b/i },
   // CREATURES — animals only. Dropped "dropship" (that's a vehicle, not a creature).
   { tag: "creatures",      re: /\b(creature[s]?|wolf|bear[\s-]?(?:cub|mount|pet)?|moose|deer|chicken|cow[s]?\b|fishing|fishery|fishable|wildlife|spawn[\s-]?zone|spawn[\s-]?rate|tame|taming|wolf[\s-]?pack|honey[\s-]?bee|raccoon|rabbit)\b/i },
   // MOUNTS
@@ -43,7 +43,7 @@ const RULES = [
   // MINING
   { tag: "mining",         re: /\b(mining|ore[s]?|extract(?:or|ion)?|prospect|exotic|deep[\s-]?ore|smelting|furnace[s]?)\b/i },
   // BUILDING
-  { tag: "building",       re: /\b(building|construct(?:ion|ed)?|deco|furniture|piece[s]?|bench|wall[s]?|foundation|roof|door[s]?)\b/i },
+  { tag: "building",       re: /\b(building|construct(?:ion|ed)?|deco|furniture|bench|wall[s]?|foundation|roof|door[s]?|deployable)\b/i },
   // WEATHER
   { tag: "weather",        re: /\b(weather|storm|temperature|cold|heat|rain|snow|tornado|blizzard|atmospheric)\b/i },
   // MULTIPLAYER
@@ -57,7 +57,13 @@ const RULES = [
 ];
 
 function tagsFor(mod) {
-  const text = `${mod.name || ""} ${mod.description || ""}`;
+  // Tag against the "primary purpose" zone — the mod name plus the first 120
+  // characters of the description. This avoids tagging on incidental mentions
+  // in v2.0 changelogs ('Added no-decay, reduced weight') deep in the description
+  // when the mod's actual purpose is something else entirely.
+  const name = mod.name || "";
+  const description = (mod.description || "").slice(0, 120);
+  const text = `${name} ${description}`;
   const out = new Set();
   for (const { tag, re } of RULES) if (re.test(text)) out.add(tag);
   // File-type tags
