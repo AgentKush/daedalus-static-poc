@@ -132,6 +132,22 @@ function loadJSZip() {
   return _jszipPromise;
 }
 
+// CORS rewrite. github.com/.../raw/ and /blob/ both 302 to raw.githubusercontent.com,
+// but the redirect itself lacks CORS headers so the browser refuses to follow it.
+// raw.githubusercontent.com serves the binary directly with Access-Control-Allow-Origin: *,
+// so just go there from the start.
+function corsSafeUrl(url) {
+  if (!url) return url;
+  let m = url.match(/^https?:\/\/github\.com\/([^/]+)\/([^/]+)\/(?:raw|blob)\/(.+)$/);
+  if (m) return `https://raw.githubusercontent.com/${m[1]}/${m[2]}/${m[3]}`;
+  // releases/download URLs redirect to objects.githubusercontent.com which DOES have
+  // CORS, but the redirect from github.com may not. Use the API-style asset path:
+  m = url.match(/^https?:\/\/github\.com\/([^/]+)\/([^/]+)\/releases\/download\/([^/]+)\/(.+)$/);
+  // The release-download URL CAN work cross-origin in modern browsers; leave as-is and
+  // let the user catch any failures in SKIPPED.txt.
+  return url;
+}
+
 function pickPrimaryUrl(files) {
   // Prefer exmodz, then pak, then anything else
   if (!files) return null;
@@ -162,22 +178,24 @@ async function exportPack() {
       const primary = pickPrimaryUrl(m.files);
       done++;
       if (status) status.textContent = `Fetching ${done}/${items.length}: ${m.name}`;
-      if (!primary) { skipped.push({ name: m.name, reason: "no download URL" }); continue; }
+      if (!primary) { skipped.push({ name: m.name, reason: "no download URL", url: null }); continue; }
+      const fetchUrl = corsSafeUrl(primary.url);
       try {
-        const r = await fetch(primary.url);
-        if (!r.ok) { skipped.push({ name: m.name, reason: `HTTP ${r.status}` }); continue; }
+        const r = await fetch(fetchUrl);
+        if (!r.ok) { skipped.push({ name: m.name, reason: `HTTP ${r.status}`, url: primary.url }); continue; }
         const blob = await r.blob();
         const filename = primary.url.split("/").pop().split("?")[0];
         const folder = (m.author || "unknown").replace(/[\\/:*?"<>|]/g, "_");
         zip.file(`${folder}/${filename}`, blob);
       } catch (e) {
-        skipped.push({ name: m.name, reason: (e.message || "fetch failed (CORS or offline?)") });
+        skipped.push({ name: m.name, reason: (e.message || "fetch failed (CORS or offline?)"), url: primary.url });
       }
     }
     if (skipped.length) {
       zip.file("SKIPPED.txt",
-        "These mods couldn't be bundled into the zip and need to be downloaded manually:\n\n" +
-        skipped.map(s => `- ${s.name}: ${s.reason}`).join("\n"));
+        "These mods couldn't be bundled into the zip and need to be downloaded manually.\n" +
+        "Click each URL to grab the file:\n\n" +
+        skipped.map(s => `- ${s.name}\n    Reason: ${s.reason}\n    URL:    ${s.url || "(no URL)"}\n`).join("\n"));
     }
     if (status) status.textContent = "Compressing…";
     const blob = await zip.generateAsync({ type: "blob", compression: "DEFLATE", compressionOptions: { level: 6 } });
