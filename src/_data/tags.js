@@ -1,4 +1,5 @@
 const mods = require("../../public/data/mods.json");
+const nexusMods = require("../../public/data/nexus_mods.json");
 
 function slug(s) {
   return (s || "unknown").toString().toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
@@ -74,13 +75,25 @@ function tagsFor(mod) {
   return [...out];
 }
 
-// Build tag index
+// Build tag index — curated mods first (so they win on dedupe), then Nexus.
 const tagToMods = new Map();
+const seenKeys = new Set();
+function _key(m) { return `${slug(m.author)}--${slug(m.name)}`; }
 for (const m of mods) {
+  seenKeys.add(_key(m));
   const tags = tagsFor(m);
   for (const t of tags) {
     const arr = tagToMods.get(t) || [];
-    arr.push(m);
+    arr.push({ ...m, _source: "curated" });
+    tagToMods.set(t, arr);
+  }
+}
+for (const m of nexusMods) {
+  if (seenKeys.has(_key(m))) continue; // curated already covered it
+  const tags = tagsFor(m);
+  for (const t of tags) {
+    const arr = tagToMods.get(t) || [];
+    arr.push({ ...m, _source: "nexus" });
     tagToMods.set(t, arr);
   }
 }
@@ -98,6 +111,8 @@ module.exports = sortedTags.map(([tag, list]) => ({
     version: m.version,
     compatibility: m.compatibility,
     author: m.author,
+    source: m._source || "curated",
+    mod_page_url: m.mod_page_url || (m.nexus_id ? `https://www.nexusmods.com/icarus/mods/${m.nexus_id}` : null),
     author_slug: m.id?.split("--")[0] || slug(m.author),
     slug: m.id?.split("--")[1] || slug(m.name),
     file_types: Object.keys(m.files || {}).filter(k => m.files[k])
