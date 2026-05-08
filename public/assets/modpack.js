@@ -1,15 +1,17 @@
 // Multi-select mods on the listing → export a pack manifest + Discord-ready text.
 //
-// Activation: a "Build mod pack" button in the listing toolbar toggles
-// selection mode. While active, each row gets a checkbox; the toolbar shows
-// a counter and an "Export" button.
-
+// Activation: a "Build pack" toggle in the listing toolbar enters selection mode.
+// While active:
+//   - Each row gets a prominent checkbox
+//   - The row's normal navigation is suppressed; clicking anywhere on the row
+//     toggles the checkbox
+//   - A floating bar at the bottom shows the count and Export / Clear / Close
 const STATE = { active: false, selected: new Set(), modsById: new Map() };
 
 function ensureUI() {
-  const existing = document.getElementById("modpack-bar");
-  if (existing) return existing;
-  const bar = document.createElement("div");
+  let bar = document.getElementById("modpack-bar");
+  if (bar) return bar;
+  bar = document.createElement("div");
   bar.id = "modpack-bar";
   bar.style.cssText = "position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:#0f172a;border:1px solid #f1ad1c;border-radius:0.75rem;padding:0.6rem 1rem;color:#e2e8f0;z-index:9990;font-family:Inter,system-ui,sans-serif;font-size:0.875rem;display:none;align-items:center;gap:0.75rem;box-shadow:0 12px 24px rgba(0,0,0,.4);";
   bar.innerHTML = `
@@ -25,53 +27,101 @@ function ensureUI() {
   return bar;
 }
 
+function ensureBanner() {
+  let b = document.getElementById("modpack-banner");
+  if (b) return b;
+  b = document.createElement("div");
+  b.id = "modpack-banner";
+  b.style.cssText = "background:rgba(241,173,28,.12);border:1px solid #f1ad1c;color:#f1ad1c;padding:0.6rem 1rem;border-radius:0.5rem;font-size:0.875rem;margin-bottom:0.75rem;display:flex;align-items:center;gap:0.5rem;";
+  b.innerHTML = `📦 <strong>Pack-build mode</strong> &mdash; click any row to add it to your pack. The Export button at the bottom builds a manifest you can share.`;
+  return b;
+}
+
 function activate(allMods) {
   STATE.active = true;
   STATE.selected.clear();
   STATE.modsById.clear();
   for (const m of allMods) STATE.modsById.set(m.id || `${slug(m.author)}--${slug(m.name)}`, m);
   ensureUI().style.display = "flex";
+  // Show banner above the rows
+  const rowsTable = document.getElementById("rows")?.closest("table");
+  const anchor = rowsTable || document.getElementById("rows");
+  if (anchor && !document.getElementById("modpack-banner")) {
+    anchor.parentElement?.insertBefore(ensureBanner(), anchor);
+  }
+  document.body.classList.add("modpack-active");
   render();
 }
+
 function deactivate() {
   STATE.active = false;
   STATE.selected.clear();
   const bar = document.getElementById("modpack-bar"); if (bar) bar.style.display = "none";
-  // Strip checkboxes off rows
-  document.querySelectorAll("[data-modpack-checkbox]").forEach(el => el.remove());
-  document.querySelectorAll("tr[data-modpack-row]").forEach(tr => tr.removeAttribute("data-modpack-row"));
+  const banner = document.getElementById("modpack-banner"); if (banner) banner.remove();
+  document.body.classList.remove("modpack-active");
+  // Restore rows: remove checkboxes, restore onclick attribute
+  document.querySelectorAll("tr[data-modpack-row]").forEach(tr => {
+    const orig = tr.dataset.modpackOriginalOnclick;
+    if (orig) tr.setAttribute("onclick", orig); else tr.removeAttribute("onclick");
+    tr.removeAttribute("data-modpack-row");
+    tr.removeAttribute("data-modpack-original-onclick");
+    tr.querySelectorAll("[data-modpack-checkbox]").forEach(el => el.remove());
+    tr.style.cursor = "";
+    tr.style.background = "";
+  });
 }
+
 function slug(s) { return (s || "").toString().toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""); }
 
+function toggleRow(modId) {
+  if (STATE.selected.has(modId)) STATE.selected.delete(modId); else STATE.selected.add(modId);
+  render();
+}
+
 function render() {
+  if (!STATE.active) return;
   const count = STATE.selected.size;
   const c = document.getElementById("modpack-count"); if (c) c.textContent = `${count} selected`;
-  // Decorate rows currently in DOM
   document.querySelectorAll("#rows tr").forEach((tr, i) => {
-    if (tr.dataset.modpackRow) return;
-    // Determine which mod this row is for via the onclick href
-    const click = tr.getAttribute("onclick") || "";
-    const m = click.match(/mods\/([^/']+)\/([^/']+)\//);
-    if (!m) return;
-    const modId = `${m[1]}--${m[2]}`;
-    tr.dataset.modpackRow = modId;
-    const cb = document.createElement("input");
-    cb.type = "checkbox";
-    cb.dataset.modpackCheckbox = "true";
-    cb.style.cssText = "margin-right:0.5rem;accent-color:#f1ad1c;cursor:pointer;";
-    cb.checked = STATE.selected.has(modId);
-    cb.addEventListener("click", e => {
-      e.stopPropagation();
-      if (cb.checked) STATE.selected.add(modId); else STATE.selected.delete(modId);
-      render();
-    });
-    const firstTd = tr.querySelector("td");
-    if (firstTd) firstTd.prepend(cb);
+    let modId = tr.dataset.modpackRow;
+    if (!modId) {
+      const click = tr.getAttribute("onclick") || "";
+      const m = click.match(/mods\/([^/']+)\/([^/']+)\//);
+      if (!m) return; // skip rows that don't link to a curated mod (e.g. Nexus)
+      modId = `${m[1]}--${m[2]}`;
+      tr.dataset.modpackRow = modId;
+      tr.dataset.modpackOriginalOnclick = click;
+      // Suppress original navigation while in pack mode
+      tr.setAttribute("onclick", `window.daedalusModpack && window.daedalusModpack.handleRowClick('${modId}')`);
+      tr.style.cursor = "pointer";
+      // Insert prominent checkbox in the first cell
+      const firstTd = tr.querySelector("td");
+      if (firstTd && !firstTd.querySelector("[data-modpack-checkbox]")) {
+        const wrap = document.createElement("span");
+        wrap.dataset.modpackCheckbox = "true";
+        wrap.style.cssText = "display:inline-flex;align-items:center;justify-content:center;width:1.25rem;height:1.25rem;border-radius:0.25rem;border:2px solid #475569;background:transparent;margin-right:0.5rem;vertical-align:middle;flex-shrink:0;";
+        wrap.innerHTML = `<svg viewBox="0 0 16 16" fill="none" stroke="#0f172a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:0.875rem;height:0.875rem;display:none;"><polyline points="3 8.5 6.5 12 13 4"/></svg>`;
+        firstTd.prepend(wrap);
+      }
+    }
+    // Sync visual state with STATE.selected
+    const wrap = tr.querySelector("[data-modpack-checkbox]");
+    if (wrap) {
+      const checked = STATE.selected.has(modId);
+      wrap.style.background = checked ? "#f1ad1c" : "transparent";
+      wrap.style.borderColor = checked ? "#f1ad1c" : "#475569";
+      const tick = wrap.querySelector("svg");
+      if (tick) tick.style.display = checked ? "block" : "none";
+      tr.style.background = checked ? "rgba(241,173,28,0.08)" : "";
+    }
   });
 }
 
 function exportPack() {
-  if (STATE.selected.size === 0) { alert("Select at least one mod first."); return; }
+  if (STATE.selected.size === 0) {
+    flash("Select at least one mod first by clicking its row.");
+    return;
+  }
   const items = [...STATE.selected].map(id => STATE.modsById.get(id)).filter(Boolean).map(m => ({
     id: m.id, name: m.name, author: m.author, version: m.version,
     compatibility: m.compatibility, files: m.files,
@@ -99,12 +149,10 @@ function exportPack() {
         </div>
         <button id="mp-x" style="background:transparent;border:none;color:#94a3b8;font-size:1.5rem;line-height:1;cursor:pointer;padding:0;">×</button>
       </div>
-
-      <div style="display:flex;gap:0.5rem;margin-bottom:0.75rem;">
+      <div style="display:flex;gap:0.5rem;margin-bottom:0.75rem;flex-wrap:wrap;">
         <button id="mp-dl" style="padding:0.5rem 1rem;background:#f1ad1c;color:#0f172a;border:none;border-radius:0.375rem;font-weight:600;cursor:pointer;">⬇ Download manifest.json</button>
         <button id="mp-discord" style="padding:0.5rem 1rem;background:#5865f2;color:white;border:none;border-radius:0.375rem;font-weight:600;cursor:pointer;">📋 Copy Discord-formatted</button>
       </div>
-
       <div style="overflow:auto;flex:1;">
         <h4 style="margin:0 0 0.5rem 0;font-size:0.75rem;text-transform:uppercase;color:#94a3b8;">JSON manifest</h4>
         <pre style="background:#1e293b;padding:0.75rem;border-radius:0.375rem;font-size:0.75rem;overflow:auto;color:#cbd5e1;">${escape(json)}</pre>
@@ -127,11 +175,23 @@ function exportPack() {
   });
 }
 
+function flash(msg) {
+  const bar = document.getElementById("modpack-bar");
+  if (!bar) { alert(msg); return; }
+  const orig = document.getElementById("modpack-count").textContent;
+  document.getElementById("modpack-count").textContent = msg;
+  document.getElementById("modpack-count").style.color = "#fbbf24";
+  setTimeout(() => {
+    document.getElementById("modpack-count").textContent = `${STATE.selected.size} selected`;
+    document.getElementById("modpack-count").style.color = "#f1ad1c";
+  }, 2200);
+}
+
 function escape(s){return (s||"").replace(/[&<>]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));}
 
-// Public: hook for the listing
 window.daedalusModpack = {
   toggle(allMods) { STATE.active ? deactivate() : activate(allMods); },
   isActive() { return STATE.active; },
-  redraw: render
+  redraw: render,
+  handleRowClick(modId) { toggleRow(modId); }
 };
