@@ -2,6 +2,16 @@ const mods = require("../../public/data/mods.json");
 const modTags = require("./modTags.js");
 const details = require("../../public/data/mod_details.json");
 
+// GitHub /blob/ URLs return HTML, not the binary. raw.githubusercontent.com
+// serves the actual file with the right Content-Type. Convert in case modders
+// committed a /blob/ link as their imageURL or readmeURL.
+function rawifyGithubUrl(url) {
+  if (!url) return url;
+  const m = url.match(/^https?:\/\/github\.com\/([^/]+)\/([^/]+)\/(?:raw|blob)\/(.+)$/);
+  if (m) return `https://raw.githubusercontent.com/${m[1]}/${m[2]}/${m[3]}`;
+  return url;
+}
+
 function slug(s) {
   return (s || "unknown").toString().toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 }
@@ -78,7 +88,8 @@ module.exports = sortedMods.map((m, i) => {
     version_string: m.version ? (m.compatibility ? `v${m.version} / ${m.compatibility}` : `v${m.version}`) : (m.compatibility || ""),
     compatibility: m.compatibility,
     description: m.description,
-    image_url: detail?.image_url || null,
+    readme_url: rawifyGithubUrl(m.readme_url || m.readmeURL) || null,
+    image_url: detail?.image_url || rawifyGithubUrl(m.image_url || m.imageURL) || null,
     video_url: m.video_url || m.videoURL || null,
     donate_url: m.donate_url || m.donate || m.donateURL || null,
     readme_html: detail?.readme_html || `<p>${(m.description || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")}</p>`,
