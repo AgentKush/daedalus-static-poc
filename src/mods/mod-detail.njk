@@ -22,49 +22,6 @@ eleventyComputed:
       {% endfor %}
     </div>
   {% endif %}
-  <!-- You might also like -->
-  {% if mod.similar and (mod.similar | length) %}
-    <div class="mt-8">
-      <h3 class="text-lg font-semibold text-icarus-500 mb-3">You might also like</h3>
-      <div class="grid gap-3 md:grid-cols-3">
-        {% for s in mod.similar %}
-          <a href="{{ rootPath }}mods/{{ s.author_slug }}/{{ s.slug }}/" class="block p-3 border rounded-lg border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/50 hover:border-icarus-500 no-underline transition-colors">
-            <div class="font-semibold text-slate-800 dark:text-slate-200 mb-1">{{ s.name }}</div>
-            <div class="flex items-center gap-2 mb-1 text-xs text-slate-500 dark:text-slate-400">
-              <span>by {{ s.author }}</span>
-              {% if s.compatibility %}<span class="inline-flex items-center px-1.5 py-0.5 rounded-full bg-icarus-500/20 text-icarus-500 dark:text-icarus-400 font-medium">{{ s.compatibility | lower }}</span>{% endif %}
-            </div>
-            {% if s.description %}<p class="text-xs text-slate-500 dark:text-slate-400 line-clamp-2">{{ s.description | truncate(140) }}</p>{% endif %}
-          </a>
-        {% endfor %}
-      </div>
-    </div>
-  {% endif %}
-  <div id="share-widget"></div>
-  {% if mod.video_url %}
-    <div class="mt-4 aspect-video rounded-lg overflow-hidden border border-slate-300/50 dark:border-slate-700/50 bg-black">
-      {% set ytId = "" %}
-      {% if "youtu.be/" in mod.video_url %}{% set ytId = mod.video_url | split("youtu.be/") | last | split("?") | first %}
-      {% elif "youtube.com/watch" in mod.video_url %}{% set ytId = mod.video_url | split("v=") | last | split("&") | first %}
-      {% elif "youtube.com/embed/" in mod.video_url %}{% set ytId = mod.video_url | split("embed/") | last | split("?") | first %}
-      {% endif %}
-      {% if ytId %}
-        <iframe class="w-full h-full" src="https://www.youtube-nocookie.com/embed/{{ ytId }}" title="{{ mod.name }} showcase" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-      {% else %}
-        <a href="{{ mod.video_url }}" target="_blank" rel="noopener" class="block p-4 text-center text-icarus-500 underline">📺 Watch showcase video on the modder's site →</a>
-      {% endif %}
-    </div>
-  {% endif %}
-  {% if mod.donate_url %}
-    <div class="mt-4">
-      <a href="{{ mod.donate_url }}" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-md border-2 border-emerald-500 text-emerald-500 hover:bg-emerald-500 hover:text-white no-underline transition-colors">
-        ❤️&nbsp;Support {{ mod.author }}
-      </a>
-      <p class="mt-2 text-xs text-slate-500 dark:text-slate-400">If this mod's been useful, the author appreciates the support.</p>
-    </div>
-  {% endif %}
-  
-  <script src="{{ rootPath }}assets/share.js" defer></script>
   <!-- Header: name + file type badges + download buttons -->
   <div class="flex items-center justify-between flex-auto flex-wrap gap-3">
     <div class="flex items-center gap-3 flex-1 min-w-0">
@@ -303,6 +260,58 @@ eleventyComputed:
 
   <!-- Gold separator -->
   <div class="gold-line"></div>
+
+  
+  <!-- Showcase video (if modder declared it) -->
+  {% if mod.video_url %}
+    <div class="mt-10 aspect-video rounded-lg overflow-hidden border border-slate-300/50 dark:border-slate-700/50 bg-black">
+      {% set ytId = "" %}
+      {% if "youtu.be/" in mod.video_url %}{% set ytId = mod.video_url | split("youtu.be/") | last | split("?") | first %}
+      {% elif "youtube.com/watch" in mod.video_url %}{% set ytId = mod.video_url | split("v=") | last | split("&") | first %}
+      {% elif "youtube.com/embed/" in mod.video_url %}{% set ytId = mod.video_url | split("embed/") | last | split("?") | first %}
+      {% endif %}
+      {% if ytId %}
+        <iframe class="w-full h-full" src="https://www.youtube-nocookie.com/embed/{{ ytId }}" title="{{ mod.name }} showcase" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      {% else %}
+        <a href="{{ mod.video_url }}" target="_blank" rel="noopener" class="block p-4 text-center text-icarus-500 underline">📺 Watch showcase video on the modder's site →</a>
+      {% endif %}
+    </div>
+  {% endif %}
+
+  <!-- Support / donate (if modder declared it) -->
+  {% if mod.donate_url %}
+    <div class="mt-8">
+      <a href="{{ mod.donate_url }}" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-md border-2 border-emerald-500 text-emerald-500 hover:bg-emerald-500 hover:text-white no-underline transition-colors">
+        ❤️&nbsp;Support {{ mod.author }}
+      </a>
+      <p class="mt-2 text-xs text-slate-500 dark:text-slate-400">If this mod's been useful, the author appreciates the support.</p>
+    </div>
+  {% endif %}
+
+  <!-- You might also like — based on shared tags + same author + similar files -->
+  {% if mod.similar and (mod.similar | length) %}
+    <div class="mt-12">
+      <h3 class="text-lg font-semibold text-icarus-500 mb-3">You might also like</h3>
+      <div class="grid gap-3 md:grid-cols-3">
+        {% for s in mod.similar %}
+          <a href="{{ rootPath }}mods/{{ s.author_slug }}/{{ s.slug }}/" class="block p-3 border rounded-lg border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/50 hover:border-icarus-500 no-underline transition-colors">
+            <div class="font-semibold text-slate-800 dark:text-slate-200 mb-1">{{ s.name }}</div>
+            <div class="flex items-center gap-2 mb-1 text-xs text-slate-500 dark:text-slate-400">
+              <span>by {{ s.author }}</span>
+              {% if s.compatibility %}<span class="inline-flex items-center px-1.5 py-0.5 rounded-full bg-icarus-500/20 text-icarus-500 dark:text-icarus-400 font-medium">{{ s.compatibility | lower }}</span>{% endif %}
+            </div>
+            {% if s.description %}<p class="text-xs text-slate-500 dark:text-slate-400 line-clamp-2">{{ s.description | truncate(140) }}</p>{% endif %}
+          </a>
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+
+  <!-- Share row — separated from the cards above by a thin divider for clarity -->
+  <div class="mt-12 pt-6 border-t border-slate-200 dark:border-slate-700">
+    <div id="share-widget"></div>
+  </div>
+  <script src="{{ rootPath }}assets/share.js" defer></script>
 
   <!-- Discussion: ratings + comments via GitHub login -->
   <div class="mt-6">
