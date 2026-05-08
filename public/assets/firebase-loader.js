@@ -82,15 +82,23 @@ function backfillFromBundled(liveItems, bundledItems) {
   if (!bundledItems || !bundledItems.length) return liveItems;
   const idx = new Map();
   for (const b of bundledItems) idx.set(_mergeKey(b), b);
+  const matchedKeys = new Set();
   for (const live of liveItems) {
-    const b = idx.get(_mergeKey(live));
+    const k = _mergeKey(live);
+    const b = idx.get(k);
     if (!b) continue;
-    for (const [k, v] of Object.entries(b)) {
-      const cur = live[k];
-      if (cur === undefined || cur === null || cur === "") live[k] = v;
+    matchedKeys.add(k);
+    for (const [field, v] of Object.entries(b)) {
+      const cur = live[field];
+      if (cur === undefined || cur === null || cur === "") live[field] = v;
     }
   }
-  return liveItems;
+  // Append bundled-only entries — mods that exist in our bundled JSON
+  // (e.g. via modders_extras.json) but not in production's Firestore yet.
+  // Without this, an entire mod would disappear the moment REST returns and
+  // the subscribe callback overwrites state with live-only items.
+  const extras = bundledItems.filter(b => !matchedKeys.has(_mergeKey(b)));
+  return extras.length ? [...liveItems, ...extras] : liveItems;
 }
 
 // ---- Web SDK init (only when explicitly configured) ----
