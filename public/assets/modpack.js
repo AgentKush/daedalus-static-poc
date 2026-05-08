@@ -117,6 +117,28 @@ function render() {
   });
 }
 
+let _jszipPromise = null;
+function loadJSZip() {
+  if (_jszipPromise) return _jszipPromise;
+  _jszipPromise = new Promise((resolve, reject) => {
+    const tag = document.createElement("script");
+    tag.src = "https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js";
+    tag.onload = () => resolve(window.JSZip);
+    tag.onerror = () => reject(new Error("Failed to load JSZip from CDN"));
+    document.head.appendChild(tag);
+  });
+  return _jszipPromise;
+}
+
+function pickPrimaryUrl(files) {
+  // Prefer exmodz, then pak, then anything else
+  if (!files) return null;
+  const order = ["exmodz", "exmod", "pak", "zip"];
+  for (const k of order) if (files[k]) return { url: files[k], type: k };
+  for (const [k, v] of Object.entries(files)) if (v) return { url: v, type: k };
+  return null;
+}
+
 function exportPack() {
   if (STATE.selected.size === 0) {
     flash("Select at least one mod first by clicking its row.");
@@ -150,9 +172,11 @@ function exportPack() {
         <button id="mp-x" style="background:transparent;border:none;color:#94a3b8;font-size:1.5rem;line-height:1;cursor:pointer;padding:0;">×</button>
       </div>
       <div style="display:flex;gap:0.5rem;margin-bottom:0.75rem;flex-wrap:wrap;">
-        <button id="mp-dl" style="padding:0.5rem 1rem;background:#f1ad1c;color:#0f172a;border:none;border-radius:0.375rem;font-weight:600;cursor:pointer;">⬇ Download manifest.json</button>
+        <button id="mp-zip" style="padding:0.5rem 1rem;background:#f1ad1c;color:#0f172a;border:none;border-radius:0.375rem;font-weight:600;cursor:pointer;">⬇ Download .zip with mod files</button>
+        <button id="mp-dl" style="padding:0.5rem 1rem;background:transparent;color:#cbd5e1;border:1px solid #475569;border-radius:0.375rem;font-weight:500;cursor:pointer;">⬇ Manifest only</button>
         <button id="mp-discord" style="padding:0.5rem 1rem;background:#5865f2;color:white;border:none;border-radius:0.375rem;font-weight:600;cursor:pointer;">📋 Copy Discord-formatted</button>
       </div>
+      <p id="mp-zip-status" style="margin:0 0 0.5rem 0;font-size:0.75rem;color:#94a3b8;min-height:1rem;"></p>
       <div style="overflow:auto;flex:1;">
         <h4 style="margin:0 0 0.5rem 0;font-size:0.75rem;text-transform:uppercase;color:#94a3b8;">JSON manifest</h4>
         <pre style="background:#1e293b;padding:0.75rem;border-radius:0.375rem;font-size:0.75rem;overflow:auto;color:#cbd5e1;">${escape(json)}</pre>
@@ -172,6 +196,61 @@ function exportPack() {
     navigator.clipboard.writeText(discord).then(() => {
       document.getElementById("mp-discord").textContent = "✓ Copied!";
     }).catch(()=>{});
+  });
+
+  // Zip-and-download path: lazy-load JSZip, fetch each mod file, bundle.
+  document.getElementById("mp-zip").addEventListener("click", async () => {
+    const zipBtn = document.getElementById("mp-zip");
+    const status = document.getElementById("mp-zip-status");
+    zipBtn.disabled = true;
+    zipBtn.textContent = "Loading zip library…";
+    status.textContent = "";
+    try {
+      const JSZip = await loadJSZip();
+      const zip = new JSZip();
+      zip.file("manifest.json", json);
+      const skipped = [];
+      let done = 0;
+      for (const m of items) {
+        const primary = pickPrimaryUrl(m.files);
+        if (!primary) { skipped.push({ name: m.name, reason: "no download URL" }); continue; }
+        zipBtn.textContent = `Fetching ${++done}/${items.length}…`;
+        status.textContent = `${m.name}…`;
+        try {
+          const r = await fetch(primary.url);
+          if (!r.ok) { skipped.push({ name: m.name, reason: `HTTP ${r.status}` }); continue; }
+          const blob = await r.blob();
+          const filename = primary.url.split("/").pop().split("?")[0];
+          // Folder per author keeps things tidy
+          const folder = (m.author || "unknown").replace(/[\\/:*?"<>|]/g, "_");
+          zip.file(`${folder}/${filename}`, blob);
+        } catch (e) {
+          skipped.push({ name: m.name, reason: e.message || "fetch failed (CORS or offline?)" });
+        }
+      }
+      if (skipped.length) {
+        zip.file("SKIPPED.txt",
+          "These mods couldn't be bundled into the zip and need to be downloaded manually:\n\n" +
+          skipped.map(s => `- ${s.name}: ${s.reason}`).join("\n"));
+      }
+      zipBtn.textContent = "Compressing…";
+      status.textContent = "";
+      const blob = await zip.generateAsync({ type: "blob", compression: "DEFLATE", compressionOptions: { level: 6 } });
+      const sizeMb = (blob.size / 1024 / 1024).toFixed(1);
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `daedalus-modpack-${items.length}mods.zip`;
+      a.click();
+      setTimeout(() => URL.revokeObjectURL(url), 2000);
+      zipBtn.textContent = `✓ Downloaded (${sizeMb} MB)`;
+      if (skipped.length) status.textContent = `${skipped.length} mod${skipped.length===1?"":"s"} couldn't be bundled — see SKIPPED.txt in the zip`;
+    } catch (e) {
+      zipBtn.disabled = false;
+      zipBtn.textContent = "⬇ Download .zip with mod files";
+      status.textContent = `Error: ${e.message}`;
+      status.style.color = "#f87171";
+    }
   });
 }
 
