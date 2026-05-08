@@ -1,0 +1,9 @@
+{
+  "_note": "Will be populated by .github/workflows/validate-mods.yml on its weekly run.",
+  "checked_at": null,
+  "checked": 0,
+  "passed": 0,
+  "warnings_only": 0,
+  "errors": 0,
+  "mods": {}
+}

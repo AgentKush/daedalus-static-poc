@@ -1,0 +1,52 @@
+# Weekly: download every EXMODZ on the catalog and run AgentKush/icarus-modinfo-validator
+# against it. Aggregate results into public/data/validation.json so the mod-detail
+# Mod Status panel can surface per-mod issues.
+#
+# Manual dispatch supported with an optional MODS_FILTER input to limit to specific
+# mods (substring match on name) for quick iteration.
+
+name: Validate mod files (icarus-modinfo-validator)
+
+on:
+  schedule:
+    - cron: "0 6 * * 1"  # 06:00 UTC every Monday
+  workflow_dispatch:
+    inputs:
+      mods_filter:
+        description: "Optional substring (e.g. 'agentkush' or 'no food') — limits which mods to validate"
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout site repo
+        uses: actions/checkout@v5
+      - name: Checkout AgentKush/icarus-modinfo-validator
+        uses: actions/checkout@v5
+        with:
+          repository: AgentKush/icarus-modinfo-validator
+          path: _validator
+      - uses: actions/setup-node@v5
+        with:
+          node-version: "22"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Run validator across all EXMODZ
+        env:
+          MODS_FILTER: ${{ inputs.mods_filter }}
+        run: node scripts/run-validator.mjs
+      - name: Commit validation.json if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/data/validation.json
+          if ! git diff --cached --quiet; then
+            git commit -m "Refresh mod validation results"
+            git push
+          fi

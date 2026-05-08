@@ -4,6 +4,24 @@
 
 import { subscribe } from "./firebase-loader.js";
 
+// Pre-load mod_tags for the status check below; cached on window so the
+// individual mod-detail page doesn't re-fetch it on every visit.
+async function loadModTagsOnce() {
+  if (window._daedalusModTags) return;
+  try {
+    const r = await fetch(`${getRootPath()}data/mod_tags.json`);
+    if (r.ok) window._daedalusModTags = await r.json();
+  } catch {}
+}
+function getRootPath() {
+  // Mod-detail pages live at /mods/<author>/<slug>/. From there, root is "../../../".
+  const depth = window.location.pathname.replace(/\/$/, "").split("/").length - 1;
+  return "../".repeat(Math.max(0, depth - 1));
+}
+loadModTagsOnce();
+
+
+
 const GH_CACHE_TTL_MS = 24 * 60 * 60 * 1000; // 24h
 
 function slug(s) {
@@ -156,7 +174,7 @@ function fmtDate(iso) {
       }
     }
 
-    // Mod Status — combines freshness + has-files + has-readme into a real status.
+    // Mod Status — combine all known signals into a real status.
     // Replaces the previous hardcoded "All Clear".
     const statusEl = document.querySelector('[data-analytics="mod-status"]');
     if (statusEl) {
@@ -164,18 +182,79 @@ function fmtDate(iso) {
       const hasFiles = det?.dataset?.modHasFiles === "1";
       const issues = [];
       const warnings = [];
+
+      // Issues (red — blocking or near-blocking)
       if (!hasFiles) issues.push("No download files");
+      const desc = (me.description || "").trim();
+      if (desc.length === 0) issues.push("No description");
+      else if (/A direct download URL|A link to|see below|TODO|FIXME|placeholder/i.test(desc)) {
+        issues.push("Description has placeholder template text");
+      }
+
+      // Warnings (yellow — concerning)
       if (daysSinceUpdate != null && daysSinceUpdate >= 365) warnings.push(`Stale — last updated ${Math.floor(daysSinceUpdate/30)} months ago`);
       else if (daysSinceUpdate != null && daysSinceUpdate >= 180) warnings.push(`Aging — last updated ${daysSinceUpdate} days ago`);
-      if (!me.readme_url && !me.readmeURL) warnings.push("No README");
-      if (issues.length) {
-        statusEl.innerHTML = issues.map(i => `<div class="text-sm font-semibold text-red-400">⚠ ${i}</div>`).join("") +
-          warnings.map(w => `<div class="text-xs text-yellow-500 mt-0.5">· ${w}</div>`).join("");
-      } else if (warnings.length) {
-        statusEl.innerHTML = warnings.map(w => `<div class="text-sm font-semibold text-yellow-500">⚠ ${w}</div>`).join("");
-      } else {
-        statusEl.innerHTML = `<div class="text-sm font-semibold text-emerald-500">✓ All Clear</div>`;
+      if (!me.readme_url && !me.readmeURL) warnings.push("No README linked");
+      if (!me.image_url && !me.imageURL) warnings.push("No image — listing thumbnail will be blank");
+      if (desc && desc.length < 30) warnings.push(`Description very short (${desc.length} chars)`);
+      const compatMatch = (me.compatibility || "").match(/^w(\d+)$/i);
+      if (compatMatch) {
+        const w = parseInt(compatMatch[1], 10);
+        if (w < 100) warnings.push(`Very old compatibility (w${w} — pre-Atmospheric era)`);
+        else if (w < 200) warnings.push(`Older compatibility (w${w}) — may not work on current game build`);
       }
+      // Tags coverage check (only complain if mod_tags has been loaded and the mod has none)
+      try {
+        if (window._daedalusModTags) {
+          const slug2 = (s) => (s||"").toString().toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+          const tagKey = `${slug2(me.author)}--${slug2(me.name)}`;
+          const myTags = (window._daedalusModTags[tagKey] || []).filter(t => !t.startsWith("type-"));
+          if (!myTags.length) warnings.push("No semantic tags assigned");
+        }
+      } catch {}
+
+      // Broken-download check from health.json (loaded async; updates the panel when it lands)
+      // Render initial state immediately so the user isn't waiting on the network.
+      const renderStatus = () => {
+        if (issues.length) {
+          statusEl.innerHTML = issues.map(i => `<div class="text-sm font-semibold text-red-400">⚠ ${i}</div>`).join("") +
+            warnings.map(w => `<div class="text-xs text-yellow-500 mt-0.5">· ${w}</div>`).join("");
+        } else if (warnings.length) {
+          statusEl.innerHTML = warnings.map(w => `<div class="text-sm font-semibold text-yellow-500">⚠ ${w}</div>`).join("");
+        } else {
+          statusEl.innerHTML = `<div class="text-sm font-semibold text-emerald-500">✓ All Clear</div>`;
+        }
+      };
+      renderStatus();
+
+      // Async: read /data/health.json and add a "broken download" issue if our mod is in the broken list
+      fetch(`${getRootPath()}data/health.json`).then(r => r.ok ? r.json() : null).then(h => {
+        if (!h?.broken) return;
+        const myKey = `${(me.author || "").trim().toLowerCase()}::${(me.name || "").trim().toLowerCase()}`;
+        const broken = h.broken.find(b =>
+          `${(b.author || "").trim().toLowerCase()}::${(b.name || "").trim().toLowerCase()}` === myKey
+        );
+        if (broken && broken.broken_urls && broken.broken_urls.length) {
+          issues.push(`Broken download${broken.broken_urls.length > 1 ? "s" : ""} (${broken.broken_urls.length} URL${broken.broken_urls.length > 1 ? "s" : ""} returning ${broken.broken_urls.map(u => u.status).join(", ")})`);
+          renderStatus();
+        }
+      }).catch(() => {});
+
+      // Async: read /data/validation.json (populated weekly by validate-mods.yml against
+      // AgentKush/icarus-modinfo-validator) and surface every error/warning the validator
+      // flagged inside the EXMODZ for this mod.
+      fetch(`${getRootPath()}data/validation.json`).then(r => r.ok ? r.json() : null).then(v => {
+        if (!v?.mods) return;
+        const slug3 = (s) => (s||"").toString().toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+        const key = `${slug3(me.author)}--${slug3(me.name)}`;
+        const entry = v.mods[key];
+        if (!entry || !entry.issues || !entry.issues.length) return;
+        for (const i of entry.issues) {
+          if (i.severity === "error") issues.push(`Validator: ${i.message}`);
+          else warnings.push(`Validator: ${i.message}`);
+        }
+        renderStatus();
+      }).catch(() => {});
     }
 
     // Author Stats: Most Recently Updated mod by this author
