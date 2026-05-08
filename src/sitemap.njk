@@ -9,6 +9,11 @@ eleventyExcludeFromCollections: true
   <url><loc>{{ site.url }}/tools.html</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>{{ site.url }}/info.html</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>{{ site.url }}/requests.html</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>{{ site.url }}/search/</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>{{ site.url }}/stats/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>{{ site.url }}/leaderboard/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>{{ site.url }}/status/</loc><changefreq>weekly</changefreq><priority>0.4</priority></url>
+  <url><loc>{{ site.url }}/api/</loc><changefreq>monthly</changefreq><priority>0.4</priority></url>
   {%- for entry in detailMods -%}
   <url>
     <loc>{{ site.url }}/mods/{{ entry.author_slug }}/{{ entry.slug }}/</loc>
@@ -21,6 +26,20 @@ eleventyExcludeFromCollections: true
     <loc>{{ site.url }}/authors/{{ a.slug }}/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
+  </url>
+  {%- endfor -%}
+  {%- for t in tags -%}
+  <url>
+    <loc>{{ site.url }}/tag/{{ t.slug }}/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  {%- endfor -%}
+  {%- for w in weeks -%}
+  <url>
+    <loc>{{ site.url }}/week/{{ w.week }}/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.4</priority>
   </url>
   {%- endfor -%}
 </urlset>

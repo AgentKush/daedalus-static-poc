@@ -17,8 +17,8 @@ for (const m of sortedMods) {
 }
 
 module.exports = sortedMods.map((m, i) => {
-  const author_slug = m.id?.split("--")[0] || slug(m.author);
-  const name_slug = m.id?.split("--")[1] || slug(m.name);
+  const author_slug = (m.id && m.id.includes("--") ? m.id.split("--")[0] : slug(m.author));
+  const name_slug = (m.id && m.id.includes("--") ? m.id.split("--")[1] : slug(m.name));
   const detail = details[m.id];
   const fileTypes = Object.keys(m.files || {}).filter(k => m.files[k]);
   const downloads = fileTypes.map(t => ({
@@ -36,8 +36,8 @@ module.exports = sortedMods.map((m, i) => {
     .map(o => ({
       name: o.name,
       description: o.description,
-      author_slug: o.id?.split("--")[0] || slug(o.author),
-      slug: o.id?.split("--")[1] || slug(o.name),
+      author_slug: (o.id && o.id.includes("--") ? o.id.split("--")[0] : slug(o.author)),
+      slug: (o.id && o.id.includes("--") ? o.id.split("--")[1] : slug(o.name)),
       file_types: Object.keys(o.files || {}).filter(k => o.files[k])
     }));
 
@@ -61,8 +61,8 @@ module.exports = sortedMods.map((m, i) => {
         name: e.mod.name,
         description: e.mod.description,
         author: e.mod.author,
-        author_slug: e.mod.id?.split("--")[0] || slug(e.mod.author),
-        slug: e.mod.id?.split("--")[1] || slug(e.mod.name),
+        author_slug: (e.mod.id && e.mod.id.includes("--") ? e.mod.id.split("--")[0] : slug(e.mod.author)),
+        slug: (e.mod.id && e.mod.id.includes("--") ? e.mod.id.split("--")[1] : slug(e.mod.name)),
         file_types: Object.keys(e.mod.files || {}).filter(k => e.mod.files[k]),
         compatibility: e.mod.compatibility
       }));
@@ -88,8 +88,8 @@ module.exports = sortedMods.map((m, i) => {
     downloads,
     has_exmodz: fileTypes.includes("exmodz") || fileTypes.includes("exmod"),
     updated_string: detail?.updated_string || "",
-    prev: prev ? { name: prev.name, author_slug: prev.id?.split("--")[0] || slug(prev.author), slug: prev.id?.split("--")[1] || slug(prev.name) } : null,
-    next: next ? { name: next.name, author_slug: next.id?.split("--")[0] || slug(next.author), slug: next.id?.split("--")[1] || slug(next.name) } : null,
+    prev: prev ? { name: prev.name, author_slug: (prev.id && prev.id.includes("--") ? prev.id.split("--")[0] : slug(prev.author)), slug: (prev.id && prev.id.includes("--") ? prev.id.split("--")[1] : slug(prev.name)) } : null,
+    next: next ? { name: next.name, author_slug: (next.id && next.id.includes("--") ? next.id.split("--")[0] : slug(next.author)), slug: (next.id && next.id.includes("--") ? next.id.split("--")[1] : slug(next.name)) } : null,
     other_by_author: otherByAuthor,
     similar,
     author_stats: (() => {

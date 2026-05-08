@@ -113,8 +113,11 @@ module.exports = sortedTags.map(([tag, list]) => ({
     author: m.author,
     source: m._source || "curated",
     mod_page_url: m.mod_page_url || (m.nexus_id ? `https://www.nexusmods.com/icarus/mods/${m.nexus_id}` : null),
-    author_slug: m.id?.split("--")[0] || slug(m.author),
-    slug: m.id?.split("--")[1] || slug(m.name),
+    // Only use the id-derived split if id actually has the "--" form.
+    // Nexus mods have numeric ids like "138" with no "--", so falling through
+    // to slug(author)+slug(name) is correct for them.
+    author_slug: (m.id && m.id.includes("--")) ? m.id.split("--")[0] : slug(m.author),
+    slug: (m.id && m.id.includes("--")) ? m.id.split("--")[1] : slug(m.name),
     file_types: Object.keys(m.files || {}).filter(k => m.files[k])
   }))
 }));

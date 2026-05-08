@@ -43,7 +43,7 @@ module.exports = sorted.map(([author, list]) => {
       version: m.version,
       compatibility: m.compatibility,
       author_slug: slug(m.author),
-      slug: m.id?.split("--")[1] || slug(m.name),
+      slug: (m.id && m.id.includes("--") ? m.id.split("--")[1] : slug(m.name)),
       file_types: Object.keys(m.files || {}).filter(k => m.files[k]),
       image_url: m.image_url || m.imageURL || null,
     })),
@@ -52,7 +52,7 @@ module.exports = sorted.map(([author, list]) => {
     newest_mod: newest ? {
       name: newest.name,
       author_slug: slug(newest.author),
-      slug: newest.id?.split("--")[1] || slug(newest.name),
+      slug: (newest.id && newest.id.includes("--") ? newest.id.split("--")[1] : slug(newest.name)),
       compatibility: newest.compatibility
     } : null
   };

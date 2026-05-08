@@ -20,8 +20,8 @@ module.exports = sorted.map(([week, list]) => ({
     name: m.name,
     description: m.description,
     author: m.author,
-    author_slug: m.id?.split("--")[0] || slug(m.author),
-    slug: m.id?.split("--")[1] || slug(m.name),
+    author_slug: (m.id && m.id.includes("--") ? m.id.split("--")[0] : slug(m.author)),
+    slug: (m.id && m.id.includes("--") ? m.id.split("--")[1] : slug(m.name)),
     version: m.version,
     compatibility: m.compatibility,
     file_types: Object.keys(m.files || {}).filter(k => m.files[k])
