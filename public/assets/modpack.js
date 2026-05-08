@@ -41,7 +41,9 @@ function activate(allMods) {
   STATE.active = true;
   STATE.selected.clear();
   STATE.modsById.clear();
-  for (const m of allMods) STATE.modsById.set(m.id || `${slug(m.author)}--${slug(m.name)}`, m);
+  // Key by slug(author)+slug(name) so the keys match what render() derives from the row's onclick URL.
+  // (Mod.id from REST is the Firestore doc ID like "Coracks_Tools", which doesn't match the slug-based URLs.)
+  for (const m of allMods) STATE.modsById.set(`${slug(m.author)}--${slug(m.name)}`, m);
   ensureUI().style.display = "flex";
   // Show banner above the rows
   const rowsTable = document.getElementById("rows")?.closest("table");
