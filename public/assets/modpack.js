@@ -139,119 +139,66 @@ function pickPrimaryUrl(files) {
   return null;
 }
 
-function exportPack() {
+async function exportPack() {
   if (STATE.selected.size === 0) {
     flash("Select at least one mod first by clicking its row.");
     return;
   }
-  const items = [...STATE.selected].map(id => STATE.modsById.get(id)).filter(Boolean).map(m => ({
-    id: m.id, name: m.name, author: m.author, version: m.version,
-    compatibility: m.compatibility, files: m.files,
-    detail_url: `${window.location.origin}${window.location.pathname.replace(/\/$/, "")}/mods/${slug(m.author)}/${slug(m.name)}/`,
-    description: m.description
-  }));
-  const manifest = {
-    name: "My Project Daedalus mod pack",
-    generated_at: new Date().toISOString(),
-    site: "https://projectdaedalus.app",
-    count: items.length,
-    mods: items
-  };
-  const json = JSON.stringify(manifest, null, 2);
-  const discord = items.map(m => `• **${m.name}** by ${m.author || "unknown"} — ${m.detail_url}`).join("\n");
+  const items = [...STATE.selected].map(id => STATE.modsById.get(id)).filter(Boolean);
+  const exportBtn = document.getElementById("modpack-export");
+  const status = document.getElementById("modpack-count");
+  if (exportBtn) exportBtn.disabled = true;
+  const restoreBtn = () => { if (exportBtn) { exportBtn.disabled = false; exportBtn.textContent = "Export"; } };
 
-  const overlay = document.createElement("div");
-  overlay.style.cssText = "position:fixed;inset:0;background:rgba(15,23,42,.85);z-index:9999;display:flex;align-items:center;justify-content:center;padding:1rem;";
-  overlay.innerHTML = `
-    <div style="background:#0f172a;border:1px solid #334155;border-radius:0.75rem;padding:1.5rem;max-width:48rem;width:100%;color:#e2e8f0;font-family:Inter,system-ui,sans-serif;max-height:90vh;display:flex;flex-direction:column;">
-      <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:1rem;">
-        <div>
-          <h3 style="color:#f1ad1c;font-weight:700;font-size:1.125rem;margin:0;">Mod pack export</h3>
-          <p style="margin:0.25rem 0 0 0;color:#94a3b8;font-size:0.875rem;">${items.length} mod${items.length===1?"":"s"} selected</p>
-        </div>
-        <button id="mp-x" style="background:transparent;border:none;color:#94a3b8;font-size:1.5rem;line-height:1;cursor:pointer;padding:0;">×</button>
-      </div>
-      <div style="display:flex;gap:0.5rem;margin-bottom:0.75rem;flex-wrap:wrap;">
-        <button id="mp-zip" style="padding:0.5rem 1rem;background:#f1ad1c;color:#0f172a;border:none;border-radius:0.375rem;font-weight:600;cursor:pointer;">⬇ Download .zip with mod files</button>
-        <button id="mp-dl" style="padding:0.5rem 1rem;background:transparent;color:#cbd5e1;border:1px solid #475569;border-radius:0.375rem;font-weight:500;cursor:pointer;">⬇ Manifest only</button>
-        <button id="mp-discord" style="padding:0.5rem 1rem;background:#5865f2;color:white;border:none;border-radius:0.375rem;font-weight:600;cursor:pointer;">📋 Copy Discord-formatted</button>
-      </div>
-      <p id="mp-zip-status" style="margin:0 0 0.5rem 0;font-size:0.75rem;color:#94a3b8;min-height:1rem;"></p>
-      <div style="overflow:auto;flex:1;">
-        <h4 style="margin:0 0 0.5rem 0;font-size:0.75rem;text-transform:uppercase;color:#94a3b8;">JSON manifest</h4>
-        <pre style="background:#1e293b;padding:0.75rem;border-radius:0.375rem;font-size:0.75rem;overflow:auto;color:#cbd5e1;">${escape(json)}</pre>
-      </div>
-    </div>
-  `;
-  overlay.addEventListener("click", e => { if (e.target === overlay) overlay.remove(); });
-  document.body.appendChild(overlay);
-  document.getElementById("mp-x").addEventListener("click", () => overlay.remove());
-  document.getElementById("mp-dl").addEventListener("click", () => {
-    const blob = new Blob([json], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a"); a.href = url; a.download = "modpack.json"; a.click();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
-  });
-  document.getElementById("mp-discord").addEventListener("click", () => {
-    navigator.clipboard.writeText(discord).then(() => {
-      document.getElementById("mp-discord").textContent = "✓ Copied!";
-    }).catch(()=>{});
-  });
-
-  // Zip-and-download path: lazy-load JSZip, fetch each mod file, bundle.
-  document.getElementById("mp-zip").addEventListener("click", async () => {
-    const zipBtn = document.getElementById("mp-zip");
-    const status = document.getElementById("mp-zip-status");
-    zipBtn.disabled = true;
-    zipBtn.textContent = "Loading zip library…";
-    status.textContent = "";
-    try {
-      const JSZip = await loadJSZip();
-      const zip = new JSZip();
-      zip.file("manifest.json", json);
-      const skipped = [];
-      let done = 0;
-      for (const m of items) {
-        const primary = pickPrimaryUrl(m.files);
-        if (!primary) { skipped.push({ name: m.name, reason: "no download URL" }); continue; }
-        zipBtn.textContent = `Fetching ${++done}/${items.length}…`;
-        status.textContent = `${m.name}…`;
-        try {
-          const r = await fetch(primary.url);
-          if (!r.ok) { skipped.push({ name: m.name, reason: `HTTP ${r.status}` }); continue; }
-          const blob = await r.blob();
-          const filename = primary.url.split("/").pop().split("?")[0];
-          // Folder per author keeps things tidy
-          const folder = (m.author || "unknown").replace(/[\\/:*?"<>|]/g, "_");
-          zip.file(`${folder}/${filename}`, blob);
-        } catch (e) {
-          skipped.push({ name: m.name, reason: e.message || "fetch failed (CORS or offline?)" });
-        }
+  try {
+    if (exportBtn) exportBtn.textContent = "Loading…";
+    const JSZip = await loadJSZip();
+    const zip = new JSZip();
+    const skipped = [];
+    let done = 0;
+    for (const m of items) {
+      const primary = pickPrimaryUrl(m.files);
+      done++;
+      if (status) status.textContent = `Fetching ${done}/${items.length}: ${m.name}`;
+      if (!primary) { skipped.push({ name: m.name, reason: "no download URL" }); continue; }
+      try {
+        const r = await fetch(primary.url);
+        if (!r.ok) { skipped.push({ name: m.name, reason: `HTTP ${r.status}` }); continue; }
+        const blob = await r.blob();
+        const filename = primary.url.split("/").pop().split("?")[0];
+        const folder = (m.author || "unknown").replace(/[\\/:*?"<>|]/g, "_");
+        zip.file(`${folder}/${filename}`, blob);
+      } catch (e) {
+        skipped.push({ name: m.name, reason: (e.message || "fetch failed (CORS or offline?)") });
       }
-      if (skipped.length) {
-        zip.file("SKIPPED.txt",
-          "These mods couldn't be bundled into the zip and need to be downloaded manually:\n\n" +
-          skipped.map(s => `- ${s.name}: ${s.reason}`).join("\n"));
-      }
-      zipBtn.textContent = "Compressing…";
-      status.textContent = "";
-      const blob = await zip.generateAsync({ type: "blob", compression: "DEFLATE", compressionOptions: { level: 6 } });
-      const sizeMb = (blob.size / 1024 / 1024).toFixed(1);
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `daedalus-modpack-${items.length}mods.zip`;
-      a.click();
-      setTimeout(() => URL.revokeObjectURL(url), 2000);
-      zipBtn.textContent = `✓ Downloaded (${sizeMb} MB)`;
-      if (skipped.length) status.textContent = `${skipped.length} mod${skipped.length===1?"":"s"} couldn't be bundled — see SKIPPED.txt in the zip`;
-    } catch (e) {
-      zipBtn.disabled = false;
-      zipBtn.textContent = "⬇ Download .zip with mod files";
-      status.textContent = `Error: ${e.message}`;
-      status.style.color = "#f87171";
     }
-  });
+    if (skipped.length) {
+      zip.file("SKIPPED.txt",
+        "These mods couldn't be bundled into the zip and need to be downloaded manually:\n\n" +
+        skipped.map(s => `- ${s.name}: ${s.reason}`).join("\n"));
+    }
+    if (status) status.textContent = "Compressing…";
+    const blob = await zip.generateAsync({ type: "blob", compression: "DEFLATE", compressionOptions: { level: 6 } });
+    const sizeMb = (blob.size / 1024 / 1024).toFixed(1);
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `daedalus-modpack-${items.length}mods.zip`;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 2000);
+    if (status) {
+      const tail = skipped.length ? ` · ${skipped.length} skipped (see SKIPPED.txt)` : "";
+      status.textContent = `Downloaded ${sizeMb} MB${tail}`;
+      setTimeout(() => { if (status) status.textContent = `${STATE.selected.size} selected`; }, 5000);
+    }
+    restoreBtn();
+  } catch (e) {
+    if (status) {
+      status.textContent = `Error: ${e.message}`;
+      setTimeout(() => { if (status) status.textContent = `${STATE.selected.size} selected`; }, 4000);
+    }
+    restoreBtn();
+  }
 }
 
 function flash(msg) {
