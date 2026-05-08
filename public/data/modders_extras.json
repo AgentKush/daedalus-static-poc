@@ -1,0 +1,7 @@
+{
+  "_comment": "Modder repos not yet in production's Firestore meta/repos. Unioned with production's registry by sync-modinfos.mjs at sync time. Once Donovan adds them upstream, we can drop them from this file.",
+  "_added_via": "manual additions; the weekly discover-modders.yml workflow auto-PRs new candidates against this file",
+  "repos": [
+    "https://github.com/jgentil/IcarusMods"
+  ]
+}

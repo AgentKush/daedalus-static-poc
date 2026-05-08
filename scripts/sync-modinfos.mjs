@@ -86,15 +86,41 @@ async function fetchLatestCommitDate(owner, repo, path, branch) {
   return date;
 }
 async function getRepoList() {
-  // Try live registry first; fall back to cached snapshot if unreachable
+  // Production's meta/repos Firestore document is the source of truth, but
+  // we also support a local public/data/modders_extras.json to onboard modders
+  // independently of upstream (e.g. while we wait for Donovan to mirror them).
+  // Both sources are unioned and de-duplicated.
+  let upstream = [];
   try {
     const data = await fetchJson(REGISTRY_URL);
-    return (data.fields?.list?.arrayValue?.values || []).map(v => v.stringValue).filter(Boolean);
+    upstream = (data.fields?.list?.arrayValue?.values || []).map(v => v.stringValue).filter(Boolean);
   } catch (e) {
     console.warn(`[sync] couldn't reach live registry: ${e.message} — using cached data/modders.json`);
-    const cached = JSON.parse(fs.readFileSync(REGISTRY_OUT, "utf-8"));
-    return cached.repos || [];
+    try {
+      const cached = JSON.parse(fs.readFileSync(REGISTRY_OUT, "utf-8"));
+      upstream = cached.repos || [];
+    } catch {}
   }
+  let extras = [];
+  try {
+    const extrasPath = "public/data/modders_extras.json";
+    if (fs.existsSync(extrasPath)) {
+      const e = JSON.parse(fs.readFileSync(extrasPath, "utf-8"));
+      extras = e.repos || [];
+    }
+  } catch (e) { console.warn(`[sync] modders_extras.json unreadable: ${e.message}`); }
+  // Normalize and dedupe
+  const norm = (u) => u.replace(/\.git$/, "").replace(/\/$/, "").toLowerCase();
+  const seen = new Set();
+  const out = [];
+  for (const u of [...upstream, ...extras]) {
+    const k = norm(u);
+    if (seen.has(k)) continue;
+    seen.add(k);
+    out.push(u);
+  }
+  if (extras.length) console.log(`[sync] +${extras.length} repo(s) from local modders_extras.json (${out.length} total after dedup)`);
+  return out;
 }
 
 function repoToOwnerName(repoUrl) {
