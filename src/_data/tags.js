@@ -7,53 +7,56 @@ function slug(s) {
 // Tag rules: keyword → tag. Order doesn't matter (a mod can match multiple).
 // Each rule is { tag, pattern (RegExp source) }. Matched against `${name} ${description}`.
 const RULES = [
-  // SPEED — only obviously-speed phrasing. Dropping the bare `x\d+` pattern
-  // because that catches stack-size mods like "x100" / "x500" which aren't speed.
-  { tag: "speed",          re: /\b(faster|increased[\s-]+speed|production[\s-]+speed|extraction[\s-]+speed|taming[\s-]+speed|smelting[\s-]+speed|crafting[\s-]+speed|processing[\s-]+speed|harvest[\s-]+speed|speed[\s-]+up|x\d+[\s-]*(faster|speed|quicker))\b/i },
-  // NO-DECAY — explicit "no decay" / "prevent decay" wording
-  { tag: "no-decay",       re: /\b(no[\s-]*decay|prevents?[\s-]+decay|stop(s)?[\s-]+decay|reduces?[\s-]+decay)\b/i },
+  // SPEED
+  { tag: "speed",          re: /\b(faster|increased[\s-]+speed|production[\s-]+speed|extraction[\s-]+speed|taming[\s-]+speed|smelting[\s-]+speed|crafting[\s-]+speed|processing[\s-]+speed|harvest[\s-]+speed|speed[\s-]+up|x\d+[\s-]*(faster|speed|quicker)|crafting[\s-]+and[\s-]+processing|halves[\s-]+crafting)\b/i },
+  // NO-DECAY — also match "no spoilage" / "extends decay timers" / "prevents spoil"
+  { tag: "no-decay",       re: /\b(no[\s-]*(decay|spoil(age)?)|prevent(s|ing|ed)?[\s-]+(decay|spoil(age)?)|stop(s|ping|ped)?[\s-]+(decay|spoil(age)?)|reduce(s|d)?[\s-]+(decay|spoil(age)?)|extend(s|ed)?[\s-]+(decay|spoil(age)?)[\s-]*(timer|time)?|decay[\s-]+timer)\b/i },
   // INDESTRUCTIBLE
-  { tag: "indestructible", re: /\b(indestructible|unbreakable|infinite[\s-]?dur(ability)?|max(?:imum)?[\s-]?durability)\b/i },
-  // TALENTS — talent tree / talents
+  { tag: "indestructible", re: /\b(indestructible|unbreakable|infinite[\s-]?dur(ability)?|max(imum)?[\s-]?durability|never[\s-]+break)\b/i },
+  // TALENTS
   { tag: "talents",        re: /\btalent(s|[\s-]?tree)?\b/i },
   // WORKSHOP
   { tag: "workshop",       re: /\bworkshop\b/i },
   // QOL
   { tag: "qol",            re: /\b(qol|quality[\s-]of[\s-]life)\b/i },
-  // STACK — must say stack/stacks/stackable, not just "x100"
-  { tag: "stack",          re: /\b(stack[s]?\b|stack[\s-]?size|stackable|stack[\s-]?of)\b/i },
-  // WEIGHT — weight-of-items / carry / encumbrance / backpack
+  // STACK
+  { tag: "stack",          re: /\b(stack[s]?\b|stack[\s-]?size[s]?|stackable|stack[\s-]?of)\b/i },
+  // WEIGHT
   { tag: "weight",         re: /\b(carry[\s-]?weight|reduce(d|s)?[\s-]?weight|encumb(er|rance)|backpack[s]?|hercules)\b/i },
   // AMMO
-  { tag: "ammo",           re: /\b(ammo|ammunition)\b/i },
-  // WEAPONS — specific weapon types only, no bare "axe" (overlaps with pickaxe)
-  { tag: "weapons",        re: /\b(crossbow|compound[\s-]?bow|recurve[\s-]?bow|long[\s-]?bow|pistol|rifle|shotgun|sniper|sword|spear|javelin|grenade|hk[\s-]?417|sks|firearm)\b/i },
-  // TOOLS — specific tool nouns rather than the bare word "tool"
-  { tag: "tools",          re: /\b(pickaxe|sledgehammer|sickle|woodaxe|extractor|fishing[\s-]?rod|build[\s-]?tool|map[\s-]?tool|build[\s-]?tools)\b/i },
-  // ARMOR — armor sets / attachments / suits, not bare "armor" (overlaps with weapons reskins)
-  { tag: "armor",          re: /\b(armou?r[\s-]?set|armou?r[\s-]?attachment|armou?r[\s-]?expansion|envir(?:o|on(?:mental)?)[\s-]?suit)\b/i },
-  // CREATURES — animals only. Dropped "dropship" (that's a vehicle, not a creature).
-  { tag: "creatures",      re: /\b(creature[s]?|wolf|bear[\s-]?(?:cub|mount|pet)?|moose|deer|chicken|cow[s]?\b|fishing|fishery|fishable|wildlife|spawn[\s-]?zone|spawn[\s-]?rate|tame|taming|wolf[\s-]?pack|honey[\s-]?bee|raccoon|rabbit)\b/i },
+  { tag: "ammo",           re: /\b(ammo|ammunition|arrow[s]?\b|bullet[s]?\b)\b/i },
+  // WEAPONS
+  { tag: "weapons",        re: /\b(crossbow[s]?|compound[\s-]?bow[s]?|recurve[\s-]?bow[s]?|long[\s-]?bow[s]?|pistol[s]?|rifle[s]?|shotgun[s]?|sniper[s]?|sword[s]?|spear[s]?|javelin[s]?|grenade[s]?|hk[\s-]?417|sks|firearm[s]?|turret[s]?)\b/i },
+  // TOOLS — accept plural and tool-kit phrasing
+  { tag: "tools",          re: /\b(pickaxe[s]?|sledgehammer[s]?|sickle[s]?|woodaxe[s]?|extractor[s]?|fishing[\s-]?rod[s]?|build[\s-]?tool[s]?|map[\s-]?tool[s]?|dev[\s-]?tool[s]?|tool[\s-]?kit[s]?)\b/i },
+  // ARMOR — accept plurals on attachment/piece/kit
+  { tag: "armor",          re: /\b(armou?r[\s-]?set[s]?|armou?r[\s-]?attachment[s]?|armou?r[\s-]?expansion|armou?r[\s-]?piece[s]?|armou?r[\s-]?kit[s]?|envir(?:o|on(?:mental)?)[\s-]?suit[s]?|attachment[s]?[\s-]+slot)\b/i },
+  // CREATURES
+  { tag: "creatures",      re: /\b(creature[s]?|wolf|wolves|bear[\s-]?(cub|mount|pet)?|moose|deer|chicken[s]?|cow[s]?\b|fishing|fishery|fishable|wildlife|spawn[\s-]?zone[s]?|spawn[\s-]?rate|tame|taming|wolf[\s-]?pack|honey[\s-]?bee[s]?|raccoon[s]?|rabbit[s]?|sulfur[\s-]?worm|sulfur[\s-]?vesper|cave[\s-]?worm|vesper[s]?)\b/i },
   // MOUNTS
-  { tag: "mounts",         re: /\b(mount[s]?|saddle|riding|cavalry|moa[\s-]?upgrade|bear[\s-]?mount|horse[\s-]?cart)\b/i },
-  // FOOD
-  { tag: "food",           re: /\b(cooking[\s-]?bench|food[\s-]?stack|food[\s-]?spoil|hunger|nutrition|cook(?:ing|ed)|drink|honey|milk\b|coconut)\b/i },
+  { tag: "mounts",         re: /\b(mount[s]?|saddle[s]?|riding|cavalry|moa[\s-]?upgrade|bear[\s-]?mount|horse[\s-]?cart)\b/i },
+  // FOOD — much wider: spoilage, spoil, recipe, food-buff, composter, culinary, hunger, nutrition
+  { tag: "food",           re: /\b(cooking[\s-]?bench|food[\s-]?(stack|spoil(age)?|buff|recipe|item|boost)?|spoil(age)?\b|hunger|nutrition|cook(ing|ed)|drink|honey|milk\b|coconut|composter|culinary|meal[s]?|edible)\b/i },
   // FARMING
-  { tag: "farming",        re: /\b(farm(?:ing)?|crop[s]?\b|seed[s]?|plant(?:ing)?|garden|crop[\s-]?plot|bee[s\s-]|coconut|soy)\b/i },
+  { tag: "farming",        re: /\b(farm(ing)?|crop[s]?\b|seed[s]?|plant(ing)?|garden|crop[\s-]?plot[s]?|bee[s\s-]|coconut|soy|cultivation[s]?|harvest)\b/i },
   // MINING
-  { tag: "mining",         re: /\b(mining|ore[s]?|extract(?:or|ion)?|prospect|exotic|deep[\s-]?ore|smelting|furnace[s]?)\b/i },
-  // BUILDING
-  { tag: "building",       re: /\b(building|construct(?:ion|ed)?|deco|furniture|bench|wall[s]?|foundation|roof|door[s]?|deployable)\b/i },
+  { tag: "mining",         re: /\b(mining|ore[s]?|extract(or[s]?|ion)?|prospect|exotic|deep[\s-]?ore|smelting|furnace[s]?|drill[s]?\b)\b/i },
+  // BUILDING — building/construct/wall/etc, plus "building pieces" specifically
+  { tag: "building",       re: /\b(building[\s-]?piece[s]?|building|construct(ion|ed)?|deco|furniture|bench|wall[s]?|foundation[s]?|roof|door[s]?|deployable[s]?|build[\s-]?tool[s]?)\b/i },
   // WEATHER
   { tag: "weather",        re: /\b(weather|storm|temperature|cold|heat|rain|snow|tornado|blizzard|atmospheric)\b/i },
   // MULTIPLAYER
   { tag: "multiplayer",    re: /\b(multi[\s-]?player|coop|co[\s-]?op|dedicated[\s-]?server)\b/i },
   // BALANCE
   { tag: "balance",        re: /\b(balance[d]?|overhaul|rework|rebalance|tuning|tweak[s]?)\b/i },
-  // VEHICLES — new tag. Includes dropship.
-  { tag: "vehicles",       re: /\b(speeder|dropship|drop[\s-]?ship|truck|vehicle|chassis|rover|glider|hover[\s-]?craft|skiff|cart\b)\b/i },
+  // VEHICLES
+  { tag: "vehicles",       re: /\b(speeder|dropship|drop[\s-]?ship|truck|vehicle[s]?|chassis|rover|glider|hover[\s-]?craft|skiff|cart\b)\b/i },
   // STARTER
-  { tag: "starter",        re: /\b(starter[\s-]?kit|starter[\s-]?pack|new[\s-]?game|new[\s-]?player|fresh[\s-]?start)\b/i }
+  { tag: "starter",        re: /\b(starter[\s-]?kit[s]?|starter[\s-]?pack|new[\s-]?game|new[\s-]?player|fresh[\s-]?start)\b/i },
+  // PERFORMANCE — new tag for FPS / optimization mods
+  { tag: "performance",    re: /\b(fps|performance|optimi[sz]ation|optimi[sz]er|lod|foliage[\s-]?reduction)\b/i },
+  // COSMETIC — new tag for skins, eye colours, paint, etc.
+  { tag: "cosmetic",       re: /\b(re[\s-]?skin|skin[\s-]?pack|skin[\s-]?kit|eye[\s-]?colou?r[s]?|paint[\s-]?job[s]?|cosmetic[s]?|texture[\s-]?pack|camo)\b/i }
 ];
 
 function tagsFor(mod) {
