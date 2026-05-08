@@ -81,34 +81,49 @@ description: "Full-text search across every mod listing and README on Project Da
 
   /* Result cards — proper border + spacing, not white separators */
   .daedalus-search .pagefind-ui__results-area { margin-top: 0.75rem; }
-  .daedalus-search .pagefind-ui__result {
-    background: var(--pagefind-ui-background);
-    border: 1px solid var(--pagefind-ui-border);
-    border-radius: 0.5rem;
-    padding: 1rem 1.25rem;
-    margin-bottom: 0.75rem;
+  .daedalus-search .pagefind-ui__result,
+  .daedalus-search .pagefind-ui__results-area > .pagefind-ui__result,
+  .daedalus-search ol > li.pagefind-ui__result {
+    background: var(--pagefind-ui-background) !important;
+    border: 1px solid var(--pagefind-ui-border) !important;
+    border-radius: 0.5rem !important;
+    padding: 1.25rem 1.5rem !important;
+    margin-bottom: 0.75rem !important;
     transition: border-color 120ms ease, transform 120ms ease;
+    list-style: none !important;
   }
   .daedalus-search .pagefind-ui__result:hover {
-    border-color: var(--pagefind-ui-primary);
+    border-color: var(--pagefind-ui-primary) !important;
     transform: translateY(-1px);
   }
+  /* Pagefind sometimes renders an inner wrapper — make sure its margins/padding don't fight ours */
+  .daedalus-search .pagefind-ui__result-inner,
+  .daedalus-search .pagefind-ui__result > * {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
   /* Mod name (the main link) — gold, prominent */
-  .daedalus-search .pagefind-ui__result-title { margin-bottom: 0.25rem; }
+  .daedalus-search .pagefind-ui__result-title {
+    margin: 0 0 0.4rem 0 !important;
+    padding: 0 !important;
+  }
   .daedalus-search .pagefind-ui__result-link {
     color: var(--pagefind-ui-primary) !important;
-    font-weight: 700;
-    font-size: 1.1rem;
-    text-decoration: none;
+    font-weight: 700 !important;
+    font-size: 1.1rem !important;
+    text-decoration: none !important;
+    line-height: 1.3 !important;
   }
-  .daedalus-search .pagefind-ui__result-link:hover { text-decoration: underline; }
+  .daedalus-search .pagefind-ui__result-link:hover { text-decoration: underline !important; }
 
-  /* Description / excerpt — readable contrast */
+  /* Description / excerpt — readable contrast and proper inset */
   .daedalus-search .pagefind-ui__result-excerpt {
-    color: var(--pagefind-ui-text);
+    color: var(--pagefind-ui-text) !important;
     opacity: 0.85;
-    font-size: 0.9rem;
-    line-height: 1.5;
+    font-size: 0.9rem !important;
+    line-height: 1.55 !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
   .daedalus-search .pagefind-ui__result-excerpt mark {
     background: rgba(241, 173, 28, 0.25);
