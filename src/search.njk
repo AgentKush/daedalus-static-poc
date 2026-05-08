@@ -13,6 +13,12 @@ description: "Full-text search across every mod listing and README on Project Da
   </p>
 
   <div id="search" class="daedalus-search"></div>
+  <div id="nexus-search-section" class="mt-6" hidden>
+    <h3 class="mb-3 text-sm uppercase tracking-wide text-icarus-500 font-semibold">
+      Nexus Mods <span id="nexus-search-count" class="text-slate-500 normal-case font-normal"></span>
+    </h3>
+    <ul id="nexus-search-results" class="space-y-2"></ul>
+  </div>
   <p class="mt-6 text-xs text-slate-500 dark:text-slate-400">Powered by <a href="https://pagefind.app" class="text-icarus-500 hover:underline">Pagefind</a> — index built at deploy time.</p>
 </section>
 
@@ -29,6 +35,56 @@ description: "Full-text search across every mod listing and README on Project Da
       resetStyles: false,
       translations: { placeholder: "Search mods (e.g. 'speed crafting' or 'no decay')…" }
     });
+
+    // Nexus-mods client-side search. Pagefind doesn't index Nexus mods because
+    // they don't have per-mod pages on this site (they link out to nexusmods.com),
+    // so we filter the bundled nexus_mods.json on every keystroke alongside Pagefind.
+    let nexusMods = null;
+    const section = document.getElementById("nexus-search-section");
+    const list = document.getElementById("nexus-search-results");
+    const count = document.getElementById("nexus-search-count");
+
+    function renderNexus(query) {
+      const q = (query || "").trim().toLowerCase();
+      if (!q || !nexusMods) { section.hidden = true; return; }
+      const matches = nexusMods.filter(m =>
+        (m.name || "").toLowerCase().includes(q) ||
+        (m.author || "").toLowerCase().includes(q) ||
+        (m.description || "").toLowerCase().includes(q)
+      ).slice(0, 12);
+      if (!matches.length) { section.hidden = true; return; }
+      section.hidden = false;
+      count.textContent = `${matches.length} match${matches.length === 1 ? "" : "es"}`;
+      const esc = (str) => (str || "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+      const mark = (text, q) => {
+        const i = text.toLowerCase().indexOf(q);
+        if (i < 0) return esc(text);
+        return esc(text.slice(0, i)) + `<mark style="background:rgba(241,173,28,.25);color:inherit;padding:0 2px;border-radius:2px;">${esc(text.slice(i, i+q.length))}</mark>` + esc(text.slice(i+q.length));
+      };
+      list.innerHTML = matches.map(m => {
+        const url = m.mod_page_url || `https://www.nexusmods.com/icarus/mods/${m.nexus_id}`;
+        const week = m.compatibility ? `<span class="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-medium bg-icarus-500/20 text-icarus-500">${esc(m.compatibility.toLowerCase())}</span>` : "";
+        return `<li class="p-4 border rounded-lg border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800/50 hover:border-icarus-500 transition-colors">
+          <a href="${esc(url)}" target="_blank" rel="noopener" class="no-underline">
+            <div class="flex items-start justify-between gap-3 mb-1">
+              <div class="font-bold text-icarus-500 text-base">${mark(m.name || "(unnamed)", q)} <span class="ml-2 text-[10px] uppercase tracking-wide bg-icarus-500/20 text-icarus-500 px-1.5 py-0.5 rounded">Nexus ↗</span></div>
+              ${week}
+            </div>
+            <div class="text-xs text-slate-500 dark:text-slate-400 mb-1">by ${mark(m.author || "unknown", q)}</div>
+            ${m.description ? `<div class="text-sm text-slate-700 dark:text-slate-300 opacity-85">${mark((m.description || "").slice(0, 220), q)}${(m.description||"").length>220?"…":""}</div>` : ""}
+          </a>
+        </li>`;
+      }).join("");
+    }
+
+    fetch("../data/nexus_mods.json").then(r => r.ok ? r.json() : []).then(d => {
+      nexusMods = d;
+      const input = document.querySelector(".pagefind-ui__search-input");
+      if (input) {
+        renderNexus(input.value);
+        input.addEventListener("input", () => renderNexus(input.value));
+      }
+    }).catch(() => {});
   });
 </script>
 
