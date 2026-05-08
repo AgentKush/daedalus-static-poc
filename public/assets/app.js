@@ -134,8 +134,11 @@ function refresh() {
       if (weekBucket === "older"  && !(w < 200)) return false;
     }
     if (tagFilter) {
-      const id = mod.id || `${slug(mod.author)}--${slug(mod.name)}`;
-      const tags = tagState.byMod[id] || [];
+      // mod_tags.json is keyed by slug(author)--slug(name). On REST mode, mod.id
+      // is the Firestore doc ID (e.g. "Coracks_Tools") which doesn't match the
+      // slug. Always derive the lookup key the same way the index was built.
+      const tagKey = `${slug(mod.author)}--${slug(mod.name)}`;
+      const tags = tagState.byMod[tagKey] || [];
       if (!tags.includes(tagFilter)) return false;
     }
     return true;
