@@ -103,6 +103,28 @@ function repoToOwnerName(repoUrl) {
   return m ? { owner: m[1], repo: m[2].replace(/\.git$/, "") } : null;
 }
 
+// Probe each branch for any case variant of modinfo.json / toolinfo.json.
+// Some modders have ModInfo.json (PascalCase) or ModInfo.Json (mixed) — case-insensitive
+// match via the GitHub contents API gets us those without forcing them to rename.
+async function findActualFilename(owner, repo, branch, target) {
+  const url = `https://api.github.com/repos/${owner}/${repo}/contents/?ref=${encodeURIComponent(branch)}`;
+  const headers = { "Accept": "application/vnd.github+json" };
+  if (process.env.GITHUB_TOKEN) headers.Authorization = `token ${process.env.GITHUB_TOKEN}`;
+  try {
+    const r = await fetch(url, { headers });
+    if (!r.ok) return null;
+    const list = await r.json();
+    if (!Array.isArray(list)) return null;
+    const wanted = target.toLowerCase();
+    for (const item of list) {
+      if (item.type === "file" && item.name.toLowerCase() === wanted) {
+        return item.name; // actual filename with original casing
+      }
+    }
+  } catch {}
+  return null;
+}
+
 async function findInfoForRepo(repoUrl) {
   const parts = repoToOwnerName(repoUrl);
   if (!parts) return { mods: [], tools: [], branch: null };
@@ -110,17 +132,29 @@ async function findInfoForRepo(repoUrl) {
   // modinfo.json (mod listings) and toolinfo.json (modding tools).
   const result = { mods: [], tools: [], branch: null, sources: [] };
   for (const branch of BRANCHES) {
-    for (const filename of ["modinfo.json", "toolinfo.json"]) {
-      const url = `https://raw.githubusercontent.com/${parts.owner}/${parts.repo}/${branch}/${filename}`;
-      try {
-        const r = await fetch(url);
+    for (const targetFilename of ["modinfo.json", "toolinfo.json"]) {
+      // Try the lowercase form first (fast path — most repos have it lowercase)
+      let actualName = targetFilename;
+      let url = `https://raw.githubusercontent.com/${parts.owner}/${parts.repo}/${branch}/${actualName}`;
+      let r;
+      try { r = await fetch(url); } catch { continue; }
+      if (!r.ok) {
+        // Fall back to a case-insensitive directory listing
+        actualName = await findActualFilename(parts.owner, parts.repo, branch, targetFilename);
+        if (!actualName) continue;
+        url = `https://raw.githubusercontent.com/${parts.owner}/${parts.repo}/${branch}/${encodeURIComponent(actualName)}`;
+        try { r = await fetch(url); } catch { continue; }
         if (!r.ok) continue;
+      }
+      try {
         const data = await r.json();
         if (Array.isArray(data?.mods)) result.mods.push(...data.mods);
         if (Array.isArray(data?.tools)) result.tools.push(...data.tools);
         result.branch = result.branch || branch;
-        result.sources.push(`${branch}/${filename}`);
-      } catch {}
+        result.sources.push(`${branch}/${actualName}`);
+      } catch (e) {
+        console.warn(`[sync] ${parts.owner}/${parts.repo} ${branch}/${actualName}: JSON parse error - ${e.message}`);
+      }
     }
     if (result.sources.length) break; // first branch with a hit wins
   }
