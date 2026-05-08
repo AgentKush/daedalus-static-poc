@@ -13,7 +13,17 @@ function parseRepoFromUrl(url) {
 }
 
 function findRepoForMod() {
-  const links = document.querySelectorAll('a[href*="github"], a[href*="raw.githubusercontent"]');
+  // Prefer the mod's own primary URL embedded as a data attribute on the
+  // analytics <details>. This avoids accidentally picking up the site footer's
+  // "Source on GitHub" link to daedalus-static-poc when the mod has no files.
+  const det = document.querySelector("details[data-mod-primary-url]");
+  const primary = det?.dataset?.modPrimaryUrl || "";
+  if (primary) {
+    const r = parseRepoFromUrl(primary);
+    if (r) return r;
+  }
+  // Fallback: scan ONLY links that look like raw download URLs (not the footer link)
+  const links = document.querySelectorAll('a[href*="raw.githubusercontent"], a[href*="/raw/"], a[href*="/blob/"], a[href*="/releases/download/"]');
   for (const a of links) {
     const r = parseRepoFromUrl(a.href);
     if (r) return r;

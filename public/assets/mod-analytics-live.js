@@ -143,15 +143,38 @@ function fmtDate(iso) {
     }
 
     // Freshness — most recent commit
+    let daysSinceUpdate = null;
     if (freshEl) {
       if (newest) {
-        const daysSince = Math.floor((Date.now() - new Date(newest).getTime()) / 86400000);
-        const ind = freshnessLabel(daysSince);
+        daysSinceUpdate = Math.floor((Date.now() - new Date(newest).getTime()) / 86400000);
+        const ind = freshnessLabel(daysSinceUpdate);
         freshEl.innerHTML =
           `<div class="text-sm font-semibold ${ind.css}">${ind.label}</div>` +
-          `<div class="text-xs text-slate-500 dark:text-slate-400">Updated ${daysSince} day${daysSince === 1 ? "" : "s"} ago</div>`;
+          `<div class="text-xs text-slate-500 dark:text-slate-400">Updated ${daysSinceUpdate} day${daysSinceUpdate === 1 ? "" : "s"} ago</div>`;
       } else {
         freshEl.innerHTML = `<span class="text-slate-400">Unknown</span>`;
+      }
+    }
+
+    // Mod Status — combines freshness + has-files + has-readme into a real status.
+    // Replaces the previous hardcoded "All Clear".
+    const statusEl = document.querySelector('[data-analytics="mod-status"]');
+    if (statusEl) {
+      const det = document.querySelector("details[data-mod-id]");
+      const hasFiles = det?.dataset?.modHasFiles === "1";
+      const issues = [];
+      const warnings = [];
+      if (!hasFiles) issues.push("No download files");
+      if (daysSinceUpdate != null && daysSinceUpdate >= 365) warnings.push(`Stale — last updated ${Math.floor(daysSinceUpdate/30)} months ago`);
+      else if (daysSinceUpdate != null && daysSinceUpdate >= 180) warnings.push(`Aging — last updated ${daysSinceUpdate} days ago`);
+      if (!me.readme_url && !me.readmeURL) warnings.push("No README");
+      if (issues.length) {
+        statusEl.innerHTML = issues.map(i => `<div class="text-sm font-semibold text-red-400">⚠ ${i}</div>`).join("") +
+          warnings.map(w => `<div class="text-xs text-yellow-500 mt-0.5">· ${w}</div>`).join("");
+      } else if (warnings.length) {
+        statusEl.innerHTML = warnings.map(w => `<div class="text-sm font-semibold text-yellow-500">⚠ ${w}</div>`).join("");
+      } else {
+        statusEl.innerHTML = `<div class="text-sm font-semibold text-emerald-500">✓ All Clear</div>`;
       }
     }
 

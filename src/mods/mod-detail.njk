@@ -73,7 +73,9 @@ eleventyComputed:
     </div>
   {% endif %}
 
-  <details class="mt-3 group" data-mod-id="{{ mod.id }}">
+  {% set primaryModUrl = "" %}
+  {%- if mod.downloads and mod.downloads | length -%}{% set primaryModUrl = mod.downloads[0].url %}{%- elif mod.readme_url -%}{% set primaryModUrl = mod.readme_url %}{%- elif mod.image_url -%}{% set primaryModUrl = mod.image_url %}{%- endif %}
+  <details class="mt-3 group" data-mod-id="{{ mod.id }}" data-mod-primary-url="{{ primaryModUrl }}" data-mod-has-files="{{ '1' if mod.downloads and mod.downloads | length else '0' }}">
     <summary class="flex items-center gap-1 text-xs cursor-pointer text-icarus-500 hover:text-icarus-400 list-none">
       <svg class="w-3.5 h-3.5 transition-transform group-open:rotate-90" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
         <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
@@ -159,10 +161,10 @@ eleventyComputed:
       <!-- GitHub Stats (lazy-loaded when panel opens) -->
       <div id="github-stats-slot"></div>
 
-      <!-- Row 4: Mod Status (no metadata in static POC, so "All Clear") -->
+      <!-- Row 4: Mod Status — populated by mod-analytics-live.js using the freshness data + downloads -->
       <div class="p-4 border rounded-lg border-slate-300/50 dark:border-slate-600/50 bg-slate-300/40 dark:bg-slate-900/40">
         <div class="text-xs font-medium tracking-wide uppercase text-icarus-500">Mod Status</div>
-        <div class="mt-2 text-sm text-emerald-500">All Clear</div>
+        <div data-analytics="mod-status" class="mt-2 text-sm text-slate-500">checking…</div>
       </div>
     </div>
   </details>
