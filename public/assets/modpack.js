@@ -179,11 +179,23 @@ async function exportPack() {
       done++;
       if (status) status.textContent = `Fetching ${done}/${items.length}: ${m.name}`;
       if (!primary) { skipped.push({ name: m.name, reason: "no download URL", url: null }); continue; }
+      // Pre-flight check: GitHub release-asset downloads can't be auto-bundled.
+      // The github.com → release-assets.githubusercontent.com redirect doesn't carry
+      // CORS headers, so the browser blocks the fetch. There's no static-site workaround.
+      if (/^https?:\/\/github\.com\/[^/]+\/[^/]+\/releases\/download\//i.test(primary.url)) {
+        skipped.push({ name: m.name, reason: "GitHub release asset (browsers can't auto-download cross-origin — click the URL to grab it)", url: primary.url });
+        continue;
+      }
       const fetchUrl = corsSafeUrl(primary.url);
       try {
         const r = await fetch(fetchUrl);
-        if (!r.ok) { skipped.push({ name: m.name, reason: `HTTP ${r.status}`, url: primary.url }); continue; }
+        if (!r.ok) { skipped.push({ name: m.name, reason: `HTTP ${r.status} fetching ${fetchUrl}`, url: primary.url }); continue; }
         const blob = await r.blob();
+        // Sanity check: if we got an HTML page back instead of a binary, the URL is wrong
+        if (blob.type.startsWith("text/html")) {
+          skipped.push({ name: m.name, reason: `URL returned HTML, not the mod file (link probably broken)`, url: primary.url });
+          continue;
+        }
         const filename = primary.url.split("/").pop().split("?")[0];
         const folder = (m.author || "unknown").replace(/[\\/:*?"<>|]/g, "_");
         zip.file(`${folder}/${filename}`, blob);
