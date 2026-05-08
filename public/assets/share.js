@@ -72,16 +72,3 @@
   }
 })();
 
-// Click-to-copy for any [data-copy-target] button (server snippets, etc.)
-document.addEventListener("click", e => {
-  const btn = e.target.closest("[data-copy-target]");
-  if (!btn) return;
-  const target = document.getElementById(btn.dataset.copyTarget);
-  if (!target) return;
-  const text = target.textContent.trim();
-  navigator.clipboard.writeText(text).then(() => {
-    const orig = btn.textContent;
-    btn.textContent = "Copied!";
-    setTimeout(() => { btn.textContent = orig; }, 1200);
-  }).catch(() => {});
-});

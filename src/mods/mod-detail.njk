@@ -73,38 +73,6 @@ eleventyComputed:
     </div>
   {% endif %}
 
-  <!-- Collapsible Analytics for Mod Authors -->
-  <details class="mt-6 p-4 border rounded-lg border-slate-300/50 dark:border-slate-600/50 bg-slate-50 dark:bg-slate-800/30">
-    <summary class="cursor-pointer font-semibold text-icarus-500">Server install snippets</summary>
-    <div class="mt-3 space-y-4 text-sm">
-      {% set primaryUrl = "" %}
-      {% if mod.downloads and mod.downloads | length %}{% set primaryUrl = mod.downloads[0].url %}{% endif %}
-      {% set primaryName = mod.downloads[0].filename if mod.downloads and mod.downloads | length else "" %}
-
-      {% if primaryUrl %}
-        <div>
-          <div class="flex items-center justify-between mb-1.5">
-            <span class="font-medium text-slate-700 dark:text-slate-300">G-Portal (web config)</span>
-            <button type="button" data-copy-target="gportal-{{ mod.id }}" class="text-xs px-2 py-0.5 rounded bg-icarus-500/20 text-icarus-500 hover:bg-icarus-500/30">Copy</button>
-          </div>
-          <pre id="gportal-{{ mod.id }}" class="p-3 rounded bg-slate-900 text-slate-200 text-xs overflow-x-auto"><code>Mods=<span class="text-icarus-400">{{ primaryUrl }}</span></code></pre>
-          <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">Add this line under <code>[Mods]</code> in the web config. Restart the server.</p>
-        </div>
-
-        <div>
-          <div class="flex items-center justify-between mb-1.5">
-            <span class="font-medium text-slate-700 dark:text-slate-300">Dedicated server (DefaultGame.ini)</span>
-            <button type="button" data-copy-target="dedi-{{ mod.id }}" class="text-xs px-2 py-0.5 rounded bg-icarus-500/20 text-icarus-500 hover:bg-icarus-500/30">Copy</button>
-          </div>
-          <pre id="dedi-{{ mod.id }}" class="p-3 rounded bg-slate-900 text-slate-200 text-xs overflow-x-auto"><code>[/Script/Icarus.IcarusGameSettings]
-+ModUrls=<span class="text-icarus-400">{{ primaryUrl }}</span></code></pre>
-          <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">Append to <code>Icarus/Saved/Config/WindowsServer/DefaultGame.ini</code>. Restart the server.</p>
-        </div>
-      {% else %}
-        <p class="text-sm text-slate-500">No download URL available for this mod.</p>
-      {% endif %}
-    </div>
-  </details>
   <details class="mt-3 group" data-mod-id="{{ mod.id }}">
     <summary class="flex items-center gap-1 text-xs cursor-pointer text-icarus-500 hover:text-icarus-400 list-none">
       <svg class="w-3.5 h-3.5 transition-transform group-open:rotate-90" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
