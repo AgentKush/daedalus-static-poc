@@ -23,6 +23,16 @@ Static-site rebuild of [Project Daedalus](https://projectdaedalus.app) on GitHub
 | `/info.html` | Discord, Mod Requests, IMM Setup PDF, GPortal Install PDF |
 | `/requests.html` | Mod Requests board powered by GitHub Discussions Ideas category, reactions = upvotes |
 | `/mods/<author>/<slug>/` | Mod detail page for every mod — full PR #112 restyle, live README, ratings, analytics, GitHub stats, comments |
+| `/authors/<slug>/` | Per-author profile page — covers all 99 distinct authors (curated + Nexus), Nexus mod cards link out to nexusmods.com |
+| `/tools/<author>/<slug>/` | Per-tool detail page with live-fetched GitHub Releases history (release card per tag, lazy-loaded) |
+| `/tag/<name>/` | Tag-filtered listings (`no-decay`, `qol`, `vehicles`, `cosmetic`, `food`, etc.) — auto-derived from each mod's name + first 120 chars of description |
+| `/week/<n>/` | Mods released in a specific Icarus game week |
+| `/search/` | Full-text search across every curated mod's README via Pagefind, plus client-side filter for Nexus mods |
+| `/stats/` | Public catalog stats — counts, file-type breakdown, oldest/newest |
+| `/leaderboard/` | Modders ranked by mod count (includes Nexus contributors) |
+| `/status/` | Live sync status, broken-download tally, last-build SHA |
+| `/api/v1/*.json` | Static JSON API (mods, authors, tags, weeks) for downstream consumers |
+| `/feed.xml` + `/sitemap.xml` | Atom feed of newest mods + complete sitemap |
 
 ## Where the data comes from
 
@@ -30,9 +40,13 @@ Static-site rebuild of [Project Daedalus](https://projectdaedalus.app) on GitHub
 production Firestore (projectdaedalus-fb09f)
                 ↓
                 ├── meta/repos          ─── 47 modder GitHub repo URLs
-                ├── mods                ─── ~490 mod docs
+                ├── mods                ─── 494 curated mod docs
+                ├── nexus_mods          ─── 135 Nexus-sourced mod docs
                 ├── tools               ─── 4 tool docs
                 └── info_content        ─── info-page cards
+                +
+   public/data/modders_extras.json  ─── locally-curated repos (onboarding without
+                                       waiting for upstream meta/repos updates)
                 ↓
    Browser fetches via Firestore REST API directly (public-read)
                 ↓
@@ -71,13 +85,25 @@ Percent-encoded paths (`More%20Drop%20Ship%20Slots`) are decoded before the API 
   - Mobile-aware wrap, no forced scroll on Next/Prev
 - **Floating back-to-top button** appears once you've scrolled past 400 px
 - **Search debounce** at 400 ms (matches the merged search-debounce-timing PR)
-- **Author filter** with all 47 distinct authors in true alphabetical order (case-insensitive `localeCompare`)
+- **Author filter** with all 99 distinct authors (curated + Nexus) in true alphabetical order (case-insensitive `localeCompare`)
 - **Source filter** (Curated / Nexus / All) — Curated wins on name+author duplicates
 - **Week filter** (Latest w220+ / Recent w200–219 / Older < w200 / Any) — backed by 100% game-week coverage across all 491 curated mods
 - **Sort order** (Name A–Z / Name Z–A / Newest first / Oldest first) — newest/oldest sort by derived game week
 - **NEXUS badge** + "View on Nexus ↗" link on Nexus rows (PR #119)
 - All dropdowns use a custom inline-SVG chevron (slate-400) with `appearance-none`, so the rounded `rounded-lg` corner stays clean instead of being clipped by the browser-native arrow
 - Full OG meta block including `og:image` per mod via `eleventyComputed`
+
+## Discoverability features
+
+Beyond the listing page, the site exposes a few ways to navigate the catalog:
+
+- **Tags** (`/tag/<name>/`) — every mod is auto-tagged from its name + the first 120 chars of its description (the "primary purpose" zone, to avoid changelog false positives). Categories include `no-decay`, `qol`, `vehicles`, `cosmetic`, `food`, `building`, `creatures`, `weapons`, `armor`, `performance`, plus more. Tag pages include both curated and Nexus mods.
+- **Full-text search** (`/search/`) — Pagefind builds a search index over every curated mod's README at deploy time. Results show snippet-level matches with highlighting. Nexus mods are merged in via a client-side filter.
+- **Author profile pages** (`/authors/<slug>/`) — one page per modder showing their full output, file-type breakdown, and most-recent-update. Includes Nexus authors (cards link out to nexusmods.com); modders with mods in both sources get one combined profile.
+- **Mod-pack export** — multi-select on the listing, then "Build pack" downloads a zip of EXMODZ/PAK files for the selected mods. Failed downloads (CORS-blocked or 404) get a `SKIPPED.txt` line in the zip with the reason.
+- **Tool detail pages** (`/tools/<author>/<slug>/`) — live-fetched GitHub Releases history per tool. Shared-repo tools (e.g. Mod Editor + Mod Manager both ship from `Jimk72/Icarus_Software`) filter the release feed by tool keyword so they don't echo each other's history.
+- **Random mod**, **Recently viewed**, **Share + QR code**, and **Keyboard shortcuts** (`/` to focus search, `g h/m/s` to jump to home/mods/stats, `?` for help)
+- **Mobile**: hamburger menu, full mobile-responsive grids, single-column on small viewports
 
 ## Mod detail page
 
@@ -107,7 +133,7 @@ When the page loads, JS pulls the mod's `readmeURL` from Firestore, fetches the 
 - **Compatibility** + EXMOD-format note
 - **Author Stats** — total mods + file-type breakdown + most-recently-updated mod by the same author (clickable)
 - **GitHub Stats** card lazy-loads on panel open: stars, forks, open issues, since last push, license. Cached per repo for 1 hour.
-- **Mod Status** — `All Clear`
+- **Mod Status** — combines validator findings (`validation.json` from the weekly EXMODZ + PAK validator workflow), health-check results (`health.json` — broken downloads), and 6 in-browser checks (empty description, placeholder text, no image, very short description, compatibility age, no tags). Renders as `All Clear` / `1 warning` / `2 errors` etc. with a per-finding breakdown.
 
 ### Anonymous mod ratings
 
@@ -150,9 +176,13 @@ npm run build   # outputs to _site/
 
 | File | Cadence | Purpose |
 |---|---|---|
-| `.github/workflows/deploy.yml` | on push to `main` | Build with Eleventy and deploy to Pages |
-| `.github/workflows/sync-mods.yml` | hourly + manual | Pull production's `meta/repos`, aggregate every modder's `modinfo.json`/`toolinfo.json`, commit `mods.json` + `tools.json` if changed |
-| `.github/workflows/discover-modders.yml` | weekly + manual | Search GitHub for Icarus mod repos not in production's registry, write `data/discovered-candidates.json`, open a verified-commit PR if any new candidates turned up |
+| `deploy.yml` | on push to `main` | Build with Eleventy + Pagefind index, deploy to Pages |
+| `sync-mods.yml` | hourly + manual | Pull production's `meta/repos` + `modders_extras.json`, aggregate every modder's `modinfo.json`/`toolinfo.json`, commit `mods.json` + `tools.json` if changed |
+| `sync-nexus.yml` | daily + manual | Refresh `public/data/nexus_mods.json` from the Nexus API (no-op without `NEXUS_API_KEY` secret; bundled snapshot keeps Nexus mods visible regardless) |
+| `discover-modders.yml` | weekly + manual | Search GitHub for Icarus mod repos not in production's registry, open a verified-commit PR with the candidate list |
+| `validate-mods.yml` | weekly + manual | Run [icarus-modinfo-validator](https://github.com/AgentKush/icarus-modinfo-validator) across every EXMODZ + lightweight PAK checks (filename, size, Unreal Pak magic). Writes `public/data/validation.json` |
+| `health-check.yml` | daily + manual | HEAD-probe every download URL in the catalog, write `public/data/health.json` with broken/redirected results — drives the `/status/` page and Mod Status panel |
+| `notify-discord.yml` | on `mods.json` change | Post a Discord-webhook embed for new or updated mods (no-op without `DISCORD_WEBHOOK_URL` secret) |
 
 The discovery workflow uses `peter-evans/create-pull-request@v8` with `sign-commits: true`, so the auto-PR commit is GitHub-API-signed and shows the green Verified badge. The PR body lists each candidate (clickable repo link, mod count, author, example mod, first-seen date) plus a copy-pasteable code block of all candidate URLs. PRs only fire when the candidate set actually changes — the JSON file is deterministic across runs.
 
