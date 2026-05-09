@@ -1,0 +1,86 @@
+---
+pagination:
+  data: detailTools
+  size: 1
+  alias: tool
+permalink: "/tools/{{ tool.author_slug }}/{{ tool.slug }}/index.html"
+layout: layout.njk
+rootPath: "../../../"
+eleventyComputed:
+  title: "{{ tool.name }} by {{ tool.author }} | Project Daedalus"
+  description: "{{ tool.body_html | striptags | truncate(160) }}"
+---
+<section class="max-w-5xl mx-auto px-4 py-6 md:py-10">
+  <!-- Header: name + version + download button -->
+  <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between md:flex-wrap">
+    <div class="flex flex-wrap items-center gap-x-3 gap-y-2 min-w-0">
+      <div class="text-2xl font-extrabold tracking-tight text-icarus-500 md:text-4xl break-words">{{ tool.name }}</div>
+      {% if tool.version %}
+        <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold uppercase bg-icarus-500/20 text-icarus-500">v{{ tool.version }}</span>
+      {% endif %}
+    </div>
+    <div class="flex flex-col sm:flex-row gap-2 w-full md:w-auto md:flex-shrink-0">
+      <a href="{{ tool.url }}" download="{{ tool.filename }}" class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-white rounded-md shadow-sm bg-icarus-500 hover:bg-icarus-600">DOWNLOAD</a>
+    </div>
+  </div>
+
+  <div class="flex items-center justify-between flex-auto mt-1 flex-wrap gap-2">
+    <div class="text-lg text-icarus-400 lg:text-xl">By <a href="{{ rootPath }}authors/{{ tool.author_slug }}/" class="text-icarus-400 hover:text-icarus-500 underline-offset-2 hover:underline">{{ tool.author }}</a></div>
+    {% if tool.github_url %}
+      <a href="{{ tool.github_url }}" target="_blank" rel="noopener" class="text-sm text-slate-500 hover:text-icarus-500">{{ tool.github_owner }}/{{ tool.github_repo }} ↗</a>
+    {% endif %}
+  </div>
+
+  <!-- Gold separator -->
+  <div class="mt-4 gold-line"></div>
+
+  <!-- Description / overview -->
+  <div class="mt-6 prose dark:prose-invert max-w-none">
+    {{ tool.body_html | safe }}
+  </div>
+
+  <!-- Releases section (lazy-fetched via GitHub Releases API) -->
+  {% if tool.github_owner %}
+    <div class="mt-10">
+      <h2 class="text-xl font-bold text-icarus-500 mb-3 md:text-2xl">Release history</h2>
+      <div data-tool-releases data-owner="{{ tool.github_owner }}" data-repo="{{ tool.github_repo }}" class="text-sm text-slate-500">
+        Loading release history from GitHub…
+      </div>
+    </div>
+  {% endif %}
+
+  <!-- Prev / Back / Next -->
+  <div class="flex items-center justify-between mt-12 pt-6 border-t border-slate-200 dark:border-slate-700">
+    {% if tool.prev %}
+      <a href="{{ rootPath }}tools/{{ tool.prev.author_slug }}/{{ tool.prev.slug }}/" class="inline-flex items-center px-3 py-1.5 text-sm font-medium rounded-md text-slate-600 dark:text-slate-400 hover:text-icarus-500 dark:hover:text-icarus-400 no-underline transition-colors">&larr; {{ tool.prev.name | truncate(25) }}</a>
+    {% else %}
+      <span></span>
+    {% endif %}
+    <a href="{{ rootPath }}tools.html" class="inline-flex items-center px-3 py-1.5 text-sm font-medium rounded-md text-icarus-500 hover:text-icarus-400 border border-icarus-500 hover:border-icarus-400 no-underline transition-colors">All tools</a>
+    {% if tool.next %}
+      <a href="{{ rootPath }}tools/{{ tool.next.author_slug }}/{{ tool.next.slug }}/" class="inline-flex items-center px-3 py-1.5 text-sm font-medium rounded-md text-slate-600 dark:text-slate-400 hover:text-icarus-500 dark:hover:text-icarus-400 no-underline transition-colors">{{ tool.next.name | truncate(25) }} &rarr;</a>
+    {% else %}
+      <span></span>
+    {% endif %}
+  </div>
+
+  <!-- Other tools grid -->
+  {% if tool.other_tools and (tool.other_tools | length) %}
+    <div class="mt-10">
+      <h3 class="text-base font-semibold text-icarus-500 mb-3">Other tools</h3>
+      <div class="grid grid-cols-1 gap-3 md:grid-cols-2">
+        {% for o in tool.other_tools %}
+          <a href="{{ rootPath }}tools/{{ o.author_slug }}/{{ o.slug }}/" class="block p-3 border rounded-lg border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/50 hover:border-icarus-500 no-underline transition-colors">
+            <div class="font-semibold text-slate-800 dark:text-slate-200 mb-1">{{ o.name }}</div>
+            <div class="flex items-center gap-2 mb-1 text-xs text-slate-500 dark:text-slate-400">
+              <span>by {{ o.author }}</span>
+              {% if o.version %}<span class="inline-flex items-center px-1.5 py-0.5 rounded-full bg-icarus-500/20 text-icarus-500 dark:text-icarus-400 font-medium">v{{ o.version }}</span>{% endif %}
+            </div>
+          </a>
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+</section>
+
+<script src="{{ rootPath }}assets/tool-releases-live.js" defer></script>

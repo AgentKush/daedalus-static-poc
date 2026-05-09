@@ -42,4 +42,11 @@ eleventyExcludeFromCollections: true
     <priority>0.4</priority>
   </url>
   {%- endfor -%}
+  {%- for t in detailTools -%}
+  <url>
+    <loc>{{ site.url }}/tools/{{ t.author_slug }}/{{ t.slug }}/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  {%- endfor -%}
 </urlset>
