@@ -22,11 +22,11 @@ eleventyComputed:
       {% endfor %}
     </div>
   {% endif %}
-  <!-- Header: name + file type badges + download buttons -->
-  <div class="flex items-center justify-between flex-auto flex-wrap gap-3">
-    <div class="flex items-center gap-3 flex-1 min-w-0">
-      <div class="text-2xl font-extrabold tracking-tight text-icarus-500 md:text-4xl">{{ mod.name }}</div>
-      <div class="flex gap-1.5 flex-shrink-0">
+  <!-- Header: name + file type badges + download buttons (stacks vertically on mobile) -->
+  <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between md:flex-wrap">
+    <div class="flex flex-wrap items-center gap-x-3 gap-y-2 min-w-0">
+      <div class="text-2xl font-extrabold tracking-tight text-icarus-500 md:text-4xl break-words">{{ mod.name }}</div>
+      <div class="flex flex-wrap gap-1.5">
         {% for type in mod.file_types %}
           {% if type == "exmodz" %}
             <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold uppercase bg-icarus-500/20 text-icarus-500 dark:bg-icarus-500/10 dark:text-icarus-400">{{ type }}</span>
@@ -38,9 +38,9 @@ eleventyComputed:
         {% endfor %}
       </div>
     </div>
-    <div class="flex gap-2 flex-shrink-0 flex-wrap">
+    <div class="flex flex-col sm:flex-row sm:flex-wrap gap-2 w-full md:w-auto md:flex-shrink-0">
       {% for d in mod.downloads %}
-        <a href="{{ d.url }}" download="{{ d.filename }}" class="inline-flex items-center px-4 py-2 text-sm font-medium text-white rounded-md shadow-sm bg-icarus-500 hover:bg-icarus-600">DOWNLOAD {{ d.type | upper }}</a>
+        <a href="{{ d.url }}" download="{{ d.filename }}" class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-white rounded-md shadow-sm bg-icarus-500 hover:bg-icarus-600">DOWNLOAD {{ d.type | upper }}</a>
       {% endfor %}
     </div>
   </div>
