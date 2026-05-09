@@ -19,7 +19,7 @@ eleventyComputed:
     <a href="{{ rootPath }}stats/" class="text-sm text-icarus-500 hover:underline">← all weeks</a>
   </div>
 
-  <div class="grid gap-3 md:grid-cols-2">
+  <div class="grid grid-cols-1 gap-3 md:grid-cols-2">
     {% for m in weekData.mods %}
       <a href="{{ rootPath }}mods/{{ m.author_slug }}/{{ m.slug }}/" class="block p-4 border rounded-lg border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/50 hover:bg-slate-50 dark:hover:bg-slate-800 no-underline">
         <div class="flex items-start justify-between gap-3 mb-1">

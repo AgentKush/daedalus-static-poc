@@ -19,7 +19,7 @@ eleventyComputed:
     <a href="{{ rootPath }}" class="text-sm text-icarus-500 hover:underline">← all mods</a>
   </div>
 
-  <div class="grid gap-3 md:grid-cols-2">
+  <div class="grid grid-cols-1 gap-3 md:grid-cols-2">
     {% for m in tag.mods %}
       {% set href = (m.mod_page_url if m.source == "nexus" else (rootPath + "mods/" + m.author_slug + "/" + m.slug + "/")) %}
       {% set ext = m.source == "nexus" %}
