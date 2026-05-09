@@ -55,18 +55,49 @@
 
   function showQR(targetUrl) {
     if (document.getElementById("qr-overlay")) return;
+    // Built with DOM API only — no innerHTML interpolation of DOM-derived strings.
+    // `title` (h1 text) and `targetUrl` (location.href) are both untrusted in our
+    // threat model since mod names come from external modder repos, so we never
+    // assemble them into HTML strings. CodeQL js/xss + js/xss-through-dom alerts.
     const overlay = document.createElement("div");
     overlay.id = "qr-overlay";
     overlay.style.cssText = "position:fixed;inset:0;background:rgba(15,23,42,.85);z-index:9998;display:flex;align-items:center;justify-content:center;padding:1rem;";
-    const enc = encodeURIComponent(targetUrl);
-    overlay.innerHTML = `
-      <div style="background:#0f172a;border:1px solid #334155;border-radius:0.75rem;padding:1.25rem;text-align:center;max-width:18rem;color:#e2e8f0;font-family:Inter,system-ui,sans-serif;">
-        <p style="margin:0 0 0.75rem 0;font-size:0.875rem;color:#94a3b8;">Scan to open this mod on another device</p>
-        <img alt="QR code for ${title}" src="https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=${enc}&bgcolor=0f172a&color=f1ad1c" width="240" height="240" style="border-radius:0.5rem;" />
-        <p style="margin:0.75rem 0 0 0;font-size:0.75rem;color:#64748b;word-break:break-all;">${targetUrl}</p>
-        <button type="button" id="qr-close" style="margin-top:0.75rem;padding:0.4rem 1rem;background:#f1ad1c;color:#0f172a;border:none;border-radius:0.375rem;font-weight:600;cursor:pointer;">Close</button>
-      </div>
-    `;
+
+    const card = document.createElement("div");
+    card.style.cssText = "background:#0f172a;border:1px solid #334155;border-radius:0.75rem;padding:1.25rem;text-align:center;max-width:18rem;color:#e2e8f0;font-family:Inter,system-ui,sans-serif;";
+
+    const caption = document.createElement("p");
+    caption.style.cssText = "margin:0 0 0.75rem 0;font-size:0.875rem;color:#94a3b8;";
+    caption.textContent = "Scan to open this mod on another device";
+
+    const img = document.createElement("img");
+    img.width = 240;
+    img.height = 240;
+    img.style.cssText = "border-radius:0.5rem;";
+    img.alt = `QR code for ${title}`; // attribute write, NOT HTML — automatically escaped by setAttribute equivalent
+    const qrApi = new URL("https://api.qrserver.com/v1/create-qr-code/");
+    qrApi.searchParams.set("size", "240x240");
+    qrApi.searchParams.set("data", targetUrl);
+    qrApi.searchParams.set("bgcolor", "0f172a");
+    qrApi.searchParams.set("color", "f1ad1c");
+    img.src = qrApi.toString();
+
+    const urlText = document.createElement("p");
+    urlText.style.cssText = "margin:0.75rem 0 0 0;font-size:0.75rem;color:#64748b;word-break:break-all;";
+    urlText.textContent = targetUrl; // text node, not HTML — safe even if URL has HTML-special chars
+
+    const close = document.createElement("button");
+    close.type = "button";
+    close.id = "qr-close";
+    close.textContent = "Close";
+    close.style.cssText = "margin-top:0.75rem;padding:0.4rem 1rem;background:#f1ad1c;color:#0f172a;border:none;border-radius:0.375rem;font-weight:600;cursor:pointer;";
+
+    card.appendChild(caption);
+    card.appendChild(img);
+    card.appendChild(urlText);
+    card.appendChild(close);
+    overlay.appendChild(card);
+
     overlay.addEventListener("click", e => { if (e.target === overlay || e.target.id === "qr-close") overlay.remove(); });
     document.body.appendChild(overlay);
   }
