@@ -101,6 +101,8 @@ function renderRelease(rel) {
 
 document.querySelectorAll("[data-tool-releases]").forEach(async el => {
   const owner = el.dataset.owner, repo = el.dataset.repo;
+  const keyword = (el.dataset.releaseKeyword || "").toLowerCase();
+  const toolName = el.dataset.toolName || "";
   if (!owner || !repo) { el.textContent = "(no repo configured)"; return; }
   try {
     const releases = await fetchReleases(owner, repo);
@@ -108,7 +110,33 @@ document.querySelectorAll("[data-tool-releases]").forEach(async el => {
       el.innerHTML = `<p class="text-sm text-slate-500">No GitHub releases yet for <code>${escape(owner)}/${escape(repo)}</code>. Check the repo for source / commit history.</p>`;
       return;
     }
-    el.innerHTML = releases.map(renderRelease).join("");
+    // If a keyword was passed, filter releases whose name OR tag mentions it.
+    // This handles the common case where multiple tools share a repo and the
+    // release feed is dominated by one of them. Without filtering, the wrong
+    // tool's release notes would be shown.
+    let filtered = releases;
+    let filteredOut = 0;
+    if (keyword) {
+      filtered = releases.filter(r =>
+        ((r.name || "") + " " + (r.tag_name || "")).toLowerCase().includes(keyword)
+      );
+      filteredOut = releases.length - filtered.length;
+    }
+    if (filtered.length === 0) {
+      // None of the releases mention this tool by keyword — likely they're all
+      // for a sibling tool in the same repo. Tell the user honestly instead of
+      // dumping unrelated releases.
+      el.innerHTML = `<p class="text-sm text-slate-500">
+        No releases tagged for <strong>${escape(toolName || keyword)}</strong> in
+        <a href="https://github.com/${escape(owner)}/${escape(repo)}/releases" target="_blank" rel="noopener" class="text-icarus-500 hover:underline">${escape(owner)}/${escape(repo)}</a>'s
+        release feed (the repo's ${releases.length} release${releases.length===1?"":"s"} appear${releases.length===1?"s":""} to be for a sibling tool). The download button above always points at the latest version listed in the catalog.
+      </p>`;
+      return;
+    }
+    const note = filteredOut > 0
+      ? `<p class="text-xs text-slate-500 mb-2">Showing ${filtered.length} of ${releases.length} repo releases — filtered to entries mentioning <code>${escape(keyword)}</code>.</p>`
+      : "";
+    el.innerHTML = note + filtered.map(renderRelease).join("");
   } catch (e) {
     el.innerHTML = `<p class="text-sm text-slate-500">Couldn't load releases: ${escape(e.message)}</p>`;
   }

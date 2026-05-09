@@ -13,6 +13,24 @@ function parseOwnerRepo(url) {
   return m ? { owner: m[1], repo: m[2].replace(/\.git$/, "") } : null;
 }
 
+// Pick the distinguishing word from a tool's name so we can filter the repo's
+// release feed when several tools share one repo (e.g. Jimk72's Mod Editor and
+// Mod Manager both come out of Jimk72/Icarus_Software).
+function releaseKeyword(name) {
+  const tokens = (name || "").toLowerCase().split(/[\s_-]+/).filter(Boolean);
+  // Tokens commonly shared across tools in the same repo
+  const noise = new Set(["icarus", "mod", "tool", "the", "for", "and", "v", "v1", "v2", "v3", "v4", "v5",
+                          "full", "free", "release", "patch", "beta", "alpha", "1", "2", "3", "4", "5",
+                          "loader"]);
+  // Anchor words we know distinguish — prefer these if present
+  const anchors = ["editor", "manager", "loader", "creator", "builder", "validator", "viewer", "extractor"];
+  for (const a of anchors) if (tokens.includes(a)) return a;
+  // Otherwise pick the first non-noise token
+  for (const t of tokens) if (!noise.has(t)) return t;
+  return null;
+}
+
+
 const sortedTools = [...tools].sort((a, b) => (a.name || "").localeCompare(b.name || ""));
 
 module.exports = sortedTools.map((t, i) => {
@@ -36,6 +54,7 @@ module.exports = sortedTools.map((t, i) => {
     github_owner: repo?.owner || null,
     github_repo: repo?.repo || null,
     github_url: repo ? `https://github.com/${repo.owner}/${repo.repo}` : null,
+    release_keyword: releaseKeyword(t.name),
     prev: sibling(prev),
     next: sibling(next),
     other_tools: sortedTools.filter(o => o.id !== t.id).slice(0, 6).map(o => ({

@@ -43,7 +43,7 @@ eleventyComputed:
   {% if tool.github_owner %}
     <div class="mt-10">
       <h2 class="text-xl font-bold text-icarus-500 mb-3 md:text-2xl">Release history</h2>
-      <div data-tool-releases data-owner="{{ tool.github_owner }}" data-repo="{{ tool.github_repo }}" class="text-sm text-slate-500">
+      <div data-tool-releases data-owner="{{ tool.github_owner }}" data-repo="{{ tool.github_repo }}"{% if tool.release_keyword %} data-release-keyword="{{ tool.release_keyword }}" data-tool-name="{{ tool.name }}"{% endif %} class="text-sm text-slate-500">
         Loading release history from GitHub…
       </div>
     </div>
