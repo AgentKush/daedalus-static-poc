@@ -1,7 +1,79 @@
 {
-  "checked_at": null,
-  "total_mods": 0,
-  "total_broken": 0,
-  "broken": [],
-  "_note": "Will be populated by .github/workflows/health-check.yml on its first run."
+  "checked_at": "2026-05-09T06:32:17.544Z",
+  "total_mods": 494,
+  "total_broken": 6,
+  "broken": [
+    {
+      "id": "agentkush--hardcore-rebalance-pack",
+      "name": "Hardcore Rebalance Pack",
+      "author": "AgentKush",
+      "broken_urls": [
+        {
+          "url": "https://github.com/AgentKush/Icarus-mods/raw/main/Hardcore_Rebalance_Pack/Hardcore_Rebalance_Pack_P.pak",
+          "status": 404,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": "hazer--higher-energy",
+      "name": "Higher Energy",
+      "author": "Hazer",
+      "broken_urls": [
+        {
+          "url": "https://github.com/Hazer-Bazer/Icarus-Mods/raw/refs/heads/main/Higher_Energy_Production/Hazers_Higher_Energy_Production.EXMODZ",
+          "status": 404,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": "hazer--no-weather",
+      "name": "No Weather",
+      "author": "Hazer",
+      "broken_urls": [
+        {
+          "url": "https://github.com/Hazer-Bazer/Icarus-Mods/raw/refs/heads/main/No Weather/Hazers_No_Weather_P.pak",
+          "status": 404,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": "cryorus--reasonable-water-flick-those-devices-add-on",
+      "name": "Reasonable Water - Flick Those Devices Add-On",
+      "author": "Cryorus",
+      "broken_urls": [
+        {
+          "url": "https://github.com/CryorusTheDragon/Icarus_Mods/raw/Flick-Those-Devices/ReasonableWater-Flick%20Add-On_P.pak.EXMODZ",
+          "status": 404,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": "relentlessmoose--rm-caveworm-exotics",
+      "name": "rm_Caveworm_Exotics",
+      "author": "relentlessmoose",
+      "broken_urls": [
+        {
+          "url": "https://github.com/relentlessmoose/rm_Icarus_mods/raw/refs/heads/main/rm_Caveworm_Exotics_P.pak",
+          "status": 404,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": "relentlessmoose--rm-equal-phenotypes",
+      "name": "rm_Equal_Phenotypes",
+      "author": "relentlessmoose",
+      "broken_urls": [
+        {
+          "url": "https://github.com/relentlessmoose/rm_Icarus_mods/raw/refs/heads/main/rm_Equal_Skins_P.pak",
+          "status": 404,
+          "error": null
+        }
+      ]
+    }
+  ]
 }
