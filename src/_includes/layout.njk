@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="overflow-x-hidden">
 <head>
   <meta charset="UTF-8">
   <title>{{ title or "ProjectDaedalus — Icarus Mods & Tools" }}</title>
@@ -147,13 +147,18 @@
         <a href="{{ rootPath }}home/" class="mr-2"><img width="64" height="64" alt="Daedalus Logo" src="{{ rootPath }}assets/img/daedalus-logo.png"></a>
         <a class="drop-shadow-md text-2xl font-bold leading-7 no-underline text-icarus-500 sm:truncate sm:text-4xl sm:py-1 sm:tracking-tight" href="{{ rootPath }}home/">Project Daedalus</a>
       </div>
-      <div class="flex flex-wrap items-center justify-center gap-y-1 mt-4 md:mt-0 md:ml-4 md:flex-nowrap">
+      <!-- Hamburger toggle, mobile only -->
+      <button type="button" id="nav-hamburger" class="md:hidden inline-flex items-center justify-center w-10 h-10 mt-4 ml-auto rounded-lg text-icarus-500 hover:bg-slate-700/50 transition-colors" aria-label="Open navigation" aria-expanded="false" aria-controls="main-nav">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+      </button>
+      <!-- Nav: collapsed on mobile, inline on md+ -->
+      <nav id="main-nav" class="hidden flex-col w-full mt-4 md:mt-0 md:ml-4 md:flex md:flex-row md:items-center md:w-auto md:flex-nowrap" aria-label="Primary">
         <a class="inline-flex items-center px-4 py-2 font-medium no-underline text-icarus-500 hover:text-blue-500" href="{{ rootPath }}">Mods</a>
         <a class="inline-flex items-center px-4 py-2 font-medium no-underline text-icarus-500 hover:text-blue-500" href="{{ rootPath }}tools.html">Tools</a>
         <a class="inline-flex items-center px-4 py-2 font-medium no-underline text-icarus-500 hover:text-blue-500" href="{{ rootPath }}requests.html">Requests</a>
         <a class="inline-flex items-center px-4 py-2 font-medium no-underline text-icarus-500 hover:text-blue-500" href="{{ rootPath }}info.html">Info</a>
         <a class="inline-flex items-center px-4 py-2 font-medium no-underline text-icarus-500 hover:text-blue-500" href="{{ rootPath }}search/">Search</a>
-        <button type="button" id="random-mod" title="Random mod (.)" class="inline-flex items-center px-3 py-2 ml-1 rounded-lg text-icarus-500 hover:bg-slate-700/50 transition-colors" aria-label="Random mod">🎲</button>
+        <button type="button" id="random-mod" title="Random mod (.)" class="inline-flex items-center px-3 py-2 md:ml-1 rounded-lg text-icarus-500 hover:bg-slate-700/50 transition-colors" aria-label="Random mod">🎲</button>
         <button type="button" id="theme-toggle" class="inline-flex items-center justify-center w-9 h-9 ml-2 rounded-lg text-icarus-500 hover:text-icarus-400 hover:bg-slate-700/50 transition-colors" title="Toggle dark/light mode">
           <span id="theme-icon" class="text-lg">&#127769;</span>
         </button>
@@ -204,6 +209,18 @@
         window.location.href = `{{ rootPath }}mods/${slug(m.author)}/${slug(m.name)}/`;
       } catch {}
     });
+  </script>
+
+  <script>
+    (function () {
+      var btn = document.getElementById('nav-hamburger');
+      var nav = document.getElementById('main-nav');
+      if (!btn || !nav) return;
+      btn.addEventListener('click', function () {
+        var open = nav.classList.toggle('hidden') === false;
+        btn.setAttribute('aria-expanded', String(open));
+      });
+    })();
   </script>
 </body>
 </html>
