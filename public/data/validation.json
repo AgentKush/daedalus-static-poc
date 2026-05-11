@@ -1,9 +1,2489 @@
 {
-  "_note": "Will be populated by .github/workflows/validate-mods.yml on its weekly run.",
-  "checked_at": null,
-  "checked": 0,
-  "passed": 0,
+  "checked_at": "2026-05-11T09:47:32.640Z",
+  "checked": 492,
+  "passed": 488,
   "warnings_only": 0,
-  "errors": 0,
-  "mods": {}
+  "errors": 4,
+  "mods": {
+    "waldo--a-wzg-balance-overhaul": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "aberiu--aberiu-s-supply-crates": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "agentkush--absolute-chaos-core": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "agentkush--agent-s-biolab": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "agentkush--agents-individual-item-kits": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--all-ammo-turret": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "hazer--all-in-one": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "hazer--all-in-one-250": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "agentkush--always-show-buildings-on-map": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "agentkush--ammo-crafting-overhaul": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "apex--apex-s-beetopia": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "apex--apex-s-compact-crafting": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "apex--apex-s-cureall-tonic": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "apex--apex-s-glutton": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "apex--apex-s-miasmic-protection": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "apex--apex-s-more-seeds": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "agentkush--armor-attachment-expansion": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "agentkush--armor-set-bonuses-enhanced": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "aurokon--aurokon-industries": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--battery-powered-storage": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--bear-mount": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "venomtron--bestiary": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "agentkush--bestiary-fix": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "venomtron--bestiary-mega": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "jimk72--better-glass": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--better-lights": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--better-pistol-turret": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "darkhyn--better-supplies": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "bruteforceoap--bf-shengong-invincible": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "ck-dexterhaven--bigboxstack": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "revenantkitsune--biggercraftqueue": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--building-height-strength": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--camera-distance": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "cryorus--carbon-paste": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "chance-4090--chance-litsigns": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "chance-4090--chance-longercables": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "hazer--charging-backpacks": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--clear-photo-lens": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--compoundbow-kryptic-camo": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--concrete-with-wood-interior": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "corack--coracks-adlift-hide-map-info": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "corack--coracks-adlift-increased-ores": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "corack--coracks-ammo-and-repair-x100": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "corack--coracks-ammo-and-repair-x500": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "corack--coracks-base-item-variations": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "corack--coracks-crossbows-n-bows": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "corack--coracks-expanded-pouches": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "corack--coracks-nonvisuals": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "corack--coracks-occasional-weather": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "corack--coracks-patcher1-resources": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "corack--coracks-patcher2-hunting": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "corack--coracks-saddle-improvements": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "corack--coracks-tools": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "corack--coracks-weekend-flash-weather": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "corack--coracks-weekend-normal-weather": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "revenantkitsune--cownchickenoverhaul": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--craftables": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "agentkush--creature-difficulty-scaling": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "agentkush--creature-drop-enhancer": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "cryorus--cry-s-lvl-120-cap-100": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "cryorus--cry-s-lvl-120-cap-25": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "cryorus--cry-s-lvl-120-cap-50": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "cryorus--cry-s-lvl-120-cap-75": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "agentkush--culinex-food-boost-fix": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--custom-options-handheld": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--custom-options-laptop": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--custom-options-menu": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--custom-puck-lights": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "darkangel--dark-bags": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "darkangel--dark-electricfabricator": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "darkangel--dark-morehardstorms": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "darkangel--dark-newmetaextractiontweaks": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "darkangel--dark-shops": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 1
+    },
+    "darkangel--dark-undersuitsplus": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "darkangel--dark-workshop": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "darkdante--darkdantes-wicked-pickaxe-and-hammer": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 1
+    },
+    "hazer--dev-tools": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "agentkush--dev-tools-kit": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "ck-dexterhaven--dexterhaven-labs": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "ck-dexterhaven--dexterlabs-panther-suit-module": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "ck-dexterhaven--dexterlabs-panther-suit-module-mark2": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "ck-dexterhaven--dexterlabs-panther-suit-module-mark3": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "ck-dexterhaven--dextermod-bifrost-titanium-crossbow": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "ck-dexterhaven--dextermod-enhanced-tactical-backpack": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "ck-dexterhaven--dextermod-one-hit-wonder-10": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "ck-dexterhaven--dextermod-one-hit-wonder-25": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "ck-dexterhaven--dextermod-one-hit-wonder-50": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "ck-dexterhaven--dextermod-one-hit-wonder-65": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "ck-dexterhaven--dextermod-stackable-crop-plots": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "ck-dexterhaven--dextermod-stronger-hvac": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "ck-dexterhaven--dextermod-waldopak": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "ck-dexterhaven--dextermod-waterworks-turbo": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "donovan--donovan-s-larger-resource-stacks-wood-stone": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "donovan--donovan-s-mega-points": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "donovan--donovan-s-more-points": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "hazer--dropship": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--durability": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "dyls123--dyls123-s-horse-cart": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "dyls123--dyls123-s-stamina-module": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--easy-cave": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--elevators": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "agentkush--exotic-economy-overhaul": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "venomtron--experience": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "agentkush--extended-spoil-timers": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "agentkush--extended-wire-and-pipe-tool": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--extraction-10-seconds": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "theorangefloof--extraction-10-seconds": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 1
+    },
+    "jimk72--extraction-5-seconds": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "theorangefloof--extraction-5-seconds": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 1
+    },
+    "venomtron--extractor-radar": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "bostonstrong567--eye-colors-expanded": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "agentkush--fast-processing-10x": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "agentkush--fast-processing-15x": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "agentkush--fast-processing-25x": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "agentkush--fast-processing-5x": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "agentkush--fast-processing-instant": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "agentkush--faster-crafting": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "hazer--faster-taming-speed": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--faster-titanium": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "venomtron--fillable": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "hazer--fillable": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "agentkush--fish-and-farming-boost": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "cryorus--flick-those-devices": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "theorangefloof--floof-levelcap": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "theorangefloof--floofs-leveling-mod": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "theorangefloof--floofs-qol": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--glass-buildables": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "globeadue--globeadue-20-slot-dropship": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 1
+    },
+    "globeadue--globeadue-husk-epoxy": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 1
+    },
+    "globeadue--globeadue-iron-shotgun-shells": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 1
+    },
+    "globeadue--globeadue-mxc-toolbox": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 1
+    },
+    "globeadue--globeadue-reploter": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 1
+    },
+    "globeadue--globeadue-seed-starter": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 1
+    },
+    "globeadue--globeadue-shields": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 1
+    },
+    "globeadue--globeadue-wood-2-sap": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 1
+    },
+    "jimk72--halloween-pumpkins": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "agentkush--hardcore-rebalance-pack": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "venomtron--harvester-1-sec": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "venomtron--harvester-5-sec": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "agentkush--hidden-building-pieces": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "hazer--higher-energy": {
+      "status": "errors",
+      "issues": [
+        {
+          "severity": "error",
+          "message": "download/run failed: HTTP 404"
+        }
+      ],
+      "exit_code": -1
+    },
+    "jimk72--hk-417": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--hk-417-camo": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--hk-417-reflex": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--hk-417-sienna": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "cryorus--improved-t3-4-tools": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--increase-stacks": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--increased-slots": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "agentkush--indestructible-tools-weapons": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "intreeg--intreeg-s-4xp": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "intreeg--intreeg-s-more-resources": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--jimk-added-deployables": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--jimk-barn-buildables": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--jimk-clear-biomes": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--jimk-fences": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--jimk-fixed-deployables": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--jimk-foundry-remake": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--jimk-free-crafting-module": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--jimk-free-lights": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--jimk-free-water-and-electric": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--jimk-garden-deployables": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--jimk-garden-planters": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--jimk-higher-base-payouts-for-missions": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--jimk-innovations": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--jimk-kryptic-camo-kit": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--jimk-kryptic-workshop-tent": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--jimk-larger-batteries": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--jimk-legendary-hk-417": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--jimk-leveling-mod": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--jimk-mammoth-upgrade": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--jimk-mass-storage": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--jimk-moa-upgrade": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--jimk-multi-teleport": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--jimk-no-cave-sickness": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--jimk-precise-building-deployable": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--jimk-prometheus-map-full": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--jimk-reduced-weight": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--jimk-shotgun-with-light": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--jimk-small-electrical-wires": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--jimk-steel-buildables": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--jimk-upright-double-freezer": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--jimk-workshop-pets": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "laanp--laanp-betterrailings": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "laanp--laanp-buildersdream": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "laanp--laanp-buildtools": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "laanp--laanp-cavemaster": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "laanp--laanp-circlebuilder": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "laanp--laanp-combined-qol": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "laanp--laanp-cropadvance": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "laanp--laanp-curvedstairs": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "laanp--laanp-drillmanager": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "laanp--laanp-extradeployables": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "laanp--laanp-freebuild": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "laanp--laanp-gravestones": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "laanp--laanp-greaterhunts": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "laanp--laanp-halfcurvedstairs": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "laanp--laanp-itemfinder": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "laanp--laanp-keepthetrees": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "laanp--laanp-lantern": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "laanp--laanp-legacyfurnace": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "laanp--laanp-lightswitch": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "laanp--laanp-mapteleport": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "laanp--laanp-minifoundry": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "laanp--laanp-movedeployables": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "laanp--laanp-mxc-furnace": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "laanp--laanp-nocavecreatures": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "laanp--laanp-nocavecreaturesow": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "laanp--laanp-nofreezerice": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "laanp--laanp-nokeas": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "laanp--laanp-nopurplesky": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "laanp--laanp-noseedfatigue": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "laanp--laanp-noswampfog": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "laanp--laanp-notreelightningfires": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "laanp--laanp-nowaterwheeljunk": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "laanp--laanp-nowindfallentrees": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "laanp--laanp-petesauxslots": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "laanp--laanp-petesbeaconteleport": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "laanp--laanp-petesbeekit": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "laanp--laanp-petescureall": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "laanp--laanp-petesinsaneleveler": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "laanp--laanp-peteslavacavelord": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "laanp--laanp-petesminingkit": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "laanp--laanp-petesmover": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "laanp--laanp-petesresourcekiller": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "laanp--laanp-petesseedkit": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "laanp--laanp-petestoilet": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "laanp--laanp-petestrees": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "laanp--laanp-petmover": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "laanp--laanp-playertransport": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "laanp--laanp-powersurge": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "laanp--laanp-pumpbasin": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "laanp--laanp-reallevels": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "laanp--laanp-refinedwoodendcaps": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "laanp--laanp-respawnresourcesow": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "laanp--laanp-stacksandkits": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "laanp--laanp-stonewoodinterior": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "laanp--laanp-telefly": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "laanp--laanp-workshopfree": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "eric--larkwell-care-package": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "z-diezel--level-deployables": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "hazer--lowe-expositions": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "hazer--lower-energy": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "thelysdexicone--lysdexic-s-crafting-time-half": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "thelysdexicone--lysdexic-s-crafting-time-quarter": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "thelysdexicone--lysdexic-s-fast-foliage-harvest": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "thelysdexicone--lysdexic-s-faster-skinning": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "thelysdexicone--lysdexic-s-faster-smelting": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "thelysdexicone--lysdexic-s-free-beacons": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "thelysdexicone--lysdexic-s-level-250-cap": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "thelysdexicone--lysdexic-s-reduce-killcam-time": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "thelysdexicone--lysdexic-s-small-pouches-12": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "thelysdexicone--lysdexic-s-storage-increase": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "maddstone--madd-no-snow-or-sand-buildup": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--metal-cage": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--mini-fridge": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--mini-generator": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "agentkush--modular-affliction-adjuster": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "agentkush--modular-buff-enhancer": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "hazer--more-backpack-slots": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 1
+    },
+    "jimk72--more-daylight": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "bostonstrong567--more-dropship-slots": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "agentkush--more-eye-colours": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "zailfyer--mxc-cot": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "hazer--new-props": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "agentkush--night-vision-goggles": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "nilt--nilt-s-food-bag": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "agentkush--no-food-spoilage": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--no-poison-fish": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--no-weather": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "hazer--no-weather": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "hazer--non-stackable-stacks": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "apex--noxious-crust-icon-fix": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--out-of-bounds-fix": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "agentkush--passive-ore-extractor-drills": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "agentkush--performance-optimizer": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "hazer--place-waterwheel": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "pr0f23ss0r--pr0finventoryextensions": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 1
+    },
+    "pr0f23ss0r--pr0fpack": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 1
+    },
+    "pr0f23ss0r--pr0fworkshopkits": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 1
+    },
+    "jimk72--precision-bow": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--precision-bow-variants": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--precision-bow-workshop": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--prefilled-items": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "prophet--prophet-s-ai-adjustment": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "prophet--prophet-s-beyond-null-experience-easi": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "prophet--prophet-s-fortifications": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "prophet--prophet-s-freezer-autodefrost": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "prophet--prophet-s-real-tempered-glass": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "prophet--prophet-s-robust-explorer-fix": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "prophet--prophet-s-tacklebox-flip": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "strelitsia--qol-living": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "pr0f23ss0r--qolpack": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 1
+    },
+    "hazer--queue-increased": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "hazer--range-extented": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "rayven--rayvens-ammo": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "rayven--rayvens-animal-loot": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "rayven--rayvens-better-submachine-gun": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "rayven--rayvens-better-tames": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "rayven--rayvens-bigger-pouches": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "rayven--rayvens-difficulty": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "rayven--rayvens-durable-tools": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "rayven--rayvens-legendaries": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "rayven--rayvens-modules": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "rayven--rayvens-more-stuff": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "rayven--rayvens-mounts": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "rayven--rayvens-saddles": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "rayven--rayvens-small-fish-lure": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "rayven--rayvens-smelting-speed": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "rayven--rayvens-stacks-2-5k": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "rayven--rayvens-workshop": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "cryorus--reasonable-water": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "cryorus--reasonable-water-flick-those-devices-add-on": {
+      "status": "errors",
+      "issues": [
+        {
+          "severity": "error",
+          "message": "download/run failed: HTTP 404"
+        }
+      ],
+      "exit_code": -1
+    },
+    "z-diezel--rebalanced-zhang-hu-bow": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "hazer--reduced-costs": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--remove-g-slot-restrictions": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "agentkush--resource-repacker": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "revenantkitsune--revfirstcohortimproved": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "revenantkitsune--revs-total-mount-overhaul": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "revenantkitsune--revs-ubismount-improved": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "trystan--rhayven-largerstationcargoanddropshipslots-v1-w167": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "rhayvenwolf--rhayvenwolf-soyandcoconutmilk-v1-w195": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "relentlessmoose--rm-3rd-socket": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "relentlessmoose--rm-aggression": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "relentlessmoose--rm-angry-moose": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "relentlessmoose--rm-buffs-and-bundles": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "relentlessmoose--rm-bulk-recipes": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "relentlessmoose--rm-caveworm-exotics": {
+      "status": "errors",
+      "issues": [
+        {
+          "severity": "error",
+          "message": "download/run failed: HTTP 404"
+        }
+      ],
+      "exit_code": -1
+    },
+    "relentlessmoose--rm-desired-drop": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "relentlessmoose--rm-equal-bloodlines": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "relentlessmoose--rm-equal-phenotypes": {
+      "status": "errors",
+      "issues": [
+        {
+          "severity": "error",
+          "message": "download/run failed: HTTP 404"
+        }
+      ],
+      "exit_code": -1
+    },
+    "relentlessmoose--rm-gh-choices": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "relentlessmoose--rm-graphics-tier-fix": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "relentlessmoose--rm-half-exp": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "relentlessmoose--rm-icebreaker": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "relentlessmoose--rm-inventory": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "relentlessmoose--rm-items-plus": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "relentlessmoose--rm-levels-character": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "relentlessmoose--rm-levels-tames": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "relentlessmoose--rm-meta-attachments": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "relentlessmoose--rm-moar-power": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "relentlessmoose--rm-modifiers": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "relentlessmoose--rm-no-ore-left-behind": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "relentlessmoose--rm-null-comms": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "relentlessmoose--rm-stack-sizes": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "relentlessmoose--rm-total-moose-experience": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "relentlessmoose--rm-tracker": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "relentlessmoose--rm-world-bosses": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "saljam--saljam-bench-separation": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "saljam--saljam-chargable-devices-advanced": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "saljam--saljam-dangerous-horizons-qol": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "saljam--saljam-repair-bench": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "saljam--saljam-roaming-npcs": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "saljam--saljam-speeder-hauler": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "saljam--saljam-speeder-lightened": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "saljam--saljam-speeder-nuclear": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "saljam--saljam-speeder-strengthened": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "saljam--saljam-superteslacoil": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "saljam--saljam-uranium-collector-qol": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "sarge--sarge-100k-stack-size": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "sarge--sarge-basic-saddle-improvements": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "sarge--sarge-better-backpacks": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "sarge--sarge-better-basic-animal-feed": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "sarge--sarge-better-difficulty-levels": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "sarge--sarge-better-tamed-animals": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "sarge--sarge-better-wood-buildings": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "sarge--sarge-custom-crafting": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "sarge--sarge-deployable-slots-changes": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "sarge--sarge-envirosuit": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "sarge--sarge-fish-trap-changes": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "sarge--sarge-new-foods": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "sarge--sarge-non-decaying-animal-carcasses": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "sarge--sarge-reinforced-stone-buildings": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "sarge--sarge-slower-food-spoilage": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "sarge--sarge-stronger-reinforced-buildings": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "sarge--sarge-stronger-spikey-spikes": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "sarge--sarge-well-rested-xp-buff": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--scope-for-crossbows": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--scoped-rifle": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "semac--semac-icarusoverhaul": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "semac--semac-icarusoverhaul-thor": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "semac--semac-icarusoverhaulextreme": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "semac--semac-meta-lantern": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--slider": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "agentkush--solar-panel-expansion": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "ck-dexterhaven--something-fishy": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "agentkush--stack-size-overhaul": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "hazer--stacks-1k": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "hazer--stacks-250": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "hazer--stacks-500": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "hazer--stacks-750": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "strelitsia--strel-s-god-mode": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "strelitsia--strel-s-instant-fish": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "apex--super-stick": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "agentkush--survival-attachments": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "shadowwolf2099--sw2099-animal-trap": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "shadowwolf2099--sw2099-benches-in-a-bag": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "shadowwolf2099--sw2099-bookcase-door": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "shadowwolf2099--sw2099-bunker": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "shadowwolf2099--sw2099-creature-deterrent": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "shadowwolf2099--sw2099-force-field": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "shadowwolf2099--sw2099-fortificaton-gate": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "shadowwolf2099--sw2099-glider": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "shadowwolf2099--sw2099-grappling-hook": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "shadowwolf2099--sw2099-habitat": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "shadowwolf2099--sw2099-hunting-tower-suspension-bridge": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "shadowwolf2099--sw2099-jetpack": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "shadowwolf2099--sw2099-light-switch": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "shadowwolf2099--sw2099-modules": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "shadowwolf2099--sw2099-orb-light-deployable": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "shadowwolf2099--sw2099-pocket-doors": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "shadowwolf2099--sw2099-powered-electric-timer": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "shadowwolf2099--sw2099-prospector-dan": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "shadowwolf2099--sw2099-ranger-station-buildable": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "shadowwolf2099--sw2099-steel-bundle": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "shadowwolf2099--sw2099-thatch-wood-glass-stability": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "shadowwolf2099--sw2099-water-electric-panel": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "shadowwolf2099--sw2099-weapons-bench": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "shadowwolf2099--sw2099-weathered-wood": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "shadowwolf2099--sw2099-well": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "shadowwolf2099--sw2099-winter-biome-starter-bench": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "ck-dexterhaven--tactical-deluxe-backpack": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "ck-dexterhaven--tactical-elysium-backpack": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "ck-dexterhaven--tactical-icebox-backpack": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--teleporter": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--thor-hammer": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--tier-3-electricity": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "agentkush--tier-upgrade-forge": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "agentkush--trap-and-defense-expansion": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "hazer--true-level": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "agentkush--turret-variants": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "agentkush--uda-terminal-laptop": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "kiichigousagi-ckdexterhaven--usagi-creature-chaos-hi": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "venomtron--venomtron": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "critfail-updated-by-agentkush--waste-not": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--weapons-pack-1": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--weapons-pack-2": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--windmill-generator": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--workshop-armor-kryptic-camo": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "hazer--workshop-attachments": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "z-diezel--workshop-horse-stim-implant": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "agentkush--workshop-recyclers": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "z-diezel--z-diezel-s-advanced-orbital-exchange-interface": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "z-diezel--z-diezel-s-cryo-canister": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "z-diezel--z-diezel-s-cryo-canister-workshop": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "z-diezel--z-diezel-s-exotics-resource-supply": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "z-diezel--z-diezel-s-glutton-module": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "z-diezel--z-diezel-s-god-module": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "z-diezel--z-diezel-s-honey-protein-bar": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "z-diezel--z-diezel-s-salt-collector": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "z-diezel--z-diezel-s-ultra-fertilizer-spoiled-meat": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "z-diezel--z-diezel-s-wirtz-pump-water-wheel": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "zailfyer--zailfyers-100-level-cap": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "zailfyer--zailfyers-armor": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "zailfyer--zailfyers-arrow-recipes": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "zailfyer--zailfyers-backpacks": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "zailfyer--zailfyers-building-alterations": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "zailfyer--zailfyers-charcoal-and-ash": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "zailfyer--zailfyers-deep-ore-extraction": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "zailfyer--zailfyers-deep-ore-extraction-limited": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "zailfyer--zailfyers-dropship": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "zailfyer--zailfyers-energy-production": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "zailfyer--zailfyers-envirosuits": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "zailfyer--zailfyers-exotics-extraction": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "zailfyer--zailfyers-moduals": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "zailfyer--zailfyers-more-world-bosses": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "zailfyer--zailfyers-rebalanced-animal-loot": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "zailfyer--zailfyers-rebalanced-rewards": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "zailfyer--zailfyers-red-only-extraction": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "zailfyer--zailfyers-sledgehammer-talent": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "zailfyer--zailfyers-stacks-recipes": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "zailfyer--zailfyers-starter-kits": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "zailfyer--zailfyers-unleashed-exotics": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "zailfyer--zailfyers-workshop-tools": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "zailfyer--zailfyers-animal-feeds": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "zailfyer--zailfyers-mount-improvments": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "zayon--zay-all-stacks-0-5k": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "zayon--zay-all-stacks-10k": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "zayon--zay-all-stacks-1k": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "zayon--zay-all-stacks-2-5k": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "zayon--zay-all-stacks-25k": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "zayon--zay-all-stacks-50k": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "zayon--zay-all-stacks-5k": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "zayon--zay-all-stacks-x10": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "zayon--zay-all-stacks-x2": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "zayon--zay-all-stacks-x5": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "zayon--zay-all-weights-100": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "zayon--zay-all-weights-25": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "zayon--zay-all-weights-50": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "zayon--zay-all-weights-75": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "zayon--zay-extended-frozen-ore": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "zenethian--zen-shieldednuclearreactor": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "jimk72--zombie-wolf-texture": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    }
+  }
 }
