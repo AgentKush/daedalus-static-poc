@@ -1,7 +1,7 @@
 {
-  "checked_at": "2026-05-18T10:12:33.229Z",
-  "checked": 501,
-  "passed": 497,
+  "checked_at": "2026-05-25T10:16:19.722Z",
+  "checked": 509,
+  "passed": 505,
   "warnings_only": 0,
   "errors": 4,
   "mods": {
@@ -960,6 +960,11 @@
       "issues": [],
       "exit_code": 2
     },
+    "jimk72--jimk-workshop-pets-2": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
     "laanp--laanp-betterrailings": {
       "status": "ok",
       "issues": [],
@@ -1815,6 +1820,11 @@
       "issues": [],
       "exit_code": 2
     },
+    "saljam--saljam-full-trophies": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
     "saljam--saljam-repair-bench": {
       "status": "ok",
       "issues": [],
@@ -1851,6 +1861,11 @@
       "exit_code": 2
     },
     "saljam--saljam-uranium-collector-qol": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "saljam--saljam-workshop-deployables": {
       "status": "ok",
       "issues": [],
       "exit_code": 2
@@ -2510,7 +2525,32 @@
       "issues": [],
       "exit_code": 2
     },
+    "zayon--zay-ammo-stacks-1k": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "zayon--zay-ammo-stacks-2-5k": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "zayon--zay-ammo-stacks-5k": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
     "zayon--zay-extended-frozen-ore": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "zenethian--zen-enable-t4-butcher": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "zenethian--zen-enable-t4-smoker": {
       "status": "ok",
       "issues": [],
       "exit_code": 2
