@@ -1,92 +1,8 @@
 {
-  "checked_at": "2026-05-29T08:24:28.168Z",
-  "total_mods": 508,
-  "total_broken": 13,
+  "checked_at": "2026-05-30T07:26:17.467Z",
+  "total_mods": 518,
+  "total_broken": 7,
   "broken": [
-    {
-      "id": "ferani--ferani-bluebacks",
-      "name": "Ferani Bluebacks",
-      "author": "Ferani",
-      "broken_urls": [
-        {
-          "url": "https://github.com/FeraniShades/Icarus_Mods/blob/main/Ferani_Bluebacks/Ferani_Bluebacks.EXMODZ",
-          "status": 404,
-          "error": null
-        }
-      ]
-    },
-    {
-      "id": "ferani--ferani-buyable-zebras",
-      "name": "Ferani Buyable Zebras",
-      "author": "Ferani",
-      "broken_urls": [
-        {
-          "url": "https://github.com/FeraniShades/Icarus_Mods/blob/main/Ferani_Buyable_Zebras/Ferani_Buyable_Zebras.EXMODZ",
-          "status": 404,
-          "error": null
-        }
-      ]
-    },
-    {
-      "id": "ferani--ferani-compatible-ammo",
-      "name": "Ferani Compatible Ammo",
-      "author": "Ferani",
-      "broken_urls": [
-        {
-          "url": "https://github.com/FeraniShades/Icarus_Mods/blob/main/Ferani_Compatible_Ammo/Ferani_Compatible_Ammo.EXMODZ",
-          "status": 404,
-          "error": null
-        }
-      ]
-    },
-    {
-      "id": "ferani--ferani-effortless-lights",
-      "name": "Ferani Effortless Lights",
-      "author": "Ferani",
-      "broken_urls": [
-        {
-          "url": "https://github.com/FeraniShades/Icarus_Mods/blob/main/Ferani_Effortless_Lights/Ferani_Effortless_Lights.EXMODZ",
-          "status": 404,
-          "error": null
-        }
-      ]
-    },
-    {
-      "id": "ferani--ferani-heated-animal-bed",
-      "name": "Ferani Heated Animal Bed",
-      "author": "Ferani",
-      "broken_urls": [
-        {
-          "url": "https://github.com/FeraniShades/Icarus_Mods/blob/main/Ferani_Heated_Animal_Bed/Ferani_Heated_Animal_Bed.EXMODZ",
-          "status": 404,
-          "error": null
-        }
-      ]
-    },
-    {
-      "id": "ferani--ferani-lava-proofing",
-      "name": "Ferani Lava-Proofing",
-      "author": "Ferani",
-      "broken_urls": [
-        {
-          "url": "https://github.com/FeraniShades/Icarus_Mods/blob/main/Ferani_Lava-Proofing/Ferani_Lava-Proofing.EXMODZ",
-          "status": 404,
-          "error": null
-        }
-      ]
-    },
-    {
-      "id": "ferani--ferani-mount-compass",
-      "name": "Ferani Mount Compass",
-      "author": "Ferani",
-      "broken_urls": [
-        {
-          "url": "https://github.com/FeraniShades/Icarus_Mods/blob/main/Ferani_Mount_Compass/Ferani_Mount_Compass.EXMODZ",
-          "status": 404,
-          "error": null
-        }
-      ]
-    },
     {
       "id": "agentkush--hardcore-rebalance-pack",
       "name": "Hardcore Rebalance Pack",
@@ -118,6 +34,18 @@
       "broken_urls": [
         {
           "url": "https://github.com/Hazer-Bazer/Icarus-Mods/raw/refs/heads/main/No Weather/Hazers_No_Weather_P.pak",
+          "status": 404,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": "ferani--obedience-training-base-mod",
+      "name": "Obedience Training Base Mod",
+      "author": "Ferani",
+      "broken_urls": [
+        {
+          "url": "https://github.com/FeraniShades/Icarus_Mods/blob/main/Obedience_Training_Base_Mod.EXMODZ",
           "status": 404,
           "error": null
         }
