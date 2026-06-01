@@ -1,9 +1,9 @@
 {
-  "checked_at": "2026-05-25T10:16:19.722Z",
-  "checked": 509,
-  "passed": 505,
+  "checked_at": "2026-06-01T11:43:01.421Z",
+  "checked": 516,
+  "passed": 511,
   "warnings_only": 0,
-  "errors": 4,
+  "errors": 5,
   "mods": {
     "waldo--a-wzg-balance-overhaul": {
       "status": "ok",
@@ -610,6 +610,11 @@
       "issues": [],
       "exit_code": 2
     },
+    "ferani--ferani-building-stability": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
     "ferani--ferani-buyable-zebras": {
       "status": "ok",
       "issues": [],
@@ -625,7 +630,27 @@
       "issues": [],
       "exit_code": 2
     },
+    "ferani--ferani-foraging-paws": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "ferani--ferani-gentle-paws": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
     "ferani--ferani-heated-animal-bed": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "ferani--ferani-hungry-paws": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "ferani--ferani-lava-proof-paws": {
       "status": "ok",
       "issues": [],
       "exit_code": 2
@@ -636,6 +661,26 @@
       "exit_code": 2
     },
     "ferani--ferani-mount-compass": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "ferani--ferani-obedient-paws": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "ferani--ferani-padded-paws": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "ferani--ferani-sneaky-paws": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "ferani--ferani-speedy-paws": {
       "status": "ok",
       "issues": [],
       "exit_code": 2
@@ -1415,6 +1460,16 @@
       "issues": [],
       "exit_code": 2
     },
+    "ferani--obedience-training-base-mod": {
+      "status": "errors",
+      "issues": [
+        {
+          "severity": "error",
+          "message": "download/run failed: HTTP 404"
+        }
+      ],
+      "exit_code": -1
+    },
     "jimk72--out-of-bounds-fix": {
       "status": "ok",
       "issues": [],
@@ -1835,22 +1890,7 @@
       "issues": [],
       "exit_code": 2
     },
-    "saljam--saljam-speeder-hauler": {
-      "status": "ok",
-      "issues": [],
-      "exit_code": 2
-    },
-    "saljam--saljam-speeder-lightened": {
-      "status": "ok",
-      "issues": [],
-      "exit_code": 2
-    },
     "saljam--saljam-speeder-nuclear": {
-      "status": "ok",
-      "issues": [],
-      "exit_code": 2
-    },
-    "saljam--saljam-speeder-strengthened": {
       "status": "ok",
       "issues": [],
       "exit_code": 2
