@@ -1,7 +1,7 @@
 {
-  "checked_at": "2026-06-09T08:07:39.823Z",
+  "checked_at": "2026-06-10T08:31:58.407Z",
   "total_mods": 517,
-  "total_broken": 8,
+  "total_broken": 7,
   "broken": [
     {
       "id": "agentkush--hardcore-rebalance-pack",
@@ -35,18 +35,6 @@
         {
           "url": "https://github.com/Hazer-Bazer/Icarus-Mods/raw/refs/heads/main/No Weather/Hazers_No_Weather_P.pak",
           "status": 404,
-          "error": null
-        }
-      ]
-    },
-    {
-      "id": "apex--noxious-crust-icon-fix",
-      "name": "Noxious Crust Icon Fix",
-      "author": "Apex",
-      "broken_urls": [
-        {
-          "url": "https://github.com/DizzyDJW/Icarus-Mods/raw/main/Noxious_Crust_Icon_Fix.EXMODZ",
-          "status": 504,
           "error": null
         }
       ]
