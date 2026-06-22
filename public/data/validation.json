@@ -1,7 +1,7 @@
 {
-  "checked_at": "2026-06-15T12:23:17.041Z",
-  "checked": 517,
-  "passed": 512,
+  "checked_at": "2026-06-22T12:10:42.312Z",
+  "checked": 518,
+  "passed": 513,
   "warnings_only": 0,
   "errors": 5,
   "mods": {
@@ -865,6 +865,11 @@
       "issues": [],
       "exit_code": 2
     },
+    "jimk72--jimk-eden-buildable-base": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
     "jimk72--jimk-fences": {
       "status": "ok",
       "issues": [],
@@ -1230,11 +1235,6 @@
       "issues": [],
       "exit_code": 0
     },
-    "laanp--laanp-petestrees": {
-      "status": "ok",
-      "issues": [],
-      "exit_code": 0
-    },
     "laanp--laanp-petmover": {
       "status": "ok",
       "issues": [],
@@ -1281,6 +1281,11 @@
       "exit_code": 0
     },
     "laanp--laanp-telefly": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "laanp--laanp-waypointteleport": {
       "status": "ok",
       "issues": [],
       "exit_code": 0
