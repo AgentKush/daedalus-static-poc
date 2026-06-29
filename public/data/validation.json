@@ -1,9 +1,9 @@
 {
-  "checked_at": "2026-06-22T12:10:42.312Z",
-  "checked": 518,
-  "passed": 513,
+  "checked_at": "2026-06-29T11:06:37.261Z",
+  "checked": 506,
+  "passed": 502,
   "warnings_only": 0,
-  "errors": 5,
+  "errors": 4,
   "mods": {
     "waldo--a-wzg-balance-overhaul": {
       "status": "ok",
@@ -131,6 +131,11 @@
       "exit_code": 2
     },
     "jimk72--better-lights": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "agentkush--better-mission-rewards": {
       "status": "ok",
       "issues": [],
       "exit_code": 2
@@ -525,6 +530,16 @@
       "issues": [],
       "exit_code": 0
     },
+    "agentkush--extended-deep-ore-scanner-range": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "agentkush--extended-scanner-range": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
     "agentkush--extended-spoil-timers": {
       "status": "ok",
       "issues": [],
@@ -595,12 +610,22 @@
       "issues": [],
       "exit_code": 2
     },
+    "agentkush--faster-harvest-tools": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
     "hazer--faster-taming-speed": {
       "status": "ok",
       "issues": [],
       "exit_code": 2
     },
     "jimk72--faster-titanium": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "ferani--ferani-barren-lands": {
       "status": "ok",
       "issues": [],
       "exit_code": 2
@@ -630,6 +655,11 @@
       "issues": [],
       "exit_code": 2
     },
+    "ferani--ferani-fall-proof-paws": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
     "ferani--ferani-foraging-paws": {
       "status": "ok",
       "issues": [],
@@ -641,6 +671,11 @@
       "exit_code": 2
     },
     "ferani--ferani-heated-animal-bed": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "ferani--ferani-homestead-expanded": {
       "status": "ok",
       "issues": [],
       "exit_code": 2
@@ -685,6 +720,11 @@
       "issues": [],
       "exit_code": 2
     },
+    "ferani--ferani-s-obedience-training-base-mod": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
     "venomtron--fillable": {
       "status": "ok",
       "issues": [],
@@ -716,6 +756,16 @@
       "exit_code": 0
     },
     "theorangefloof--floofs-qol": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "agentkush--genetic-mastery": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "agentkush--genetics-breeding-overhaul": {
       "status": "ok",
       "issues": [],
       "exit_code": 2
@@ -816,6 +866,11 @@
       "exit_code": 2
     },
     "jimk72--hk-417-sienna": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "agentkush--hunter-s-critical-strike": {
       "status": "ok",
       "issues": [],
       "exit_code": 2
@@ -1235,6 +1290,11 @@
       "issues": [],
       "exit_code": 0
     },
+    "laanp--laanp-petestrees": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
     "laanp--laanp-petmover": {
       "status": "ok",
       "issues": [],
@@ -1301,6 +1361,11 @@
       "exit_code": 0
     },
     "z-diezel--level-deployables": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "agentkush--lightweight-hauling": {
       "status": "ok",
       "issues": [],
       "exit_code": 2
@@ -1385,6 +1450,11 @@
       "issues": [],
       "exit_code": 2
     },
+    "agentkush--mining-laser-overclock": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
     "agentkush--modular-affliction-adjuster": {
       "status": "ok",
       "issues": [],
@@ -1464,16 +1534,6 @@
       "status": "ok",
       "issues": [],
       "exit_code": 2
-    },
-    "ferani--obedience-training-base-mod": {
-      "status": "errors",
-      "issues": [
-        {
-          "severity": "error",
-          "message": "download/run failed: HTTP 404"
-        }
-      ],
-      "exit_code": -1
     },
     "jimk72--out-of-bounds-fix": {
       "status": "ok",
@@ -1883,7 +1943,7 @@
     "saljam--saljam-full-trophies": {
       "status": "ok",
       "issues": [],
-      "exit_code": 2
+      "exit_code": 1
     },
     "saljam--saljam-repair-bench": {
       "status": "ok",
@@ -2095,141 +2155,6 @@
       "issues": [],
       "exit_code": 2
     },
-    "shadowwolf2099--sw2099-animal-trap": {
-      "status": "ok",
-      "issues": [],
-      "exit_code": 0
-    },
-    "shadowwolf2099--sw2099-benches-in-a-bag": {
-      "status": "ok",
-      "issues": [],
-      "exit_code": 0
-    },
-    "shadowwolf2099--sw2099-bookcase-door": {
-      "status": "ok",
-      "issues": [],
-      "exit_code": 0
-    },
-    "shadowwolf2099--sw2099-bunker": {
-      "status": "ok",
-      "issues": [],
-      "exit_code": 0
-    },
-    "shadowwolf2099--sw2099-creature-deterrent": {
-      "status": "ok",
-      "issues": [],
-      "exit_code": 0
-    },
-    "shadowwolf2099--sw2099-force-field": {
-      "status": "ok",
-      "issues": [],
-      "exit_code": 0
-    },
-    "shadowwolf2099--sw2099-fortificaton-gate": {
-      "status": "ok",
-      "issues": [],
-      "exit_code": 0
-    },
-    "shadowwolf2099--sw2099-glider": {
-      "status": "ok",
-      "issues": [],
-      "exit_code": 0
-    },
-    "shadowwolf2099--sw2099-grappling-hook": {
-      "status": "ok",
-      "issues": [],
-      "exit_code": 0
-    },
-    "shadowwolf2099--sw2099-habitat": {
-      "status": "ok",
-      "issues": [],
-      "exit_code": 0
-    },
-    "shadowwolf2099--sw2099-hunting-tower-suspension-bridge": {
-      "status": "ok",
-      "issues": [],
-      "exit_code": 0
-    },
-    "shadowwolf2099--sw2099-jetpack": {
-      "status": "ok",
-      "issues": [],
-      "exit_code": 0
-    },
-    "shadowwolf2099--sw2099-light-switch": {
-      "status": "ok",
-      "issues": [],
-      "exit_code": 0
-    },
-    "shadowwolf2099--sw2099-modules": {
-      "status": "ok",
-      "issues": [],
-      "exit_code": 0
-    },
-    "shadowwolf2099--sw2099-orb-light-deployable": {
-      "status": "ok",
-      "issues": [],
-      "exit_code": 0
-    },
-    "shadowwolf2099--sw2099-pocket-doors": {
-      "status": "ok",
-      "issues": [],
-      "exit_code": 0
-    },
-    "shadowwolf2099--sw2099-portals": {
-      "status": "ok",
-      "issues": [],
-      "exit_code": 0
-    },
-    "shadowwolf2099--sw2099-powered-electric-timer": {
-      "status": "ok",
-      "issues": [],
-      "exit_code": 0
-    },
-    "shadowwolf2099--sw2099-prospector-dan": {
-      "status": "ok",
-      "issues": [],
-      "exit_code": 0
-    },
-    "shadowwolf2099--sw2099-ranger-station-buildable": {
-      "status": "ok",
-      "issues": [],
-      "exit_code": 0
-    },
-    "shadowwolf2099--sw2099-steel-bundle": {
-      "status": "ok",
-      "issues": [],
-      "exit_code": 0
-    },
-    "shadowwolf2099--sw2099-thatch-wood-glass-stability": {
-      "status": "ok",
-      "issues": [],
-      "exit_code": 0
-    },
-    "shadowwolf2099--sw2099-water-electric-panel": {
-      "status": "ok",
-      "issues": [],
-      "exit_code": 0
-    },
-    "shadowwolf2099--sw2099-weapons-bench": {
-      "status": "ok",
-      "issues": [],
-      "exit_code": 0
-    },
-    "shadowwolf2099--sw2099-weathered-wood": {
-      "status": "ok",
-      "issues": [],
-      "exit_code": 0
-    },
-    "shadowwolf2099--sw2099-well": {
-      "status": "ok",
-      "issues": [],
-      "exit_code": 0
-    },
-    "shadowwolf2099--sw2099-winter-biome-starter-bench": {
-      "status": "ok",
-      "issues": [],
-      "exit_code": 0
-    },
     "ck-dexterhaven--tactical-deluxe-backpack": {
       "status": "ok",
       "issues": [],
@@ -2241,6 +2166,11 @@
       "exit_code": 2
     },
     "ck-dexterhaven--tactical-icebox-backpack": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "agentkush--taming-tames-overhaul": {
       "status": "ok",
       "issues": [],
       "exit_code": 2
@@ -2294,6 +2224,11 @@
       "status": "ok",
       "issues": [],
       "exit_code": 0
+    },
+    "agentkush--war-beasts": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
     },
     "critfail-updated-by-agentkush--waste-not": {
       "status": "ok",
