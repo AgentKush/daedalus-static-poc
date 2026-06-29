@@ -1,7 +1,7 @@
 {
-  "checked_at": "2026-06-28T08:03:04.028Z",
-  "total_mods": 504,
-  "total_broken": 7,
+  "checked_at": "2026-06-29T09:15:44.376Z",
+  "total_mods": 507,
+  "total_broken": 6,
   "broken": [
     {
       "id": "agentkush--hardcore-rebalance-pack",
@@ -34,18 +34,6 @@
       "broken_urls": [
         {
           "url": "https://github.com/Hazer-Bazer/Icarus-Mods/raw/refs/heads/main/No Weather/Hazers_No_Weather_P.pak",
-          "status": 404,
-          "error": null
-        }
-      ]
-    },
-    {
-      "id": "ferani--obedience-training-base-mod",
-      "name": "Obedience Training Base Mod",
-      "author": "Ferani",
-      "broken_urls": [
-        {
-          "url": "https://github.com/FeraniShades/Icarus_Mods/blob/main/Obedience_Training_Base_Mod.EXMODZ",
           "status": 404,
           "error": null
         }
