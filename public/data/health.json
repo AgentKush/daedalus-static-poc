@@ -1,7 +1,7 @@
 {
-  "checked_at": "2026-07-03T07:45:53.561Z",
+  "checked_at": "2026-07-04T07:22:29.395Z",
   "total_mods": 535,
-  "total_broken": 6,
+  "total_broken": 7,
   "broken": [
     {
       "id": "agentkush--hardcore-rebalance-pack",
@@ -22,6 +22,18 @@
       "broken_urls": [
         {
           "url": "https://github.com/Hazer-Bazer/Icarus-Mods/raw/refs/heads/main/Higher_Energy_Production/Hazers_Higher_Energy_Production.EXMODZ",
+          "status": 404,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": "eric--larkwell-care-package",
+      "name": "Larkwell Care Package",
+      "author": "Eric",
+      "broken_urls": [
+        {
+          "url": "https://github.com/begginfokillz/icarus_carepackage_larkwell/raw/main/LarkwellCarePackage_P.pak",
           "status": 404,
           "error": null
         }
