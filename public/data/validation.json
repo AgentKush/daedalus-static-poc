@@ -1,9 +1,9 @@
 {
-  "checked_at": "2026-07-06T10:43:02.044Z",
-  "checked": 535,
+  "checked_at": "2026-07-13T09:33:27.251Z",
+  "checked": 536,
   "passed": 531,
   "warnings_only": 0,
-  "errors": 4,
+  "errors": 5,
   "mods": {
     "waldo--a-wzg-balance-overhaul": {
       "status": "ok",
@@ -2206,9 +2206,14 @@
       "exit_code": 0
     },
     "shadowwolf2099--sw2099-habitat": {
-      "status": "ok",
-      "issues": [],
-      "exit_code": 0
+      "status": "errors",
+      "issues": [
+        {
+          "severity": "error",
+          "message": "download/run failed: HTTP 404"
+        }
+      ],
+      "exit_code": -1
     },
     "shadowwolf2099--sw2099-hunting-tower-suspension-bridge": {
       "status": "ok",
@@ -2266,6 +2271,11 @@
       "exit_code": 0
     },
     "shadowwolf2099--sw2099-steel-bundle": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "shadowwolf2099--sw2099-tactical-optics": {
       "status": "ok",
       "issues": [],
       "exit_code": 0
