@@ -1,7 +1,7 @@
 {
-  "checked_at": "2026-07-17T06:38:19.575Z",
+  "checked_at": "2026-07-18T06:27:59.757Z",
   "total_mods": 537,
-  "total_broken": 8,
+  "total_broken": 12,
   "broken": [
     {
       "id": "agentkush--hardcore-rebalance-pack",
@@ -94,6 +94,54 @@
       "broken_urls": [
         {
           "url": "https://github.com/ShadowWolf2099/Icarus_Mods/releases/download/v1_w240/SW2099-Habitat_v1_w240_P.pak",
+          "status": 404,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": "zenethian--zen-enable-t4-butcher",
+      "name": "zen-Enable T4 Butcher",
+      "author": "Zenethian",
+      "broken_urls": [
+        {
+          "url": "https://raw.githubusercontent.com/jgentil/IcarusMods/refs/heads/main/zen-EnableT4Butcher_P.pak",
+          "status": 404,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": "zenethian--zen-enable-t4-smoker",
+      "name": "zen-Enable T4 Smoker",
+      "author": "Zenethian",
+      "broken_urls": [
+        {
+          "url": "https://raw.githubusercontent.com/jgentil/IcarusMods/refs/heads/main/zen-EnableT4Smoker_P.pak",
+          "status": 404,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": "zenethian--zen-hidetamemapicons",
+      "name": "zen-HideTameMapIcons",
+      "author": "Zenethian",
+      "broken_urls": [
+        {
+          "url": "https://raw.githubusercontent.com/jgentil/IcarusMods/refs/heads/main/zen-HideTameMapIcons_P.pak",
+          "status": 404,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": "zenethian--zen-shieldednuclearreactor",
+      "name": "zen-ShieldedNuclearReactor",
+      "author": "Zenethian",
+      "broken_urls": [
+        {
+          "url": "https://raw.githubusercontent.com/jgentil/IcarusMods/refs/heads/main/zen-ShieldedNuclearReactor_P.pak",
           "status": 404,
           "error": null
         }
