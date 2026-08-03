@@ -1,7 +1,7 @@
 {
-  "checked_at": "2026-08-02T07:06:59.574Z",
-  "total_mods": 537,
-  "total_broken": 12,
+  "checked_at": "2026-08-03T07:56:56.869Z",
+  "total_mods": 538,
+  "total_broken": 30,
   "broken": [
     {
       "id": "agentkush--hardcore-rebalance-pack",
@@ -88,12 +88,228 @@
       ]
     },
     {
+      "id": "shadowwolf2099--sw2099-animal-trap",
+      "name": "SW2099-Animal_Trap",
+      "author": "ShadowWolf2099",
+      "broken_urls": [
+        {
+          "url": "https://github.com/ShadowWolf2099/Icarus_Mods/releases/download/v1_w243/SW2099-Animal_Trap_v1_w243_P.pak",
+          "status": 404,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": "shadowwolf2099--sw2099-bookcase-door",
+      "name": "SW2099-Bookcase_Door",
+      "author": "ShadowWolf2099",
+      "broken_urls": [
+        {
+          "url": "https://github.com/ShadowWolf2099/Icarus_Mods/releases/download/v1_w243/SW2099-Bookcase_Door_v1_w243_P.pak",
+          "status": 404,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": "shadowwolf2099--sw2099-bunker",
+      "name": "SW2099-Bunker",
+      "author": "ShadowWolf2099",
+      "broken_urls": [
+        {
+          "url": "https://github.com/ShadowWolf2099/Icarus_Mods/releases/download/v1_w243/SW2099-Bunker_v1_w243_P.pak",
+          "status": 404,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": "shadowwolf2099--sw2099-creature-deterrent",
+      "name": "SW2099-Creature_Deterrent",
+      "author": "ShadowWolf2099",
+      "broken_urls": [
+        {
+          "url": "https://github.com/ShadowWolf2099/Icarus_Mods/releases/download/v1_w243/SW2099-Creature_Deterrent_v1_w243_P.pak",
+          "status": 404,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": "shadowwolf2099--sw2099-glider",
+      "name": "SW2099-Glider",
+      "author": "ShadowWolf2099",
+      "broken_urls": [
+        {
+          "url": "https://github.com/ShadowWolf2099/Icarus_Mods/releases/download/v1_w243/SW2099-Glider_v1_w243_P.pak",
+          "status": 404,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": "shadowwolf2099--sw2099-grappling-hook",
+      "name": "SW2099-Grappling_Hook",
+      "author": "ShadowWolf2099",
+      "broken_urls": [
+        {
+          "url": "https://github.com/ShadowWolf2099/Icarus_Mods/releases/download/v1_w243/SW2099-Grappling_Hook_v1_w243_P.pak",
+          "status": 404,
+          "error": null
+        }
+      ]
+    },
+    {
       "id": "shadowwolf2099--sw2099-habitat",
       "name": "SW2099-Habitat",
       "author": "ShadowWolf2099",
       "broken_urls": [
         {
-          "url": "https://github.com/ShadowWolf2099/Icarus_Mods/releases/download/v1_w240/SW2099-Habitat_v1_w240_P.pak",
+          "url": "https://github.com/ShadowWolf2099/Icarus_Mods/releases/download/v1_w243/SW2099-Habitat_v1_w243_P.pak",
+          "status": 404,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": "shadowwolf2099--sw2099-hunting-tower-suspension-bridge",
+      "name": "SW2099-Hunting_Tower_Suspension_Bridge",
+      "author": "ShadowWolf2099",
+      "broken_urls": [
+        {
+          "url": "https://github.com/ShadowWolf2099/Icarus_Mods/releases/download/v1_w243/SW2099-Hunting_Tower_Suspension_Bridge_v1_w243_P.pak",
+          "status": 404,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": "shadowwolf2099--sw2099-jetpack",
+      "name": "SW2099-Jetpack",
+      "author": "ShadowWolf2099",
+      "broken_urls": [
+        {
+          "url": "https://github.com/ShadowWolf2099/Icarus_Mods/releases/download/v1_w243/SW2099-Jetpack_v1_w243_P.pak",
+          "status": 404,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": "shadowwolf2099--sw2099-light-switch",
+      "name": "SW2099-Light_Switch",
+      "author": "ShadowWolf2099",
+      "broken_urls": [
+        {
+          "url": "https://github.com/ShadowWolf2099/Icarus_Mods/releases/download/v1_w243/SW2099-Light_Switch_v1_w243_P.pak",
+          "status": 404,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": "shadowwolf2099--sw2099-orb-light-deployable",
+      "name": "SW2099-Orb_Light_Deployable",
+      "author": "ShadowWolf2099",
+      "broken_urls": [
+        {
+          "url": "https://github.com/ShadowWolf2099/Icarus_Mods/releases/download/v1_w243/SW2099-Orb_Light_Deployable_v1_w243_P.pak",
+          "status": 404,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": "shadowwolf2099--sw2099-pocket-doors",
+      "name": "SW2099-Pocket_Doors",
+      "author": "ShadowWolf2099",
+      "broken_urls": [
+        {
+          "url": "https://github.com/ShadowWolf2099/Icarus_Mods/releases/download/v1_w243/SW2099-Pocket_Doors_v1_w243_P.pak",
+          "status": 404,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": "shadowwolf2099--sw2099-powered-electric-timer",
+      "name": "SW2099-Powered_Electric_Timer",
+      "author": "ShadowWolf2099",
+      "broken_urls": [
+        {
+          "url": "https://github.com/ShadowWolf2099/Icarus_Mods/releases/download/v1_w243/SW2099-Powered_Electric_Timer_v1_w243_P.pak",
+          "status": 404,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": "shadowwolf2099--sw2099-quantum-freight-network",
+      "name": "SW2099-Quantum_Freight_Network",
+      "author": "ShadowWolf2099",
+      "broken_urls": [
+        {
+          "url": "https://github.com/ShadowWolf2099/Icarus_Mods/releases/download/v1_w243/SW2099-Quantum_Freight_Network_v1_w243_P.pak",
+          "status": 404,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": "shadowwolf2099--sw2099-ranger-station-buildable",
+      "name": "SW2099-Ranger_Station_Buildable",
+      "author": "ShadowWolf2099",
+      "broken_urls": [
+        {
+          "url": "https://github.com/ShadowWolf2099/Icarus_Mods/releases/download/v1_w243/SW2099-Ranger_Station_Buildable_v1_w243_P.pak",
+          "status": 404,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": "shadowwolf2099--sw2099-water-electric-panel",
+      "name": "SW2099-Water_Electric_Panel",
+      "author": "ShadowWolf2099",
+      "broken_urls": [
+        {
+          "url": "https://github.com/ShadowWolf2099/Icarus_Mods/releases/download/v1_w243/SW2099-Water_Electric_Panel_v1_w243_P.pak",
+          "status": 404,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": "shadowwolf2099--sw2099-weapons-bench",
+      "name": "SW2099-Weapons_Bench",
+      "author": "ShadowWolf2099",
+      "broken_urls": [
+        {
+          "url": "https://github.com/ShadowWolf2099/Icarus_Mods/releases/download/v1_w243/SW2099-Weapons_Bench_v1_w243_P.pak",
+          "status": 404,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": "shadowwolf2099--sw2099-weathered-wood",
+      "name": "SW2099-Weathered_Wood",
+      "author": "ShadowWolf2099",
+      "broken_urls": [
+        {
+          "url": "https://github.com/ShadowWolf2099/Icarus_Mods/releases/download/v1_w243/SW2099-Weathered_Wood_v1_w243_P.pak",
+          "status": 404,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": "shadowwolf2099--sw2099-well",
+      "name": "SW2099-Well",
+      "author": "ShadowWolf2099",
+      "broken_urls": [
+        {
+          "url": "https://github.com/ShadowWolf2099/Icarus_Mods/releases/download/v1_w243/SW2099-Well_v1_w243_P.pak",
           "status": 404,
           "error": null
         }
