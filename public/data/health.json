@@ -1,7 +1,7 @@
 {
-  "checked_at": "2026-08-04T07:13:49.551Z",
+  "checked_at": "2026-08-05T07:15:14.909Z",
   "total_mods": 538,
-  "total_broken": 30,
+  "total_broken": 29,
   "broken": [
     {
       "id": "agentkush--hardcore-rebalance-pack",
@@ -300,18 +300,6 @@
           "url": "https://github.com/ShadowWolf2099/Icarus_Mods/releases/download/v1_w243/SW2099-Well_v1_w243_P.pak",
           "status": 404,
           "error": null
-        }
-      ]
-    },
-    {
-      "id": "zailfyer--zailfyers-moduals",
-      "name": "Zailfyers Moduals",
-      "author": "Zailfyer",
-      "broken_urls": [
-        {
-          "url": "https://github.com/zailfyer/Icarus_Mods/raw/EXMODZ/Zailfyers_Moduals.EXMODZ",
-          "status": 0,
-          "error": "fetch failed"
         }
       ]
     },
