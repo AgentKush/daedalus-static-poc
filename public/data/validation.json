@@ -1,9 +1,9 @@
 {
-  "checked_at": "2026-08-03T09:51:25.407Z",
+  "checked_at": "2026-08-10T07:46:36.469Z",
   "checked": 537,
-  "passed": 514,
+  "passed": 532,
   "warnings_only": 0,
-  "errors": 23,
+  "errors": 5,
   "mods": {
     "waldo--a-wzg-balance-overhaul": {
       "status": "ok",
@@ -2166,14 +2166,9 @@
       "exit_code": 2
     },
     "shadowwolf2099--sw2099-animal-trap": {
-      "status": "errors",
-      "issues": [
-        {
-          "severity": "error",
-          "message": "download/run failed: HTTP 404"
-        }
-      ],
-      "exit_code": -1
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
     },
     "shadowwolf2099--sw2099-benches-in-a-bag": {
       "status": "ok",
@@ -2181,34 +2176,19 @@
       "exit_code": 0
     },
     "shadowwolf2099--sw2099-bookcase-door": {
-      "status": "errors",
-      "issues": [
-        {
-          "severity": "error",
-          "message": "download/run failed: HTTP 404"
-        }
-      ],
-      "exit_code": -1
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
     },
     "shadowwolf2099--sw2099-bunker": {
-      "status": "errors",
-      "issues": [
-        {
-          "severity": "error",
-          "message": "download/run failed: HTTP 404"
-        }
-      ],
-      "exit_code": -1
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
     },
     "shadowwolf2099--sw2099-creature-deterrent": {
-      "status": "errors",
-      "issues": [
-        {
-          "severity": "error",
-          "message": "download/run failed: HTTP 404"
-        }
-      ],
-      "exit_code": -1
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
     },
     "shadowwolf2099--sw2099-force-field": {
       "status": "ok",
@@ -2221,64 +2201,34 @@
       "exit_code": 0
     },
     "shadowwolf2099--sw2099-glider": {
-      "status": "errors",
-      "issues": [
-        {
-          "severity": "error",
-          "message": "download/run failed: HTTP 404"
-        }
-      ],
-      "exit_code": -1
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
     },
     "shadowwolf2099--sw2099-grappling-hook": {
-      "status": "errors",
-      "issues": [
-        {
-          "severity": "error",
-          "message": "download/run failed: HTTP 404"
-        }
-      ],
-      "exit_code": -1
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
     },
     "shadowwolf2099--sw2099-habitat": {
-      "status": "errors",
-      "issues": [
-        {
-          "severity": "error",
-          "message": "download/run failed: HTTP 404"
-        }
-      ],
-      "exit_code": -1
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
     },
     "shadowwolf2099--sw2099-hunting-tower-suspension-bridge": {
-      "status": "errors",
-      "issues": [
-        {
-          "severity": "error",
-          "message": "download/run failed: HTTP 404"
-        }
-      ],
-      "exit_code": -1
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
     },
     "shadowwolf2099--sw2099-jetpack": {
-      "status": "errors",
-      "issues": [
-        {
-          "severity": "error",
-          "message": "download/run failed: HTTP 404"
-        }
-      ],
-      "exit_code": -1
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
     },
     "shadowwolf2099--sw2099-light-switch": {
-      "status": "errors",
-      "issues": [
-        {
-          "severity": "error",
-          "message": "download/run failed: HTTP 404"
-        }
-      ],
-      "exit_code": -1
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
     },
     "shadowwolf2099--sw2099-modules": {
       "status": "ok",
@@ -2286,24 +2236,14 @@
       "exit_code": 0
     },
     "shadowwolf2099--sw2099-orb-light-deployable": {
-      "status": "errors",
-      "issues": [
-        {
-          "severity": "error",
-          "message": "download/run failed: HTTP 404"
-        }
-      ],
-      "exit_code": -1
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
     },
     "shadowwolf2099--sw2099-pocket-doors": {
-      "status": "errors",
-      "issues": [
-        {
-          "severity": "error",
-          "message": "download/run failed: HTTP 404"
-        }
-      ],
-      "exit_code": -1
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
     },
     "shadowwolf2099--sw2099-portals": {
       "status": "ok",
@@ -2311,14 +2251,9 @@
       "exit_code": 0
     },
     "shadowwolf2099--sw2099-powered-electric-timer": {
-      "status": "errors",
-      "issues": [
-        {
-          "severity": "error",
-          "message": "download/run failed: HTTP 404"
-        }
-      ],
-      "exit_code": -1
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
     },
     "shadowwolf2099--sw2099-prospector-dan": {
       "status": "ok",
@@ -2326,24 +2261,14 @@
       "exit_code": 0
     },
     "shadowwolf2099--sw2099-quantum-freight-network": {
-      "status": "errors",
-      "issues": [
-        {
-          "severity": "error",
-          "message": "download/run failed: HTTP 404"
-        }
-      ],
-      "exit_code": -1
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
     },
     "shadowwolf2099--sw2099-ranger-station-buildable": {
-      "status": "errors",
-      "issues": [
-        {
-          "severity": "error",
-          "message": "download/run failed: HTTP 404"
-        }
-      ],
-      "exit_code": -1
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
     },
     "shadowwolf2099--sw2099-steel-bundle": {
       "status": "ok",
@@ -2361,24 +2286,14 @@
       "exit_code": 0
     },
     "shadowwolf2099--sw2099-water-electric-panel": {
-      "status": "errors",
-      "issues": [
-        {
-          "severity": "error",
-          "message": "download/run failed: HTTP 404"
-        }
-      ],
-      "exit_code": -1
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
     },
     "shadowwolf2099--sw2099-weapons-bench": {
-      "status": "errors",
-      "issues": [
-        {
-          "severity": "error",
-          "message": "download/run failed: HTTP 404"
-        }
-      ],
-      "exit_code": -1
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
     },
     "shadowwolf2099--sw2099-weathered-wood": {
       "status": "errors",
@@ -2391,14 +2306,9 @@
       "exit_code": -1
     },
     "shadowwolf2099--sw2099-well": {
-      "status": "errors",
-      "issues": [
-        {
-          "severity": "error",
-          "message": "download/run failed: HTTP 404"
-        }
-      ],
-      "exit_code": -1
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
     },
     "shadowwolf2099--sw2099-winter-biome-starter-bench": {
       "status": "ok",
