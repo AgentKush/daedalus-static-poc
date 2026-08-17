@@ -1,6 +1,6 @@
 {
-  "checked_at": "2026-08-16T05:00:51.290Z",
-  "total_mods": 538,
+  "checked_at": "2026-08-17T05:08:52.595Z",
+  "total_mods": 539,
   "total_broken": 12,
   "broken": [
     {
@@ -88,12 +88,12 @@
       ]
     },
     {
-      "id": "shadowwolf2099--sw2099-weathered-wood",
-      "name": "SW2099-Weathered_Wood",
+      "id": "shadowwolf2099--sw2099-habitat",
+      "name": "SW2099-Habitat",
       "author": "ShadowWolf2099",
       "broken_urls": [
         {
-          "url": "https://github.com/ShadowWolf2099/Icarus_Mods/releases/download/v1_w244/SW2099-Weathered_Wood_v1_w244_P.pak",
+          "url": "https://github.com/ShadowWolf2099/Icarus_Mods/releases/download/v1_w245/SW2099-Habitat_v1_w245_P.pak",
           "status": 404,
           "error": null
         }
