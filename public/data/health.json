@@ -1,7 +1,7 @@
 {
-  "checked_at": "2026-09-04T08:58:48.022Z",
+  "checked_at": "2026-09-05T08:29:42.747Z",
   "total_mods": 540,
-  "total_broken": 12,
+  "total_broken": 11,
   "broken": [
     {
       "id": "agentkush--hardcore-rebalance-pack",
@@ -82,18 +82,6 @@
       "broken_urls": [
         {
           "url": "https://github.com/relentlessmoose/rm_Icarus_mods/raw/refs/heads/main/rm_Equal_Skins_P.pak",
-          "status": 404,
-          "error": null
-        }
-      ]
-    },
-    {
-      "id": "shadowwolf2099--sw2099-habitat",
-      "name": "SW2099-Habitat",
-      "author": "ShadowWolf2099",
-      "broken_urls": [
-        {
-          "url": "https://github.com/ShadowWolf2099/Icarus_Mods/releases/download/v1_w245/SW2099-Habitat_v1_w245_P.pak",
           "status": 404,
           "error": null
         }
