@@ -1,9 +1,9 @@
 {
-  "checked_at": "2026-08-31T13:05:25.601Z",
+  "checked_at": "2026-09-07T11:57:41.377Z",
   "checked": 539,
-  "passed": 534,
+  "passed": 535,
   "warnings_only": 0,
-  "errors": 5,
+  "errors": 4,
   "mods": {
     "waldo--a-wzg-balance-overhaul": {
       "status": "ok",
@@ -2195,6 +2195,11 @@
       "issues": [],
       "exit_code": 0
     },
+    "shadowwolf2099--sw2099-dragonfly-companion": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
     "shadowwolf2099--sw2099-force-field": {
       "status": "ok",
       "issues": [],
@@ -2214,16 +2219,6 @@
       "status": "ok",
       "issues": [],
       "exit_code": 0
-    },
-    "shadowwolf2099--sw2099-habitat": {
-      "status": "errors",
-      "issues": [
-        {
-          "severity": "error",
-          "message": "download/run failed: HTTP 404"
-        }
-      ],
-      "exit_code": -1
     },
     "shadowwolf2099--sw2099-hunting-tower-suspension-bridge": {
       "status": "ok",
