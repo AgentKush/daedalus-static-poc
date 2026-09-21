@@ -1,9 +1,9 @@
 {
-  "checked_at": "2026-09-14T12:12:33.203Z",
-  "checked": 539,
+  "checked_at": "2026-09-21T12:20:59.896Z",
+  "checked": 540,
   "passed": 535,
   "warnings_only": 0,
-  "errors": 4,
+  "errors": 5,
   "mods": {
     "waldo--a-wzg-balance-overhaul": {
       "status": "ok",
@@ -2180,6 +2180,11 @@
       "issues": [],
       "exit_code": 0
     },
+    "shadowwolf2099--sw2099-bodycam": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
     "shadowwolf2099--sw2099-bookcase-door": {
       "status": "ok",
       "issues": [],
@@ -2226,9 +2231,14 @@
       "exit_code": 0
     },
     "shadowwolf2099--sw2099-jetpack": {
-      "status": "ok",
-      "issues": [],
-      "exit_code": 0
+      "status": "errors",
+      "issues": [
+        {
+          "severity": "error",
+          "message": "download/run failed: HTTP 404"
+        }
+      ],
+      "exit_code": -1
     },
     "shadowwolf2099--sw2099-light-switch": {
       "status": "ok",
