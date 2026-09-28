@@ -1,9 +1,9 @@
 {
-  "checked_at": "2026-09-21T12:20:59.896Z",
-  "checked": 540,
-  "passed": 535,
+  "checked_at": "2026-09-28T13:17:31.479Z",
+  "checked": 542,
+  "passed": 538,
   "warnings_only": 0,
-  "errors": 5,
+  "errors": 4,
   "mods": {
     "waldo--a-wzg-balance-overhaul": {
       "status": "ok",
@@ -725,6 +725,11 @@
       "issues": [],
       "exit_code": 2
     },
+    "ferani--ferani-steadfast-structures": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
     "ferani--ferani-s-obedience-training-base-mod": {
       "status": "ok",
       "issues": [],
@@ -1331,6 +1336,11 @@
       "exit_code": 0
     },
     "laanp--laanp-refinedwoodendcaps": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "laanp--laanp-remotecontrol": {
       "status": "ok",
       "issues": [],
       "exit_code": 0
@@ -2231,14 +2241,9 @@
       "exit_code": 0
     },
     "shadowwolf2099--sw2099-jetpack": {
-      "status": "errors",
-      "issues": [
-        {
-          "severity": "error",
-          "message": "download/run failed: HTTP 404"
-        }
-      ],
-      "exit_code": -1
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
     },
     "shadowwolf2099--sw2099-light-switch": {
       "status": "ok",
