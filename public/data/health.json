@@ -1,8 +1,212 @@
 {
-  "checked_at": "2026-10-01T11:06:34.009Z",
+  "checked_at": "2026-10-02T10:40:40.489Z",
   "total_mods": 543,
-  "total_broken": 11,
+  "total_broken": 37,
   "broken": [
+    {
+      "id": "aurokon--aurokon-industries",
+      "name": "Aurokon Industries",
+      "author": "Aurokon",
+      "broken_urls": [
+        {
+          "url": "https://github.com/aurokon/Aurokon_Industries/blob/main/Aurokon%20Industries.EXMODZ",
+          "status": 503,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": "corack--coracks-ammo-and-repair-x100",
+      "name": "Coracks_Ammo_and_Repair_x100",
+      "author": "Corack",
+      "broken_urls": [
+        {
+          "url": "https://github.com/CorackWookie/Icarus-Mods/blob/main/Coracks_Ammo_and_Repair_x100.EXMODZ",
+          "status": 503,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": "corack--coracks-crossbows-n-bows",
+      "name": "Coracks_Crossbows_N_Bows",
+      "author": "Corack",
+      "broken_urls": [
+        {
+          "url": "https://github.com/CorackWookie/Icarus-Mods/blob/main/Coracks_Crossbows_N_Bows.EXMODZ",
+          "status": 503,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": "corack--coracks-patcher1-resources",
+      "name": "Coracks_Patcher1_Resources",
+      "author": "Corack",
+      "broken_urls": [
+        {
+          "url": "https://github.com/CorackWookie/Icarus-Mods/blob/main/Coracks_Patcher1_Resources.EXMODZ",
+          "status": 503,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": "corack--coracks-patcher2-hunting",
+      "name": "Coracks_Patcher2_Hunting",
+      "author": "Corack",
+      "broken_urls": [
+        {
+          "url": "https://github.com/CorackWookie/Icarus-Mods/blob/main/Coracks_Patcher2_Hunting.EXMODZ",
+          "status": 503,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": "corack--coracks-saddle-improvements",
+      "name": "Coracks_Saddle_Improvements",
+      "author": "Corack",
+      "broken_urls": [
+        {
+          "url": "https://github.com/CorackWookie/Icarus-Mods/blob/main/Coracks_Saddle_Improvements.EXMODZ",
+          "status": 503,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": "corack--coracks-weekend-flash-weather",
+      "name": "Coracks_Weekend_Flash_Weather",
+      "author": "Corack",
+      "broken_urls": [
+        {
+          "url": "https://github.com/CorackWookie/Icarus-Mods/blob/main/Coracks_Weekend_Flash_Weather.EXMODZ",
+          "status": 503,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": "darkdante--darkdantes-wicked-pickaxe-and-hammer",
+      "name": "DarkDantes Wicked PickAxe and Hammer",
+      "author": "DarkDante",
+      "broken_urls": [
+        {
+          "url": "https://github.com/yacketrj/icarus_modding/blob/main/DarkDantes_Wicked_PickAxe_and_Hammer.EXMODZ",
+          "status": 503,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": "bostonstrong567--eye-colors-expanded",
+      "name": "Eye Colors Expanded!",
+      "author": "Bostonstrong567",
+      "broken_urls": [
+        {
+          "url": "https://github.com/bostonstrong567/Bostonstrong567-Icarus-Mods/blob/main/Mods/More%20Drop%20Ship%20Slots/More%20Drop%20Ship%20Slots_P.pak",
+          "status": 503,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": "ferani--ferani-barren-lands",
+      "name": "Ferani Barren Lands",
+      "author": "Ferani",
+      "broken_urls": [
+        {
+          "url": "https://github.com/FeraniShades/Icarus_Mods/blob/main/Ferani_Barren_Lands.EXMODZ",
+          "status": 503,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": "ferani--ferani-bluebacks",
+      "name": "Ferani Bluebacks",
+      "author": "Ferani",
+      "broken_urls": [
+        {
+          "url": "https://github.com/FeraniShades/Icarus_Mods/blob/main/Ferani_Bluebacks.EXMODZ",
+          "status": 503,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": "ferani--ferani-foraging-paws",
+      "name": "Ferani Foraging Paws",
+      "author": "Ferani",
+      "broken_urls": [
+        {
+          "url": "https://github.com/FeraniShades/Icarus_Mods/blob/main/Ferani_Foraging_Paws.EXMODZ",
+          "status": 503,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": "ferani--ferani-hungry-paws",
+      "name": "Ferani Hungry Paws",
+      "author": "Ferani",
+      "broken_urls": [
+        {
+          "url": "https://github.com/FeraniShades/Icarus_Mods/blob/main/Ferani_Hungry_Paws.EXMODZ",
+          "status": 503,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": "ferani--ferani-lava-proofing",
+      "name": "Ferani Lava-Proofing",
+      "author": "Ferani",
+      "broken_urls": [
+        {
+          "url": "https://github.com/FeraniShades/Icarus_Mods/blob/main/Ferani_Lava-Proofing.EXMODZ",
+          "status": 503,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": "ferani--ferani-mount-compass",
+      "name": "Ferani Mount Compass",
+      "author": "Ferani",
+      "broken_urls": [
+        {
+          "url": "https://github.com/FeraniShades/Icarus_Mods/blob/main/Ferani_Mount_Compass.EXMODZ",
+          "status": 503,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": "ferani--ferani-speedy-paws",
+      "name": "Ferani Speedy Paws",
+      "author": "Ferani",
+      "broken_urls": [
+        {
+          "url": "https://github.com/FeraniShades/Icarus_Mods/blob/main/Ferani_Speedy_Paws.EXMODZ",
+          "status": 503,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": "ferani--ferani-s-obedience-training-base-mod",
+      "name": "Ferani's Obedience Training Base Mod",
+      "author": "Ferani",
+      "broken_urls": [
+        {
+          "url": "https://github.com/FeraniShades/Icarus_Mods/blob/main/Ferani_Obedience_Training_Base_Mod.EXMODZ",
+          "status": 503,
+          "error": null
+        }
+      ]
+    },
     {
       "id": "agentkush--hardcore-rebalance-pack",
       "name": "Hardcore Rebalance Pack",
@@ -83,6 +287,114 @@
         {
           "url": "https://github.com/relentlessmoose/rm_Icarus_mods/raw/refs/heads/main/rm_Equal_Skins_P.pak",
           "status": 404,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": "z-diezel--workshop-horse-stim-implant",
+      "name": "Workshop Horse Stim Implant",
+      "author": "Z_Diezel",
+      "broken_urls": [
+        {
+          "url": "https://github.com/Z-Diezel/icarus-mods/blob/main/Z_Diezel_Workshop_Horse_Stim_Implant.EXMODZ",
+          "status": 503,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": "z-diezel--z-diezel-s-cryo-canister-workshop",
+      "name": "Z_Diezel's Cryo-canister Workshop",
+      "author": "Z_Diezel",
+      "broken_urls": [
+        {
+          "url": "https://github.com/Z-Diezel/icarus-mods/blob/main/Z_Diezel_Cryo_Canister_Workshop.EXMODZ",
+          "status": 503,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": "z-diezel--z-diezel-s-exotics-resource-supply",
+      "name": "Z_Diezel's Exotics Resource Supply",
+      "author": "Z_Diezel",
+      "broken_urls": [
+        {
+          "url": "https://github.com/Z-Diezel/icarus-mods/blob/main/Exotics_Resource_Supply.EXMODZ",
+          "status": 503,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": "z-diezel--z-diezel-s-glutton-module",
+      "name": "Z_Diezel's Glutton Module",
+      "author": "Z_Diezel",
+      "broken_urls": [
+        {
+          "url": "https://github.com/Z-Diezel/icarus-mods/blob/main/Z_Diezel_Glutton_Module.EXMODZ",
+          "status": 503,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": "z-diezel--z-diezel-s-god-module",
+      "name": "Z_Diezel's God Module",
+      "author": "Z_Diezel",
+      "broken_urls": [
+        {
+          "url": "https://github.com/Z-Diezel/icarus-mods/blob/main/Z_Diezel_God_Module.EXMODZ",
+          "status": 503,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": "z-diezel--z-diezel-s-honey-protein-bar",
+      "name": "Z_Diezel's Honey 'Protein' Bar",
+      "author": "Z_Diezel",
+      "broken_urls": [
+        {
+          "url": "https://github.com/Z-Diezel/icarus-mods/blob/main/Honey_Protein_Bar.EXMODZ",
+          "status": 503,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": "z-diezel--z-diezel-s-salt-collector",
+      "name": "Z_Diezel's Salt Collector",
+      "author": "Z_Diezel",
+      "broken_urls": [
+        {
+          "url": "https://github.com/Z-Diezel/icarus-mods/blob/main/Z_Diezel_Salt_Collector.EXMODZ",
+          "status": 503,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": "z-diezel--z-diezel-s-ultra-fertilizer-spoiled-meat",
+      "name": "Z_Diezel's Ultra Fertilizer + Spoiled Meat",
+      "author": "Z_Diezel",
+      "broken_urls": [
+        {
+          "url": "https://github.com/Z-Diezel/icarus-mods/blob/main/Exotic_Fertilizer_Spoiled_Meat.EXMODZ",
+          "status": 503,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": "z-diezel--z-diezel-s-wirtz-pump-water-wheel",
+      "name": "Z_Diezel's Wirtz Pump Water Wheel",
+      "author": "Z_Diezel",
+      "broken_urls": [
+        {
+          "url": "https://github.com/Z-Diezel/icarus-mods/blob/main/Z_Diezel_Wirtz_Pump_Wheel.EXMODZ",
+          "status": 503,
           "error": null
         }
       ]
