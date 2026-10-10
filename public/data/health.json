@@ -1,7 +1,7 @@
 {
-  "checked_at": "2026-10-09T11:27:46.916Z",
+  "checked_at": "2026-10-10T10:44:54.500Z",
   "total_mods": 543,
-  "total_broken": 11,
+  "total_broken": 12,
   "broken": [
     {
       "id": "agentkush--hardcore-rebalance-pack",
@@ -35,6 +35,18 @@
         {
           "url": "https://github.com/begginfokillz/icarus_carepackage_larkwell/raw/main/LarkwellCarePackage_P.pak",
           "status": 404,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": "nilt--nilt-s-food-bag",
+      "name": "Nilt's Food Bag",
+      "author": "Nilt",
+      "broken_urls": [
+        {
+          "url": "https://github.com/JustNilt/Icarus_Mods/blob/main/Nilt_Food_Bag.EXMODZ",
+          "status": 503,
           "error": null
         }
       ]
