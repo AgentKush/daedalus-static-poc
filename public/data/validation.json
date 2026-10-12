@@ -1,7 +1,7 @@
 {
-  "checked_at": "2026-10-05T14:00:37.586Z",
-  "checked": 542,
-  "passed": 538,
+  "checked_at": "2026-10-12T14:49:25.047Z",
+  "checked": 544,
+  "passed": 540,
   "warnings_only": 0,
   "errors": 4,
   "mods": {
@@ -2235,6 +2235,11 @@
       "issues": [],
       "exit_code": 0
     },
+    "shadowwolf2099--sw2099-habitat": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
     "shadowwolf2099--sw2099-hunting-tower-suspension-bridge": {
       "status": "ok",
       "issues": [],
@@ -2251,6 +2256,11 @@
       "exit_code": 0
     },
     "shadowwolf2099--sw2099-modules": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "shadowwolf2099--sw2099-nuclear-reactor": {
       "status": "ok",
       "issues": [],
       "exit_code": 0
