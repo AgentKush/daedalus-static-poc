@@ -1,7 +1,7 @@
 {
-  "checked_at": "2026-10-12T14:49:25.047Z",
-  "checked": 544,
-  "passed": 540,
+  "checked_at": "2026-10-19T12:34:25.662Z",
+  "checked": 545,
+  "passed": 541,
   "warnings_only": 0,
   "errors": 4,
   "mods": {
@@ -706,6 +706,11 @@
       "exit_code": 2
     },
     "ferani--ferani-obedient-paws": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "ferani--ferani-open-season": {
       "status": "ok",
       "issues": [],
       "exit_code": 2
