@@ -1,8 +1,68 @@
 {
-  "checked_at": "2026-10-24T09:00:54.534Z",
+  "checked_at": "2026-10-25T09:17:55.807Z",
   "total_mods": 546,
-  "total_broken": 11,
+  "total_broken": 16,
   "broken": [
+    {
+      "id": "ferani--ferani-barren-lands",
+      "name": "Ferani Barren Lands",
+      "author": "Ferani",
+      "broken_urls": [
+        {
+          "url": "https://github.com/FeraniShades/Icarus_Mods/blob/main/Ferani_Barren_Lands.EXMODZ",
+          "status": 503,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": "ferani--ferani-bluebacks",
+      "name": "Ferani Bluebacks",
+      "author": "Ferani",
+      "broken_urls": [
+        {
+          "url": "https://github.com/FeraniShades/Icarus_Mods/blob/main/Ferani_Bluebacks.EXMODZ",
+          "status": 503,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": "ferani--ferani-building-stability",
+      "name": "Ferani Building Stability",
+      "author": "Ferani",
+      "broken_urls": [
+        {
+          "url": "https://github.com/FeraniShades/Icarus_Mods/blob/main/Ferani_Building_Stability.EXMODZ",
+          "status": 503,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": "ferani--ferani-buyable-zebras",
+      "name": "Ferani Buyable Zebras",
+      "author": "Ferani",
+      "broken_urls": [
+        {
+          "url": "https://github.com/FeraniShades/Icarus_Mods/blob/main/Ferani_Buyable_Zebras.EXMODZ",
+          "status": 503,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": "ferani--ferani-compatible-ammo",
+      "name": "Ferani Compatible Ammo",
+      "author": "Ferani",
+      "broken_urls": [
+        {
+          "url": "https://github.com/FeraniShades/Icarus_Mods/blob/main/Ferani_Compatible_Ammo.EXMODZ",
+          "status": 503,
+          "error": null
+        }
+      ]
+    },
     {
       "id": "agentkush--hardcore-rebalance-pack",
       "name": "Hardcore Rebalance Pack",
