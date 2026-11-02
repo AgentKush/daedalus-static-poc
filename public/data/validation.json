@@ -1,7 +1,7 @@
 {
-  "checked_at": "2026-10-26T12:31:08.540Z",
-  "checked": 545,
-  "passed": 541,
+  "checked_at": "2026-11-02T15:06:15.134Z",
+  "checked": 547,
+  "passed": 543,
   "warnings_only": 0,
   "errors": 4,
   "mods": {
@@ -1580,6 +1580,11 @@
       "issues": [],
       "exit_code": 2
     },
+    "buggygamesdev--pickup-and-move": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
     "hazer--place-waterwheel": {
       "status": "ok",
       "issues": [],
@@ -2321,6 +2326,11 @@
       "exit_code": 0
     },
     "shadowwolf2099--sw2099-thatch-wood-glass-stability": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
+    },
+    "shadowwolf2099--sw2099-vampire-sky": {
       "status": "ok",
       "issues": [],
       "exit_code": 0
