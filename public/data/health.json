@@ -1,8 +1,104 @@
 {
-  "checked_at": "2026-11-07T11:15:21.251Z",
+  "checked_at": "2026-11-08T11:30:01.755Z",
   "total_mods": 549,
-  "total_broken": 11,
+  "total_broken": 19,
   "broken": [
+    {
+      "id": "waldo--a-wzg-balance-overhaul",
+      "name": "A WZG balance overhaul",
+      "author": "Waldo",
+      "broken_urls": [
+        {
+          "url": "https://github.com/WZG-Mods/wzg-icarus-balance-overhaul/releases/download/WZG_680/WZG_Mod_V680_P.pak",
+          "status": 504,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": "aberiu--aberiu-s-supply-crates",
+      "name": "Aberiu's Supply Crates",
+      "author": "Aberiu",
+      "broken_urls": [
+        {
+          "url": "https://github.com/zailfyer/Icarus_Mods/raw/EXMODZ/Aberiu_Supply_Crates.EXMODZ",
+          "status": 504,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": "agentkush--absolute-chaos-core",
+      "name": "Absolute Chaos - Core",
+      "author": "AgentKush",
+      "broken_urls": [
+        {
+          "url": "https://github.com/AgentKush/Icarus-mods/raw/main/AbsoluteChaos_Core/AbsoluteChaos_Core.EXMODZ",
+          "status": 504,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": "agentkush--agent-s-biolab",
+      "name": "Agent's BioLab",
+      "author": "AgentKush",
+      "broken_urls": [
+        {
+          "url": "https://github.com/AgentKush/Icarus-mods/raw/main/Agents_BioLab/Agents_BioLab.EXMODZ",
+          "status": 504,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": "agentkush--agents-individual-item-kits",
+      "name": "Agents Individual Item Kits",
+      "author": "AgentKush",
+      "broken_urls": [
+        {
+          "url": "https://github.com/AgentKush/Icarus-mods/raw/main/Agents_Individual_Item_Kits/Agents_Individual_Item_Kits.EXMODZ",
+          "status": 504,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": "jimk72--all-ammo-turret",
+      "name": "All Ammo Turret",
+      "author": "Jimk72",
+      "broken_urls": [
+        {
+          "url": "https://github.com/Jimk72/Icarus_Mods/raw/main/All_Ammo_Turret.EXMODZ",
+          "status": 504,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": "hazer--all-in-one",
+      "name": "All In One",
+      "author": "Hazer",
+      "broken_urls": [
+        {
+          "url": "https://github.com/Hazer-Bazer/Icarus-Mods/raw/refs/heads/main/All In One/Hazers_ALL_IN_ONE.EXMODZ",
+          "status": 504,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": "hazer--all-in-one-250",
+      "name": "All In One + 250",
+      "author": "Hazer",
+      "broken_urls": [
+        {
+          "url": "https://github.com/Hazer-Bazer/Icarus-Mods/raw/refs/heads/main/All In One + Stack 250/Hazers ALL IN ONE + STACK 250.EXMODZ",
+          "status": 504,
+          "error": null
+        }
+      ]
+    },
     {
       "id": "agentkush--hardcore-rebalance-pack",
       "name": "Hardcore Rebalance Pack",
