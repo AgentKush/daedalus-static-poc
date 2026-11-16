@@ -1,7 +1,7 @@
 {
-  "checked_at": "2026-11-09T15:37:36.176Z",
-  "checked": 547,
-  "passed": 543,
+  "checked_at": "2026-11-16T15:12:41.539Z",
+  "checked": 544,
+  "passed": 540,
   "warnings_only": 0,
   "errors": 4,
   "mods": {
@@ -640,12 +640,7 @@
       "issues": [],
       "exit_code": 2
     },
-    "ferani--ferani-building-stability": {
-      "status": "ok",
-      "issues": [],
-      "exit_code": 2
-    },
-    "ferani--ferani-buyable-zebras": {
+    "ferani--ferani-buyable-beasts": {
       "status": "ok",
       "issues": [],
       "exit_code": 2
@@ -705,11 +700,6 @@
       "issues": [],
       "exit_code": 2
     },
-    "ferani--ferani-obedient-paws": {
-      "status": "ok",
-      "issues": [],
-      "exit_code": 2
-    },
     "ferani--ferani-open-season": {
       "status": "ok",
       "issues": [],
@@ -721,11 +711,6 @@
       "exit_code": 2
     },
     "ferani--ferani-sneaky-paws": {
-      "status": "ok",
-      "issues": [],
-      "exit_code": 2
-    },
-    "ferani--ferani-speedy-paws": {
       "status": "ok",
       "issues": [],
       "exit_code": 2
