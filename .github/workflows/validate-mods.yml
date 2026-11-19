@@ -19,6 +19,7 @@ on:
 
 permissions:
   contents: write
+  actions: write            # so a data commit can start the Pages deploy
 
 jobs:
   validate:
@@ -42,6 +43,7 @@ jobs:
           MODS_FILTER: ${{ inputs.mods_filter }}
         run: node scripts/run-validator.mjs
       - name: Commit validation.json if changed
+        id: commit
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -49,4 +51,13 @@ jobs:
           if ! git diff --cached --quiet; then
             git commit -m "Refresh mod validation results"
             git push
+            echo "pushed=true" >> "$GITHUB_OUTPUT"
           fi
+
+      # A push made with the workflow's own token does not start other workflows,
+      # so the Pages deploy is started here.
+      - name: Deploy the site
+        if: steps.commit.outputs.pushed == 'true' && github.ref == 'refs/heads/main'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run deploy.yml --ref main

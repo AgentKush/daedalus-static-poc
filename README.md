@@ -60,7 +60,7 @@ In the background, two workflows keep our offline fallback bundles fresh:
 - **`sync-mods.yml`** runs every hour: pulls production's `meta/repos`, probes each repo's `modinfo.json` and `toolinfo.json` (across `main`/`master`/`EXMODZ`/`Icarus` branches), aggregates everything to `public/data/mods.json` + `public/data/tools.json`. Commits and triggers a Pages deploy if anything changed.
 - **`discover-modders.yml`** runs every Monday morning: sweeps GitHub for Icarus mod repos that production doesn't know about yet (code search for `modinfo.json + EXMODZ`, repo-name patterns, URL extraction from production's mod data). Probes each candidate. If new ones turned up, opens a verified-commit PR titled "Auto: new candidate Icarus mod repos discovered" with the full URL list and per-candidate metadata in the body.
 
-So even if production's Firestore is briefly unavailable, the bundled JSON fallback contains a fresh-within-the-hour snapshot. And if a new modder shows up, you'll see a PR within a week — usually less.
+So even if production's Firestore is briefly unavailable, the bundled JSON fallback contains a recent snapshot: usually several hours old, because GitHub starts the hourly sync only a few times a day. And if a new modder shows up, you'll see a PR within a week — usually less.
 
 ### Compatibility (game week) — 100% coverage
 
@@ -176,7 +176,7 @@ npm run build   # outputs to _site/
 
 | File | Cadence | Purpose |
 |---|---|---|
-| `deploy.yml` | on push to `main` | Build with Eleventy + Pagefind index, deploy to Pages |
+| `deploy.yml` | on push to `main`, and started by the data workflows after they commit | Build with Eleventy + Pagefind index, deploy to Pages |
 | `sync-mods.yml` | hourly + manual | Pull production's `meta/repos` + `modders_extras.json`, aggregate every modder's `modinfo.json`/`toolinfo.json`, commit `mods.json` + `tools.json` if changed |
 | `sync-nexus.yml` | daily + manual | Refresh `public/data/nexus_mods.json` from the Nexus Mods v2 API (no API key needed). A failed, empty or much smaller result, or a catalog the site cannot be built with, is rejected and the saved catalog is kept. Commits and starts a Pages deploy if the catalog changed |
 | `discover-modders.yml` | weekly + manual | Search GitHub for Icarus mod repos not in production's registry, open a verified-commit PR with the candidate list |
