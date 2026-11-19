@@ -13,14 +13,27 @@ const all = [
   ...nexus.map(m => ({ ...m, _is_nexus: true })),
 ];
 
-// Group mods by author (case-insensitive)
-const byAuthor = new Map();
+// Group mods by author. The key is the author's slug, the one the page address and
+// every author link use, so two spellings of a name ("Bob" and "bob") share one page.
+// Grouping by the exact text gave each spelling its own page at the same address,
+// and that stops the whole build.
+const groups = new Map();
 for (const m of all) {
   if (!m.author) continue;
-  const key = m.author.trim();
-  const arr = byAuthor.get(key) || [];
-  arr.push(m);
-  byAuthor.set(key, arr);
+  const name = m.author.trim();
+  const key = slug(name);
+  const group = groups.get(key) || { spellings: new Map(), list: [] };
+  group.spellings.set(name, (group.spellings.get(name) || 0) + 1);
+  group.list.push(m);
+  groups.set(key, group);
+}
+
+// Show the spelling most of the author's mods use; on a tie, the first one seen
+// (curated mods are listed before Nexus ones).
+const byAuthor = new Map();
+for (const { spellings, list } of groups.values()) {
+  const [name] = [...spellings.entries()].sort((a, b) => b[1] - a[1])[0];
+  byAuthor.set(name, list);
 }
 
 // Sort authors alphabetically (case-insensitive)

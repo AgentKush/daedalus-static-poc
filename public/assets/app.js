@@ -177,7 +177,11 @@ function refresh() {
 
   // Refresh author filter when the set of distinct authors changes
   const sel = document.getElementById("author-filter");
-  const sortedAuthors = [...new Set(all.map(m => m.author).filter(Boolean))]
+  // One option per author: spellings that share a slug ("Bob", "bob") are one author, as on
+  // the author pages. The spelling shown is the one on the author's first mod in the list.
+  const bySlug = new Map();
+  for (const m of all) if (m.author && !bySlug.has(slug(m.author))) bySlug.set(slug(m.author), m.author);
+  const sortedAuthors = [...bySlug.values()]
     .sort((a, b) => a.localeCompare(b, undefined, { sensitivity: "base" }));
   const fingerprint = sortedAuthors.join("|");
   if (sel.dataset.fingerprint !== fingerprint) {

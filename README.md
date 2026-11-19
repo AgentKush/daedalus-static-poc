@@ -178,7 +178,7 @@ npm run build   # outputs to _site/
 |---|---|---|
 | `deploy.yml` | on push to `main` | Build with Eleventy + Pagefind index, deploy to Pages |
 | `sync-mods.yml` | hourly + manual | Pull production's `meta/repos` + `modders_extras.json`, aggregate every modder's `modinfo.json`/`toolinfo.json`, commit `mods.json` + `tools.json` if changed |
-| `sync-nexus.yml` | daily + manual | Refresh `public/data/nexus_mods.json` from the Nexus API (no-op without `NEXUS_API_KEY` secret; bundled snapshot keeps Nexus mods visible regardless) |
+| `sync-nexus.yml` | daily + manual | Refresh `public/data/nexus_mods.json` from the Nexus Mods v2 API (no API key needed). A failed, empty or much smaller result, or a catalog the site cannot be built with, is rejected and the saved catalog is kept. Commits and starts a Pages deploy if the catalog changed |
 | `discover-modders.yml` | weekly + manual | Search GitHub for Icarus mod repos not in production's registry, open a verified-commit PR with the candidate list |
 | `validate-mods.yml` | weekly + manual | Run [icarus-modinfo-validator](https://github.com/AgentKush/icarus-modinfo-validator) across every EXMODZ + lightweight PAK checks (filename, size, Unreal Pak magic). Writes `public/data/validation.json` |
 | `health-check.yml` | daily + manual | HEAD-probe every download URL in the catalog, write `public/data/health.json` with broken/redirected results — drives the `/status/` page and Mod Status panel |

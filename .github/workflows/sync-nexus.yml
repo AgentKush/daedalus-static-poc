@@ -4,9 +4,15 @@ on:
   schedule:
     - cron: "30 5 * * *"   # daily at 05:30 UTC — Nexus changes less often than modder repos
   workflow_dispatch:
+    inputs:
+      allow_shrink:
+        description: "Save the catalog even if it is much smaller than the saved one"
+        type: boolean
+        default: false
 
 permissions:
   contents: write
+  actions: write            # to start the Pages deploy after a catalog commit
 
 jobs:
   sync:
@@ -19,12 +25,18 @@ jobs:
 
       - name: Refresh Nexus catalog
         env:
-          NEXUS_API_KEY: ${{ secrets.NEXUS_API_KEY }}        # registered with Nexus, never in repo source
-          NEXUS_APP_SLUG: ${{ vars.NEXUS_APP_SLUG }}          # public-safe identifier (finlay3248-projectdaedalus)
-          NEXUS_RANGE_END: "300"                              # walk mod IDs 1..300; raise as catalog grows
+          NEXUS_ALLOW_SHRINK: ${{ inputs.allow_shrink && '1' || '' }}
         run: node scripts/sync-nexus.mjs
 
+      # A catalog the site cannot be built with must not reach main: the deploy it
+      # starts would fail, and nobody is told when a deploy started by a workflow fails.
+      - name: Check the site builds with the new catalog
+        run: |
+          npm ci
+          npx eleventy --quiet
+
       - name: Commit if nexus_mods.json changed
+        id: commit
         run: |
           if git diff --quiet public/data/nexus_mods.json; then
             echo "No Nexus changes."
@@ -33,7 +45,15 @@ jobs:
           git config user.name "daedalus-sync[bot]"
           git config user.email "daedalus-sync@users.noreply.github.com"
           git add public/data/nexus_mods.json
-          git commit -m "Sync Nexus mods catalog
-
-          Refreshed via Nexus REST V1 API ($NEXUS_APP_SLUG)."
+          git commit -m "Sync Nexus mods catalog" -m "Refreshed from the Nexus Mods v2 API."
+          git pull --rebase      # another workflow may have pushed since the checkout
           git push
+          echo "pushed=true" >> "$GITHUB_OUTPUT"
+
+      # A push made with the workflow's own token does not start other workflows,
+      # so the Pages deploy is started here.
+      - name: Deploy the site
+        if: steps.commit.outputs.pushed == 'true' && github.ref == 'refs/heads/main'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run deploy.yml --ref main
