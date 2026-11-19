@@ -3,16 +3,6 @@
   "_registry_source": "https://firestore.googleapis.com/v1/projects/projectdaedalus-fb09f/databases/(default)/documents/meta/repos",
   "candidates": [
     {
-      "repo": "aaronfarmer/mod-icarus",
-      "url": "https://github.com/aaronfarmer/mod-icarus",
-      "branch": "main",
-      "file": "modinfo.json",
-      "mod_count": 4,
-      "tool_count": 0,
-      "primary_author": "Aaron Farmer",
-      "first_seen": "2026-05-03"
-    },
-    {
       "repo": "icarus-prophet/tempered_glass_real",
       "url": "https://github.com/icarus-prophet/tempered_glass_real",
       "branch": "main",
@@ -30,16 +20,6 @@
       "mod_count": 1,
       "tool_count": 0,
       "primary_author": "Lanza001",
-      "first_seen": "2026-05-03"
-    },
-    {
-      "repo": "mrmarvel/qol-smelting-ores-2-to-1",
-      "url": "https://github.com/mrmarvel/qol-smelting-ores-2-to-1",
-      "branch": "main",
-      "file": "modinfo.json",
-      "mod_count": 1,
-      "tool_count": 0,
-      "primary_author": "MrMarvel",
       "first_seen": "2026-05-03"
     },
     {
