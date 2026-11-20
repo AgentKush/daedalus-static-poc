@@ -20,7 +20,10 @@ jobs:
 
       - name: Run discovery
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Code search with the workflow token keeps hitting GitHub's secondary rate
+          # limit, so use SEARCH_TOKEN when it is set: a fine-grained token with
+          # read-only access to public repositories and no other permissions.
+          GITHUB_TOKEN: ${{ secrets.SEARCH_TOKEN || secrets.GITHUB_TOKEN }}
         run: node scripts/discover-modinfo-repos.mjs
 
       # create-pull-request force-updates auto/discovered-modders and deletes it
