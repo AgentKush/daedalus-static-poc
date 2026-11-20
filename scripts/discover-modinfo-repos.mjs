@@ -2,7 +2,8 @@
 // Discovers Icarus mod repos on GitHub that aren't in production's meta/repos
 // registry yet. Probes each candidate for a working modinfo.json or
 // toolinfo.json, writes findings to data/discovered-candidates.json. The
-// workflow opens a PR when this file changes.
+// workflow opens a PR when this file changes. If a search or the production
+// data read fails, it exits with an error and leaves the file as it was.
 
 import fs from "node:fs";
 
@@ -41,9 +42,36 @@ async function getKnownRepos() {
   return set;
 }
 
+// GitHub gives each token a search budget per minute: 10 requests for code
+// search, 30 for the other search endpoints. The loops below space requests to
+// fit. When GitHub still answers 403/429 for a rate limit (or 5xx), wait as long
+// as the reply says: retry-after, or x-ratelimit-reset once nothing is left,
+// else a minute, doubling. A search that keeps failing throws.
+const SEARCH_ATTEMPTS = 4;
+
 async function ghSearch(endpoint, query, perPage = 100) {
   const url = `https://api.github.com/search/${endpoint}?q=${encodeURIComponent(query)}&per_page=${perPage}`;
-  return fetchJson(url, HDRS);
+  for (let attempt = 1; ; attempt++) {
+    const r = await fetch(url, { headers: HDRS });
+    if (r.ok) return r.json();
+    const h = name => r.headers.get(name);
+    const body = (await r.text()).replace(/\s+/g, " ").slice(0, 300);
+    const why = `HTTP ${r.status}, limit=${h("x-ratelimit-limit")} remaining=${h("x-ratelimit-remaining")} ` +
+      `reset=${h("x-ratelimit-reset")} resource=${h("x-ratelimit-resource")} retry-after=${h("retry-after")}: ${body}`;
+    const limited = r.status === 429 ||
+      (r.status === 403 && (h("retry-after") || h("x-ratelimit-remaining") === "0" || /rate limit/i.test(body)));
+    if (!(limited || r.status >= 500) || attempt === SEARCH_ATTEMPTS) {
+      throw new Error(`${endpoint} search "${query}" failed after ${attempt} attempt(s) (${why})`);
+    }
+    const retryAfter = Number(h("retry-after"));
+    const reset = Number(h("x-ratelimit-reset"));
+    let waitMs = 60_000 * 2 ** (attempt - 1);
+    if (h("retry-after") && retryAfter >= 0) waitMs = retryAfter * 1000;
+    else if (h("x-ratelimit-remaining") === "0" && reset > 0) waitMs = Math.max(reset * 1000 - Date.now(), 0);
+    waitMs += 1000;
+    console.warn(`[discover] ${endpoint} search "${query}" refused (${why}); retrying in ${Math.round(waitMs / 1000)} s`);
+    await sleep(waitMs);
+  }
 }
 
 async function findCandidates(known) {
@@ -62,55 +90,51 @@ async function findCandidates(known) {
     "filename:modinfo.json Larkwell",
     "filename:modinfo.json D_ProcessorRecipes",
     "filename:modinfo.json D_Talents",
-    "EXMODZ in:name",
     "filename:toolinfo.json icarus",
   ];
+  // No try/catch around the searches: a failed one throws out of main(), so a
+  // list missing that search's repos is never written.
   for (const q of codeQueries) {
-    try {
-      const res = await ghSearch("code", q);
-      for (const it of (res.items || [])) {
-        const repo = it.repository?.full_name;
-        if (repo) add(repo, `code:${q.slice(0, 40)}`);
-      }
-    } catch (e) { console.warn(`[discover] code search "${q}" failed: ${e.message}`); }
-    await sleep(2200); // GitHub code search: ~30 req/min authenticated
+    const res = await ghSearch("code", q);
+    for (const it of (res.items || [])) {
+      const repo = it.repository?.full_name;
+      if (repo) add(repo, `code:${q.slice(0, 40)}`);
+    }
+    await sleep(6500); // code search: 10 requests a minute
   }
 
   const repoQueries = [
     'topic:icarus-mods', 'topic:icarus-modding', 'topic:icarus-mod',
     '"icarus_mods" in:name', '"icarus-mods" in:name', 'icarus modinfo',
+    'EXMODZ in:name', // a repository qualifier: code search answers it with HTTP 422
   ];
   for (const q of repoQueries) {
-    try {
-      const res = await ghSearch("repositories", q, 50);
-      for (const it of (res.items || [])) {
-        const repo = it.full_name;
-        if (repo) add(repo, `repo:${q.slice(0, 30)}`);
-      }
-    } catch (e) { console.warn(`[discover] repo search "${q}" failed: ${e.message}`); }
-    await sleep(2200);
+    const res = await ghSearch("repositories", q, 50);
+    for (const it of (res.items || [])) {
+      const repo = it.full_name;
+      if (repo) add(repo, `repo:${q.slice(0, 30)}`);
+    }
+    await sleep(2200); // other search endpoints: 30 requests a minute
   }
 
   // Also check production mod URLs for repos not in the registry
-  try {
-    let pageToken = null;
-    do {
-      const base = "https://firestore.googleapis.com/v1/projects/projectdaedalus-fb09f/databases/(default)/documents/mods?pageSize=300";
-      const url = base + (pageToken ? `&pageToken=${pageToken}` : "");
-      const page = await fetchJson(url);
-      for (const doc of (page.documents || [])) {
-        const files = doc.fields?.files?.mapValue?.fields || {};
-        const urls = [];
-        for (const v of Object.values(files)) urls.push(v.stringValue || "");
-        urls.push(doc.fields?.readmeURL?.stringValue || "");
-        for (const u of urls) {
-          const m = u.match(/(?:github\.com|raw\.githubusercontent\.com)\/([\w.-]+)\/([\w.-]+)/);
-          if (m) add(`${m[1]}/${m[2]}`.replace(/\.git$/, ""), "url-extract:prod-data");
-        }
+  let pageToken = null;
+  do {
+    const base = "https://firestore.googleapis.com/v1/projects/projectdaedalus-fb09f/databases/(default)/documents/mods?pageSize=300";
+    const url = base + (pageToken ? `&pageToken=${pageToken}` : "");
+    const page = await fetchJson(url);
+    for (const doc of (page.documents || [])) {
+      const files = doc.fields?.files?.mapValue?.fields || {};
+      const urls = [];
+      for (const v of Object.values(files)) urls.push(v.stringValue || "");
+      urls.push(doc.fields?.readmeURL?.stringValue || "");
+      for (const u of urls) {
+        const m = u.match(/(?:github\.com|raw\.githubusercontent\.com)\/([\w.-]+)\/([\w.-]+)/);
+        if (m) add(`${m[1]}/${m[2]}`.replace(/\.git$/, ""), "url-extract:prod-data");
       }
-      pageToken = page.nextPageToken || null;
-    } while (pageToken);
-  } catch (e) { console.warn(`[discover] url-extract failed: ${e.message}`); }
+    }
+    pageToken = page.nextPageToken || null;
+  } while (pageToken);
 
   return candidates;
 }

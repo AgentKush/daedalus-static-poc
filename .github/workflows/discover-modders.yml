@@ -23,6 +23,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: node scripts/discover-modinfo-repos.mjs
 
+      # create-pull-request force-updates auto/discovered-modders and deletes it
+      # once main has caught up, so the repo ruleset must exclude auto/**.
       - name: Open PR if discoveries changed
         uses: peter-evans/create-pull-request@v8
         with:
