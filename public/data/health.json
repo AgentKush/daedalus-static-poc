@@ -1,20 +1,8 @@
 {
-  "checked_at": "2026-11-20T13:26:35.582Z",
-  "total_mods": 548,
-  "total_broken": 11,
+  "checked_at": "2026-11-21T12:54:29.553Z",
+  "total_mods": 549,
+  "total_broken": 10,
   "broken": [
-    {
-      "id": "agentkush--hardcore-rebalance-pack",
-      "name": "Hardcore Rebalance Pack",
-      "author": "AgentKush",
-      "broken_urls": [
-        {
-          "url": "https://github.com/AgentKush/Icarus-mods/raw/main/Hardcore_Rebalance_Pack/Hardcore_Rebalance_Pack_P.pak",
-          "status": 404,
-          "error": null
-        }
-      ]
-    },
     {
       "id": "hazer--higher-energy",
       "name": "Higher Energy",
