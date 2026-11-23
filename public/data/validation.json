@@ -1,7 +1,7 @@
 {
-  "checked_at": "2026-11-16T15:12:41.539Z",
-  "checked": 544,
-  "passed": 540,
+  "checked_at": "2026-11-23T17:40:31.057Z",
+  "checked": 548,
+  "passed": 544,
   "warnings_only": 0,
   "errors": 4,
   "mods": {
@@ -21,6 +21,11 @@
       "exit_code": 2
     },
     "agentkush--agent-s-biolab": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "agentkush--agent-s-hidden-things": {
       "status": "ok",
       "issues": [],
       "exit_code": 2
@@ -506,6 +511,11 @@
       "exit_code": 2
     },
     "dyls123--dyls123-s-stamina-module": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "agentkush--easier-corpse-runs": {
       "status": "ok",
       "issues": [],
       "exit_code": 2
@@ -1079,6 +1089,11 @@
       "status": "ok",
       "issues": [],
       "exit_code": 2
+    },
+    "laanp--laanp-adjustabletram": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 0
     },
     "laanp--laanp-betterrailings": {
       "status": "ok",
@@ -2166,6 +2181,11 @@
       "exit_code": 0
     },
     "apex--super-stick": {
+      "status": "ok",
+      "issues": [],
+      "exit_code": 2
+    },
+    "agentkush--survey-markers": {
       "status": "ok",
       "issues": [],
       "exit_code": 2
