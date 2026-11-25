@@ -1,8 +1,68 @@
 {
-  "checked_at": "2026-11-24T15:08:05.988Z",
+  "checked_at": "2026-11-25T14:48:34.303Z",
   "total_mods": 550,
-  "total_broken": 10,
+  "total_broken": 15,
   "broken": [
+    {
+      "id": "corack--coracks-adlift-hide-map-info",
+      "name": "Coracks_Adlift_Hide_Map_info",
+      "author": "Corack",
+      "broken_urls": [
+        {
+          "url": "https://github.com/CorackWookie/Icarus-Mods/blob/main/Coracks_Adlift_Hide_Map_Info.EXMODZ",
+          "status": 503,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": "corack--coracks-patcher1-resources",
+      "name": "Coracks_Patcher1_Resources",
+      "author": "Corack",
+      "broken_urls": [
+        {
+          "url": "https://github.com/CorackWookie/Icarus-Mods/blob/main/Coracks_Patcher1_Resources.EXMODZ",
+          "status": 503,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": "corack--coracks-tools",
+      "name": "Coracks_Tools",
+      "author": "Corack",
+      "broken_urls": [
+        {
+          "url": "https://github.com/CorackWookie/Icarus-Mods/blob/main/Coracks_Tools.EXMODZ",
+          "status": 503,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": "corack--coracks-weekend-normal-weather",
+      "name": "Coracks_Weekend_Normal_Weather",
+      "author": "Corack",
+      "broken_urls": [
+        {
+          "url": "https://github.com/CorackWookie/Icarus-Mods/blob/main/Coracks_Weekend_Normal_Weather.EXMODZ",
+          "status": 503,
+          "error": null
+        }
+      ]
+    },
+    {
+      "id": "darkdante--darkdantes-wicked-pickaxe-and-hammer",
+      "name": "DarkDantes Wicked PickAxe and Hammer",
+      "author": "DarkDante",
+      "broken_urls": [
+        {
+          "url": "https://github.com/yacketrj/icarus_modding/blob/main/DarkDantes_Wicked_PickAxe_and_Hammer.EXMODZ",
+          "status": 503,
+          "error": null
+        }
+      ]
+    },
     {
       "id": "hazer--higher-energy",
       "name": "Higher Energy",
